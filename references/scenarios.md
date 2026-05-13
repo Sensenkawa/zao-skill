@@ -73,18 +73,7 @@
 3. Check against the four core principles:
    - Is it concise? (challenge each section)
    - Are degrees of freedom appropriate? (text vs scripts)
-   - Does it use progressive disclosure? (over 500 lines? proper references?)
+   - Does it use progressive disclosure? (over 500 lines? proper references? no duplication?)
    - Is the description comprehensive? (all triggers listed?)
 4. Run `scripts/quick_validate.py <skill-dir>` for structural issues
 5. Report findings with specific recommendations
-
-## Common Pitfalls
-
-| Issue | How to Avoid |
-|-------|-------------|
-| SKILL.md too long (>500 lines) | Split into references, link with clear triggers |
-| Description missing triggers | List all triggering scenarios in frontmatter description |
-| Scripts not tested | Run each script at least once before packaging |
-| "When to use" in body | Move all trigger info to frontmatter description |
-| Auxiliary files (README, CHANGELOG) | Delete them — skill is for AI agents, not humans |
-| Platform-specific language | Use neutral "assistant" terminology for portability |

@@ -24,7 +24,7 @@ This skill guides the creation, review, and maintenance of effective skills.
 
 2. **Set Appropriate Degrees of Freedom** — Match specificity to task fragility: high freedom (text instructions) for flexible tasks, medium (pseudocode/parameterized scripts) for preferred patterns, low freedom (specific scripts) for fragile or error-prone operations.
 
-3. **Progressive Disclosure** — Three-level loading: metadata (always) → SKILL.md body (when triggered, keep under 500 lines) → bundled resources (as needed). Split detailed content into reference files when approaching the limit, always reference them from SKILL.md with clear "when to read" guidance.
+3. **Progressive Disclosure** — Three-level loading: metadata (always) → SKILL.md body (when triggered, keep under 500 lines) → bundled resources (as needed). Split into reference files when approaching 500 lines or when content has distinct domains. Each reference must add genuinely new value — never repeat what SKILL.md already says. Always link from SKILL.md with clear "when to read" guidance.
 
 4. **Self-Consistency** — The rules this skill teaches must be followed by this skill itself. Every principle, every structural requirement, every validation rule applies here first.
 
@@ -33,14 +33,22 @@ This skill guides the creation, review, and maintenance of effective skills.
 ```
 skill-name/
 ├── SKILL.md (required)
-│   ├── YAML frontmatter: name + description (required), optional: license, metadata, compatibility
-│   └── Markdown body: operational instructions, kept lean
-├── scripts/          - Executable code for deterministic or repeated tasks
-├── references/       - Documentation loaded on demand for specific scenarios
-└── assets/           - Files used in output (templates, fonts, etc.), not loaded into context
+│   ├── YAML frontmatter (name, description required)
+│   └── Markdown instructions
+└── Bundled Resources (optional)
+    ├── scripts/    - Executable code for deterministic/repetitive tasks
+    ├── references/ - Docs loaded into context as needed
+    └── assets/     - Files used in output (templates, icons, fonts)
 ```
 
 Only include what the agent needs to do the job. Do NOT create README, CHANGELOG, INSTALLATION_GUIDE, or other auxiliary files.
+
+### Naming Conventions
+
+- **Skill name**: kebab-case, lowercase letters + digits + hyphens only (e.g., `pdf-editor`)
+- **Directory name**: matches skill name exactly
+- **Script files**: snake_case, descriptive (e.g., `rotate_pdf.py`)
+- **Reference files**: kebab-case, descriptive (e.g., `api-reference.md`)
 
 ### Scripts Reference
 
@@ -75,6 +83,8 @@ Analyze each concrete example to identify reusable resources:
 - **assets/**: Files used in output rather than loaded into context (templates, images, fonts)
 
 Create a concrete list of what each example needs. Not every skill needs all three types of resources.
+
+**When to split into separate reference files**: Content has distinct domains (e.g., finance vs sales schemas) → separate files. Otherwise keep in SKILL.md. A reference that merely repeats what SKILL.md says is worse than not having one — see Principle #3.
 
 ### Step 3: Initialize
 
@@ -128,6 +138,5 @@ Common iteration triggers: missing trigger scenarios in description, overly long
 Load these references when the corresponding scenario arises:
 
 - **Design principles in depth** — See [references/principles.md](references/principles.md) for detailed explanations, progressive disclosure patterns, and anti-patterns. Load when designing a new skill or reviewing one against best practices.
-- **Skill anatomy details** — See [references/anatomy.md](references/anatomy.md) for complete structure specifications of SKILL.md, scripts/, references/, and assets/. Load when unsure about structural rules.
 - **Scenario walkthroughs** — See [references/scenarios.md](references/scenarios.md) for end-to-end demonstrations (creating from scratch, updating existing, packaging only) with concrete examples. Load when stuck or learning by example.
 - **Design patterns** — See [references/output-patterns.md](references/output-patterns.md) for output templates and [references/workflows.md](references/workflows.md) for workflow patterns (sequential, conditional, entry-point). Load when choosing output formats or process structures.

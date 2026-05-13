@@ -1,14 +1,12 @@
 # Design Principles
 
-> Load when designing a new skill, reviewing an existing skill against best practices, or upgrading a skill. These are the foundational rules that every effective skill must follow.
+> Load when designing a new skill or reviewing one against best practices.
+> For the core statements of each principle, see Core Principles in SKILL.md.
+> This file covers the details, anti-patterns, and patterns that don't fit in a one-liner.
 
 ## 1. Concise is Key
 
-The context window is a shared resource. Skills compete with system prompts, conversation history, other skills' metadata, and user requests.
-
-**Default assumption: the assistant is already very smart.** Only add context the assistant doesn't already have. Challenge each piece of information: "Does the assistant really need this explanation?" and "Does this paragraph justify its token cost?"
-
-Prefer concise examples over verbose explanations.
+Challenge every piece of information. Prefer concise examples over verbose explanations.
 
 ### Anti-patterns
 
@@ -16,31 +14,40 @@ Prefer concise examples over verbose explanations.
 - Documenting basic concepts the assistant already knows
 - Including "when to use" guidance in body instead of frontmatter description
 - Creating auxiliary files like README, CHANGELOG, INSTALLATION_GUIDE
+- Repeating the same information in both SKILL.md and a reference file
 
 ## 2. Set Appropriate Degrees of Freedom
 
 Match specificity to the task's fragility and variability:
 
-- **High freedom (text instructions)**: When multiple approaches are valid and decisions depend on context
-- **Medium freedom (pseudocode / parameterized scripts)**: When a preferred pattern exists but variation is acceptable
-- **Low freedom (specific scripts, few parameters)**: When operations are fragile, error-prone, or require strict consistency
+| Freedom | Format | When |
+|---------|--------|------|
+| High | Text instructions | Multiple valid approaches, decisions depend on context |
+| Medium | Pseudocode / parameterized scripts | Preferred pattern exists, some variation acceptable |
+| Low | Specific scripts, few params | Fragile operations, consistency critical |
 
 Think of the assistant as exploring a path: a narrow bridge with cliffs needs specific guardrails (low freedom), while an open field allows many routes (high freedom).
 
-## 3. Progressive Disclosure
+## 3. Progressive Disclosure + No Duplication
 
-Three-level loading to manage context efficiently:
-
-1. **Metadata (name + description)** — Always in context (~100 words), determines triggering
+Three-level loading:
+1. **Metadata** (name + description) — Always in context, determines triggering
 2. **SKILL.md body** — Loaded when skill triggers; keep under 500 lines
-3. **Bundled resources** — Loaded as needed; unlimited because scripts execute without entering context
+3. **Bundled resources** — Loaded as needed
 
-### Key patterns
+**The duplication rule**: A reference file must add genuinely new value. If it merely repeats what SKILL.md already says, it wastes context without benefit. Information lives in exactly one place — choose SKILL.md for core workflow, references for deep domain material. When in doubt, ask: "If SKILL.md already says this, what does this reference add?"
+
+### When to split
+
+- Content has **distinct domains** (e.g., finance vs sales schemas) → separate reference files
+- SKILL.md approaching **500 lines** → split non-core content into references
+- **Otherwise**: keep content in SKILL.md. An unnecessary reference is worse than a slightly longer SKILL.md.
+
+### Progressive disclosure patterns
 
 **Pattern 1: High-level guide with references**
 ```markdown
 # PDF Processing
-
 ## Quick start
 Extract text with pdfplumber: [code example]
 
@@ -48,8 +55,6 @@ Extract text with pdfplumber: [code example]
 - **Form filling**: See FORMS.md
 - **API reference**: See REFERENCE.md
 ```
-
-The assistant loads FORMS.md or REFERENCE.md only when needed.
 
 **Pattern 2: Domain-specific organization**
 ```
@@ -65,24 +70,17 @@ When a user asks about sales metrics, the assistant only reads sales.md.
 **Pattern 3: Conditional details**
 ```markdown
 # DOCX Processing
-
 For simple edits, modify the XML directly.
 **For tracked changes**: See REDLINING.md
 **For OOXML details**: See OOXML.md
 ```
 
-The assistant reads REDLINING.md or OOXML.md only when the user needs those features.
-
 ### Guidelines
 
 - Keep all references one level deep from SKILL.md — no nested reference chains
-- Structure longer reference files — For files longer than 100 lines, include a table of contents at the top so the assistant can see the full scope when previewing.
+- For reference files >300 lines, include a table of contents at the top
+- Reference files clearly from SKILL.md with guidance on when to load them
 
 ## 4. Self-Consistency
 
-This skill must follow its own rules. Every principle, every structural requirement, every validation rule applies here first.
-
-- **Text instructions = Medium/High freedom**: When the assistant should adapt based on context
-- **Scripts = Low freedom**: For deterministic, error-prone, or repetitive operations
-- **References = Freedom enabler**: Provide detailed knowledge the assistant loads when needed, keeping the base skill lean
-- **This SKILL.md**: Must stay under 500 lines, follow progressive disclosure, and be concise
+This skill must follow its own rules. Every principle, every structural requirement, every validation rule applies here first. The rules this skill teaches are applied to this skill itself — no exceptions.
