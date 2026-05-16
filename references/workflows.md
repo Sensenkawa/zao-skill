@@ -2,7 +2,7 @@
 
 ## Sequential Workflows
 
-For complex tasks, break operations into clear, sequential steps. It is often helpful to give the assistant an overview of the process towards the beginning of SKILL.md:
+For complex tasks, break operations into clear, sequential steps. It is often helpful to give the agent an overview of the process towards the beginning of SKILL.md:
 
 ```markdown
 Filling a PDF form involves these steps:
@@ -16,7 +16,7 @@ Filling a PDF form involves these steps:
 
 ## Conditional Workflows
 
-For tasks with branching logic, guide the assistant through decision points:
+For tasks with branching logic, guide the agent through decision points:
 
 ```markdown
 1. Determine the modification type:
@@ -41,4 +41,4 @@ Choose your entry point:
 - **Just packaging?** → Jump to Step 5
 ```
 
-This avoids forcing the assistant to read through irrelevant steps when working with an existing skill.
+This avoids forcing the agent to read through irrelevant steps when working with an existing skill.

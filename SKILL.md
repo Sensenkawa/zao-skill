@@ -20,15 +20,31 @@ This skill guides the creation, review, and maintenance of effective skills.
 
 ## Core Principles
 
-1. **Concise is Key** — The context window is shared. Default assumption: the assistant is already smart. Only add context it doesn't have. Challenge each piece: "Does the assistant really need this explanation?"
+### 1. Concise is Key
 
-2. **Set Appropriate Degrees of Freedom** — Match specificity to task fragility: high freedom (text instructions) for flexible tasks, medium (pseudocode/parameterized scripts) for preferred patterns, low freedom (specific scripts) for fragile or error-prone operations.
+**Default assumption: the agent is already smart.** Only add context it doesn't have. The context window is a public good. Every token in your skill competes for the agent’s attention with conversation history, system context, and other active skills. 
 
-3. **Progressive Disclosure** — Three-level loading: metadata (always) → SKILL.md body (when triggered, keep under 500 lines) → bundled resources (as needed). Split into reference files when approaching 500 lines or when content has distinct domains. Each reference must add genuinely new value — never repeat what SKILL.md already says. Always link from SKILL.md with clear "when to read" guidance.
+**Prefer concise examples over verbose explanations.** Challenge each piece in your skill: "Does the agent really need this explanation?" or “Would the agent get this wrong without this instruction?” If the answer is no, cut it. 
 
-4. **Self-Consistency** — The rules this skill teaches must be followed by this skill itself. Every principle, every structural requirement, every validation rule applies here first.
+### 2. Set Appropriate Degrees of Freedom
 
-## Skill Structure
+Match the specificity of your instructions to the fragility of the task. Most skills have a mix. Calibrate each part independently.
+
+**High freedom (text-based instructions)**: Use when multiple approaches are valid, decisions depend on context, or heuristics guide the approach.
+
+**Medium freedom (pseudocode or scripts with parameters)**: Use when a preferred pattern exists, some variation is acceptable, or configuration affects behavior.
+
+**Low freedom (specific scripts, few parameters)**: Use when operations are fragile and error-prone, consistency is critical, or a specific sequence must be followed.
+
+For flexible instructions, explaining the why can be more effective than rigid directives — an agent that understands the purpose behind an instruction makes better context-dependent decisions.
+
+Be prescriptive when operations are fragile, consistency matters, or a specific sequence must be followed
+
+Think of the agent as exploring a path: a narrow bridge with cliffs needs specific guardrails (low freedom), while an open field allows many routes (high freedom).
+
+Aim for moderate detail
+
+### Anatomy of a Skill
 
 ```
 skill-name/
@@ -42,6 +58,29 @@ skill-name/
 ```
 
 Only include what the agent needs to do the job. Do NOT create README, CHANGELOG, INSTALLATION_GUIDE, or other auxiliary files.
+
+### 3. Progressive Disclosure
+Skills use a three-level loading system and should be structured to take advantage of this:
+
+ 1. Metadata (name + description) - Always in context (~100 words)
+ 2. SKILL.md body - In context whenever skill triggers (<500 lines ideal)
+ 3. Bundled resources - As needed (unlimited, scripts can execute without loading)
+
+#### Guidelines
+
+- Keep SKILL.md under 500 lines; if approaching this limit, split into Bundled Resources and link them from SKILL.md with clear "when to read" guidance
+- Keep file references one level deep from SKILL.md and for large reference files (>300 lines), include a table of contents
+- Avoid duplication: Each reference must add genuinely new value — never repeat what SKILL.md already says.
+- The agent reads only the relevant reference file. So keep reference files focused.
+- 
+#### Example: Domain organization
+When a skill supports multiple domains/frameworks, organize by variant:
+cloud-deploy/
+├── SKILL.md (workflow + selection)
+└── references/
+    ├── aws.md
+    ├── gcp.md
+    └── azure.md
 
 ### Naming Conventions
 
@@ -79,7 +118,7 @@ Skip this step only when usage patterns are already clearly understood.
 Analyze each concrete example to identify reusable resources:
 
 - **scripts/**: Code that would be rewritten repeatedly or needs deterministic reliability
-- **references/**: Documentation the assistant should load for specific scenarios (schemas, APIs, policies)
+- **references/**: Documentation the agent should load for specific scenarios (schemas, APIs, policies)
 - **assets/**: Files used in output rather than loaded into context (templates, images, fonts)
 
 Create a concrete list of what each example needs. Not every skill needs all three types of resources.
@@ -137,6 +176,5 @@ Common iteration triggers: missing trigger scenarios in description, overly long
 
 Load these references when the corresponding scenario arises:
 
-- **Design principles in depth** — See [references/principles.md](references/principles.md) for detailed explanations, progressive disclosure patterns, and anti-patterns. Load when designing a new skill or reviewing one against best practices.
 - **Scenario walkthroughs** — See [references/scenarios.md](references/scenarios.md) for end-to-end demonstrations (creating from scratch, updating existing, packaging only) with concrete examples. Load when stuck or learning by example.
 - **Design patterns** — See [references/output-patterns.md](references/output-patterns.md) for output templates and [references/workflows.md](references/workflows.md) for workflow patterns (sequential, conditional, entry-point). Load when choosing output formats or process structures.

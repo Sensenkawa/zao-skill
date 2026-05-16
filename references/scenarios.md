@@ -68,7 +68,7 @@
 
 ### Flow
 
-1. **Load principles.md** — Need design principles to evaluate against
+1. **Review Core Principles in SKILL.md** — Evaluate skill against the four design principles (Concise, Appropriate Degrees of Freedom, Progressive Disclosure, Comprehensive Description)
 2. Read the skill's SKILL.md and references
 3. Check against the four core principles:
    - Is it concise? (challenge each section)
