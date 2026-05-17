@@ -82,11 +82,6 @@ cloud-deploy/
     ├── gcp.md
     └── azure.md
 
-### Naming Conventions
-
-- **Skill name**: kebab-case, lowercase letters + digits + hyphens only (e.g., `pdf-editor`)
-- **Directory name**: matches skill name exactly
-
 ### Scripts Reference
 
 | Script | When to Call | Purpose |

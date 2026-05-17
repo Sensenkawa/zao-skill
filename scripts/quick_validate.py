@@ -17,6 +17,42 @@ except ImportError:
         "Or: py -m pip install pyyaml"
     )
 
+def check_references(skill_path, content):
+    """Check that local file references in SKILL.md are reachable.
+
+    Checks markdown links and inline backtick references under
+    scripts/, references/, and assets/ directories.
+    """
+    # Remove fenced code blocks
+    cleaned = re.sub(r'```[\s\S]*?```', '', content)
+
+    bad_refs = []
+    checked = set()  # Dedup repeated references
+
+    def add_issue(path, context):
+        target = skill_path / path
+        if path not in checked:
+            checked.add(path)
+            if not target.exists():
+                bad_refs.append(f"  - {path} ({context})")
+
+    # Check markdown links: [text](path) and ![alt](path)
+    for m in re.finditer(r'\[([^\]]*)\]\(([^\)]+)\)', cleaned):
+        path = m.group(2).split('#')[0].split('?')[0].strip()
+        path = re.sub(r'^\./', '', path)  # Normalize ./ prefix
+        if path.startswith(('scripts/', 'references/', 'assets/')):
+            add_issue(path, "markdown link")
+
+    # Check inline backtick references: `path`
+    first_word = re.compile(r'`([^`]+)`')
+    for m in first_word.finditer(cleaned):
+        path = m.group(1).strip().split()[0]  # First word, drop args
+        if path.startswith(('scripts/', 'references/', 'assets/')):
+            add_issue(path, "inline reference")
+
+    return bad_refs
+
+
 def validate_skill(skill_path):
     """Basic validation of a skill"""
     skill_path = Path(skill_path).resolve()
@@ -105,6 +141,12 @@ def validate_skill(skill_path):
             return False, f"Compatibility must be a string, got {type(compatibility).__name__}"
         if len(compatibility) > 500:
             return False, f"Compatibility is too long ({len(compatibility)} characters). Maximum is 500 characters."
+
+    # Check local file references in SKILL.md
+    ref_issues = check_references(skill_path, content)
+    if ref_issues:
+        msg = "Broken references in SKILL.md:\n" + "\n".join(ref_issues)
+        return False, msg
 
     return True, "Skill is valid!"
 
