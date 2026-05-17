@@ -82,14 +82,6 @@ cloud-deploy/
     ├── gcp.md
     └── azure.md
 
-### Scripts Reference
-
-| Script | When to Call | Purpose |
-|--------|-------------|---------|
-| `scripts/init_skill.py <name> --path <dir>` | Step 3: creating a new skill from scratch | Generates template with SKILL.md, example directories, and resource files |
-| `scripts/quick_validate.py <skill-dir>` | Step 4: during editing, any time after changes | Fast check of frontmatter format, required fields, naming conventions, and description quality |
-| `scripts/package_skill.py <skill-dir> [output-dir]` | Step 5: when ready to distribute | Full validation + creates distributable .skill file (zip archive) |
-
 ## Skill Creation Process
 
 Choose your entry point based on what you need:
