@@ -86,8 +86,6 @@ cloud-deploy/
 
 - **Skill name**: kebab-case, lowercase letters + digits + hyphens only (e.g., `pdf-editor`)
 - **Directory name**: matches skill name exactly
-- **Script files**: snake_case, descriptive (e.g., `rotate_pdf.py`)
-- **Reference files**: kebab-case, descriptive (e.g., `api-reference.md`)
 
 ### Scripts Reference
 

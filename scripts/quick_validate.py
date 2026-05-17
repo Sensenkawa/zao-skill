@@ -19,7 +19,7 @@ except ImportError:
 
 def validate_skill(skill_path):
     """Basic validation of a skill"""
-    skill_path = Path(skill_path)
+    skill_path = Path(skill_path).resolve()
 
     # Check SKILL.md exists
     skill_md = skill_path / 'SKILL.md'
@@ -68,6 +68,8 @@ def validate_skill(skill_path):
     if not isinstance(name, str):
         return False, f"Name must be a string, got {type(name).__name__}"
     name = name.strip()
+    if not name:
+        return False, "Name must not be empty"
     if name:
         # Check naming convention (kebab-case: lowercase with hyphens)
         if not re.match(r'^[a-z0-9-]+$', name):
@@ -77,6 +79,11 @@ def validate_skill(skill_path):
         # Check name length (max 64 characters per spec)
         if len(name) > 64:
             return False, f"Name is too long ({len(name)} characters). Maximum is 64 characters."
+
+    # Check directory name matches name field
+    dir_name = skill_path.name
+    if dir_name != name:
+        return False, f"Directory name '{dir_name}' does not match skill name '{name}'"
 
     # Extract and validate description
     description = frontmatter.get('description', '')
