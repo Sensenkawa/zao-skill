@@ -22,11 +22,11 @@ This skill guides the creation, review, and maintenance of effective skills.
 
 ### 1. Concise is Key
 
-**Default assumption: the agent is already smart.** Only add context it doesn't have. The context window is a public good. Every token in your skill competes for the agent’s attention with conversation history, system context, and other active skills. 
+**Default assumption: the agent is already smart.** Only add context it doesn't have. The context window is a public good. Every token in your skill competes for the agent’s attention with conversation history, system context, and other active skills. Focus on what the agent wouldn’t know without your skill.
 
 **Prefer concise examples over verbose explanations.** Challenge each piece in your skill: "Does the agent really need this explanation?" or “Would the agent get this wrong without this instruction?” If the answer is no, cut it. 
 
-### 2. Set Appropriate Degrees of Freedom
+### 2. Set Appropriate Degrees of Freedom？？？
 
 Match the specificity of your instructions to the fragility of the task. Most skills have a mix. Calibrate each part independently.
 
@@ -84,52 +84,64 @@ cloud-deploy/
 
 ## Skill Creation Process
 
-Choose your entry point based on what you need:
+Choose your entry point based on user's need:
 
-- **Creating a new skill?** → Start at Step 1
+- **Creating a new skill?** → Start at Phase 1 Alignment
 - **Updating or reviewing an existing skill?** → Jump to Step 4
 - **Just validating or packaging?** → Jump to Step 5
 
-### Step 1: Understand with Concrete Examples
+//+claude plus：you can also run the skill description improver, which we have a whole separate script for, to optimize the triggering of the skill.
 
-Understand how the skill will be used through concrete examples. Ask the user focused questions about desired functionality, trigger scenarios, and expected inputs/outputs. Don't overwhelm — ask the most important questions first, follow up as needed.
+### Phase 1: Pre-Creation Alignment 
 
-Conclude when there is a clear sense of the functionality the skill should support.
+1. **Understand intent and extract workflow**
+   - Ask the user to clarify domain, use cases, and practical tasks, one question at a time.
+   - Check whether the current conversation already contains a workflow to capture (e.g., "turn this into a skill"):
+     - **If yes**: Extract successful steps, corrections, input/output formats, tools, and any project‑specific facts, conventions, or constraints. Write this as `wip/workflow-extraction.md` — a concrete reference capturing what was learned from the real task.
+     - **If not**: Suggest that the user complete a real task in conversation first, then crystalize it in `wip/workflow-extraction.md`.
+   - Confirm your understanding with the user before proceeding.
 
-Skip this step only when usage patterns are already clearly understood.
+2. **Search for similar skills and decide direction**
+   - Based on the confirmed understanding, search local repos and online platforms for matching skills. Follow `references/skillSearchList.md` for the full search strategy.
+   - Read `ref-skills/_summary.md` and review the SKILL.md copies in `ref-skills/`.
+   - **If similar skills exist**:
+     → Present your recommendation to the user. Clarify differences, and discuss one decision at a time — walk down each branch of the design tree, resolving dependencies step by step.
+     → Reach a shared understanding, then proceed to **Phase 4: Editing**.
+   - **If no similar skills found, or the user chooses not to use them**:
+     → Proceed to **Phase 2: Creating**, using the workflow extraction from Step 1 as input.
 
-### Step 2: Plan Reusable Resources
-
+### Phase 2: Plan Reusable Resources
+//!!!right, oh not the same, 似乎都没提
 Analyze each concrete example to identify reusable resources:
-
+//重复？？或者那个不用加了，融合到这里，or，放到write里面？
 - **scripts/**: Code that would be rewritten repeatedly or needs deterministic reliability
 - **references/**: Documentation the agent should load for specific scenarios (schemas, APIs, policies)
 - **assets/**: Files used in output rather than loaded into context (templates, images, fonts)
 
 Create a concrete list of what each example needs. Not every skill needs all three types of resources.
-
+//果然重复了。
 **When to split into separate reference files**: Content has distinct domains (e.g., finance vs sales schemas) → separate files. Otherwise keep in SKILL.md. A reference that merely repeats what SKILL.md says is worse than not having one — see Principle #3.
 
-### Step 3: Initialize
+### Step 3: Initialize //为什么看起来它们都没有了
 
 For new skills, run the init script to generate a template:
 
 ```bash
 scripts/init_skill.py <skill-name> --path <output-directory>
 ```
-
+//TODO？？？有用，还有example？？
 This creates the directory structure, a SKILL.md template with TODO placeholders, and example files in scripts/, references/, and assets/.
 
-After initialization, customize or delete the generated files as needed.
+After initialization, customize or delete the generated example files as needed. //所以其实没啥用？
 
 Skip this step if working with an existing skill.
 
 ### Step 4: Edit the Skill
 
 Work in this order:
-
-1. **Implement reusable resources first** — scripts, references, assets identified in Step 2. Test scripts by actually running them. Delete unneeded example files.
-
+//重复？
+1. **Implement reusable resources first** — scripts, references, assets identified in Phase 2. Test scripts by actually running them. Delete unneeded example files.
+//workflows没讲，其实蛮好的，但也许够smart
 2. **Write SKILL.md**:
    - **Frontmatter**: `name` in kebab-case, `description` with BOTH what the skill does AND specific trigger scenarios (numbered list). All "when to use" info goes in description — not in body. Optional fields (`license`, `metadata`, `compatibility`) are rarely needed; only include them with clear purpose.
    - **Body**: Imperative form. Keep under 500 lines. Only operational instructions — teaching material goes in references.
