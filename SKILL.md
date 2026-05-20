@@ -106,9 +106,16 @@ Choose your entry point based on user's need:
    - Read `ref-skills/_summary.md` and review the SKILL.md copies in `ref-skills/`.
    - **If similar skills exist**:
      → Present your recommendation to the user. Clarify differences, and discuss one decision at a time — walk down each branch of the design tree, resolving dependencies step by step.
-     → Reach a shared understanding, then proceed to **Phase 4: Editing**.
+     → Reach a shared understanding on how to extend or modify, then proceed to **Phase 4: Editing**.
    - **If no similar skills found, or the user chooses not to use them**:
      → Proceed to **Phase 2: Creating**, using the workflow extraction from Step 1 as input.
+
+//总要test不写skill自己跑是不是也行      
+// trigger scenarios, ...Proactively ask questions about edge cases, input/output formats, example files, success criteria, and dependencies. Wait to write test prompts until you've got this part ironed out.
+
+Conclude when there is a clear sense of the functionality the skill should support.
+
+Skip this step only when usage patterns are already clearly understood.
 
 ### Phase 2: Plan Reusable Resources
 //!!!right, oh not the same, 似乎都没提
