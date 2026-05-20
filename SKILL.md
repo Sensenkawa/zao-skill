@@ -8,8 +8,7 @@ description: >-
   (3) Review or validate skill quality against best practices,
   (4) Package a skill for distribution,
   (5) Learn skill design principles or structure conventions.
-  Covers full lifecycle: initialization, resource planning, SKILL.md authoring,
-  validation, and packaging.
+  Covers full lifecycle: alignment, drafting, validation, packaging, and iteration.
 license: Complete terms in LICENSE.txt
 ---
 
@@ -86,18 +85,16 @@ cloud-deploy/
 
 Choose your entry point based on user's need:
 
-- **Creating a new skill?** → Start at Phase 1 Alignment
-- **Updating or reviewing an existing skill?** → Jump to Step 4
-- **Just validating or packaging?** → Jump to Step 5
+- **Creating a new skill?** → Start at Phase 1
+- **Updating or reviewing an existing skill?** → Jump to Draft
+- **Just validating or packaging?** → Jump to Validate & Package
 
-//+claude plus：you can also run the skill description improver, which we have a whole separate script for, to optimize the triggering of the skill.
-
-### Phase 1: Pre-Creation Alignment 
+### Phase 1: Pre-Creation Alignment
 
 1. **Understand intent and extract workflow**
-   - Ask the user to clarify domain, use cases, and practical tasks, one question at a time.
+   - Ask the user to clarify domain, use cases, and practical tasks/functionality, one question at a time.
    - Check whether the current conversation already contains a workflow to capture (e.g., "turn this into a skill"):
-     - **If yes**: Extract successful steps, corrections, input/output formats, tools, and any project‑specific facts, conventions, or constraints. Write this as `wip/workflow-extraction.md` — a concrete reference capturing what was learned from the real task.
+     - **If yes**: Extract successful steps, corrections, input/output formats, tools, and any project‑specific facts, conventions, or constraints. Write this as `wip/workflow-extraction.md`.
      - **If not**: Suggest that the user complete a real task in conversation first, then crystalize it in `wip/workflow-extraction.md`.
    - Confirm your understanding with the user before proceeding.
 
@@ -106,56 +103,29 @@ Choose your entry point based on user's need:
    - Read `ref-skills/_summary.md` and review the SKILL.md copies in `ref-skills/`.
    - **If similar skills exist**:
      → Present your recommendation to the user. Clarify differences, and discuss one decision at a time — walk down each branch of the design tree, resolving dependencies step by step.
-     → Reach a shared understanding on how to extend or modify, then proceed to **Phase 4: Editing**.
+     → Reach a shared understanding on how to extend or modify, then proceed to **Draft**.
    - **If no similar skills found, or the user chooses not to use them**:
-     → Proceed to **Phase 2: Creating**, using the workflow extraction from Step 1 as input.
+     → Proceed to **Draft**, using the workflow extraction from Step 1 as input.
 
-//总要test不写skill自己跑是不是也行      
-// trigger scenarios, ...Proactively ask questions about edge cases, input/output formats, example files, success criteria, and dependencies. Wait to write test prompts until you've got this part ironed out.
+Skip this phase only when usage patterns are already clearly understood.
 
-Conclude when there is a clear sense of the functionality the skill should support.
+### Phase 2: Draft the Skill
 
-Skip this step only when usage patterns are already clearly understood.
+Write the SKILL.md and any bundled resources in a single flow:
 
-### Phase 2: Plan Reusable Resources
-//!!!right, oh not the same, 似乎都没提
-Analyze each concrete example to identify reusable resources:
-//重复？？或者那个不用加了，融合到这里，or，放到write里面？
-- **scripts/**: Code that would be rewritten repeatedly or needs deterministic reliability
-- **references/**: Documentation the agent should load for specific scenarios (schemas, APIs, policies)
-- **assets/**: Files used in output rather than loaded into context (templates, images, fonts)
+1. **Set up the directory** — Create `skill-name/` with `SKILL.md`. Optionally, run `scripts/init_skill.py <name> --path <dir>` to generate a template with example files.
 
-Create a concrete list of what each example needs. Not every skill needs all three types of resources.
-//果然重复了。
-**When to split into separate reference files**: Content has distinct domains (e.g., finance vs sales schemas) → separate files. Otherwise keep in SKILL.md. A reference that merely repeats what SKILL.md says is worse than not having one — see Principle #3.
+2. **Write bundled resources** — Create scripts, references, and assets as the workflow demands. Test scripts by actually running them. Delete unneeded files. Not every skill needs all three resource types — only create what the workflow requires.
 
-### Step 3: Initialize //为什么看起来它们都没有了
-
-For new skills, run the init script to generate a template:
-
-```bash
-scripts/init_skill.py <skill-name> --path <output-directory>
-```
-//TODO？？？有用，还有example？？
-This creates the directory structure, a SKILL.md template with TODO placeholders, and example files in scripts/, references/, and assets/.
-
-After initialization, customize or delete the generated example files as needed. //所以其实没啥用？
-
-Skip this step if working with an existing skill.
-
-### Step 4: Edit the Skill
-
-Work in this order:
-//重复？
-1. **Implement reusable resources first** — scripts, references, assets identified in Phase 2. Test scripts by actually running them. Delete unneeded example files.
-//workflows没讲，其实蛮好的，但也许够smart
-2. **Write SKILL.md**:
+3. **Write SKILL.md**:
    - **Frontmatter**: `name` in kebab-case, `description` with BOTH what the skill does AND specific trigger scenarios (numbered list). All "when to use" info goes in description — not in body. Optional fields (`license`, `metadata`, `compatibility`) are rarely needed; only include them with clear purpose.
    - **Body**: Imperative form. Keep under 500 lines. Only operational instructions — teaching material goes in references.
 
-3. **Validate as you go**: Run `scripts/quick_validate.py <skill-dir>` after significant edits for fast feedback. See references/output-patterns.md and references/workflows.md for design patterns (output formats, workflow structures).
+4. **Validate as you go**: Run `scripts/quick_validate.py <skill-dir>` after significant edits for fast feedback. See references/output-patterns.md and references/workflows.md for design patterns (output formats, workflow structures).
 
-### Step 5: Package
+If updating an existing skill, skip directory creation and work directly on the existing files.
+
+### Phase 3: Validate & Package
 
 When the skill is complete, package it for distribution:
 
@@ -165,7 +135,7 @@ scripts/package_skill.py <path/to/skill-folder> [output-directory]
 
 This automatically runs full validation (frontmatter, naming, structure, description quality) before packaging. If validation fails, fix errors and re-run. On success, creates a `<skill-name>.skill` file.
 
-### Step 6: Iterate
+### Phase 4: Iterate
 
 After real usage, collect feedback and improve:
 
