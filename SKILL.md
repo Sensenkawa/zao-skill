@@ -9,7 +9,6 @@ description: >-
   (4) Package a skill for distribution,
   (5) Learn skill design principles or structure conventions.
   Covers full lifecycle: alignment, drafting, validation, packaging, and iteration.
-license: Complete terms in LICENSE.txt
 ---
 
 # Zao Skill
@@ -86,36 +85,46 @@ cloud-deploy/
 Choose your entry point based on user's need:
 
 - **Creating a new skill?** → Start at Phase 1
-- **Updating or reviewing an existing skill?** → Jump to Draft
+- **Updating or reviewing an existing skill?** → Jump to Drafting
 - **Just validating or packaging?** → Jump to Validate & Package
+
+//总要test不写skill自己跑是不是也行，太简单or太复杂，合并gril      
+// trigger scenarios, ...Proactively ask questions about edge cases, input/output formats, example files, success criteria, and dependencies. Wait to write test prompts until you've got this part ironed out.
+Skip this step only when usage patterns are already clearly understood.
 
 ### Phase 1: Pre-Creation Alignment
 
-1. **Understand intent and extract workflow**
+#### Step 1. Understand intent and extract workflow
    - Ask the user to clarify domain, use cases, and practical tasks/functionality, one question at a time.
    - Check whether the current conversation already contains a workflow to capture (e.g., "turn this into a skill"):
      - **If yes**: Extract successful steps, corrections, input/output formats, tools, and any project‑specific facts, conventions, or constraints. Write this as `wip/workflow-extraction.md`.
      - **If not**: Suggest that the user complete a real task in conversation first, then crystalize it in `wip/workflow-extraction.md`.
    - Confirm your understanding with the user before proceeding.
 
-2. **Search for similar skills and decide direction**
+#### Step 2. Search for similar skills and decide direction
    - Based on the confirmed understanding, search local repos and online platforms for matching skills. Follow `references/skillSearchList.md` for the full search strategy.
    - Read `ref-skills/_summary.md` and review the SKILL.md copies in `ref-skills/`.
    - **If similar skills exist**:
      → Present your recommendation to the user. Clarify differences, and discuss one decision at a time — walk down each branch of the design tree, resolving dependencies step by step.
-     → Reach a shared understanding on how to extend or modify, then proceed to **Draft**.
+     → Reach a shared understanding on how to extend or modify the ref skills, together with workflow-extraction.md (if there is), then proceed to **Drafting**.
    - **If no similar skills found, or the user chooses not to use them**:
-     → Proceed to **Draft**, using the workflow extraction from Step 1 as input.
+     → Proceed to **Drafting**, using the workflow extraction from Step 1 as input.
+//现在看起来都是去drafting嘛
+//Skip this phase only when usage patterns are already clearly understood.
 
-Skip this phase only when usage patterns are already clearly understood.
+//+claude plus：you can also run the skill description improver, which we have a whole separate script for, to optimize the triggering of the skill.
 
 ### Phase 2: Draft the Skill
 
-Write the SKILL.md and any bundled resources in a single flow:
+Write the SKILL.md and any bundled resources in a single flow://？？？？
 
 1. **Set up the directory** — Create `skill-name/` with `SKILL.md`. Optionally, run `scripts/init_skill.py <name> --path <dir>` to generate a template with example files.
-
+//都可以删掉？----更新skill git manager
 2. **Write bundled resources** — Create scripts, references, and assets as the workflow demands. Test scripts by actually running them. Delete unneeded files. Not every skill needs all three resource types — only create what the workflow requires.
+//-----pocock，2.0提及了吗？其他两个呢。前面还是后面
+   - SKILL.md with concise instructions
+   - Additional reference files if content exceeds 500 lines
+   - Utility scripts if deterministic operations needed
 
 3. **Write SKILL.md**:
    - **Frontmatter**: `name` in kebab-case, `description` with BOTH what the skill does AND specific trigger scenarios (numbered list). All "when to use" info goes in description — not in body. Optional fields (`license`, `metadata`, `compatibility`) are rarely needed; only include them with clear purpose.
