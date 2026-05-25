@@ -28,27 +28,13 @@ This skill guides the creation, review, and maintenance of effective skills.
 
 **Prefer concise examples over verbose explanations.** Challenge each piece in your skill: "Does the agent really need this explanation?" or “Would the agent get this wrong without this instruction?” If the answer is no, cut it. 
 
-### 2. Set Appropriate Degrees of Freedom？？？
-
-Match the specificity of your instructions to the fragility of the task. Most skills have a mix. Calibrate each part independently.
-
-**High freedom (text-based instructions)**: Use when multiple approaches are valid, decisions depend on context, or heuristics guide the approach.
-
-**Medium freedom (pseudocode or scripts with parameters)**: Use when a preferred pattern exists, some variation is acceptable, or configuration affects behavior.
-
-**Low freedom (specific scripts, few parameters)**: Use when operations are fragile and error-prone, consistency is critical, or a specific sequence must be followed.
-
-For flexible instructions, explaining the why can be more effective than rigid directives 
-
-Be prescriptive when operations are fragile, consistency matters, or a specific sequence must be followed
-
 ### 2. Anatomy of a Skill
 
 ```
 skill-name/
 ├── SKILL.md (required)
 │   ├── YAML frontmatter (name, description required)
-│   └── Markdown instructions in body sections
+│   └── Markdown instructions
 └── Bundled Resources (optional)
     ├── scripts/    - Executable code for deterministic/repetitive tasks
     ├── references/ - Docs loaded into context as needed
@@ -93,7 +79,8 @@ Choose your entry point based on user's need:
 
 ### Phase 1: Pre-Creation Alignment
 
-//总要test不写skill自己跑是不是也行，太简单or太复杂，合并gril      
+//总要test不写skill自己跑是不是也行，太简单or太复杂，合并gril 
+//!带skill比不带还差 → skill可能过度约束，考虑精简----确立基线
 // trigger scenarios, ...Proactively ask questions about edge cases, input/output formats, example files, success criteria, and dependencies. Wait to write test prompts until you've got this part ironed out.
 Skip this step only when usage patterns are already clearly understood.
 
@@ -128,21 +115,20 @@ Base on the outputs from Phase 1, create `skill-name/` with `SKILL.md`and draft 
    - Additional reference files if content exceeds 500 lines
    - Utility scripts if deterministic operations needed
 
-#### Part 1. Frontmatter (Required)
+#### Part 1. YAML Frontmatter (Required)
 
 ```md
 ---
 name: skill-name-in-kebab-case
 description: Brief description of capability. Use when [specific triggers].
 ---
-
 # Skill Name
-[body sections]
+[Markdown instructions]
 ```
 
    **Rules**:
    - name: skill identifier.
-   - description: Start with what the skill does in third person, then include one or more clear "Use when" trigger conditions. Include both what and when. Maximum 1024 characters. All "when to use" info goes here, not in the body.
+   - description: Start with what the skill does in third person, then include one or more clear "Use when" trigger conditions. Include both what and when. Maximum 1024 characters. All "when to use" info goes here, not in the markdown instructions.
 
    **Purpose**:
    - Under progressive disclosure, the description is **the only thing the agent sees** when deciding which skill to load. 
@@ -154,13 +140,11 @@ description: Brief description of capability. Use when [specific triggers].
    - Focus on user intent, not implementation steps
 
    **Example**:
+   - Bad example: "How to build a simple fast dashboard to display internal Anthropic data."
+   - Good example: "How to build a simple fast dashboard to display internal Anthropic data. Make sure to use this skill whenever the user mentions dashboards, data visualization, internal metrics, or wants to display any kind of company data, even if they don't explicitly ask for a 'dashboard.'"
 
-   Instead of "How to build a simple fast dashboard to display internal Anthropic data.", you might write "How to build a simple fast dashboard to display internal Anthropic data. Make sure to use this skill whenever the user mentions dashboards, data visualization, internal metrics, or wants to display any kind of company data, even if they don't explicitly ask for a 'dashboard.'"
 
-
-#### Paft 2. Body Sections (Recommanded)
-
-The frontmatter contract above is required. The section layout below is a recommended pattern.
+#### Part 2. Markdown Instruction Modules (Recommanded)
 
 ```md
 # Skill Name
@@ -171,21 +155,19 @@ The frontmatter contract above is required. The section layout below is a recomm
 ## Top Reminders
 - [Core Principles/Critial Rules, serving as entry quality gates. eg, can include Alwyas, Must, Never items]
 - Mindset Warning:
-   [End this section with these real case excuses agents use to rationalize its way out of following the workflows, paired with rebuttals]
+   [End this section with these real case excuses agents use to rationalize its way out of following the workflows]
    | Rationalization | Reality |
    |---|---|
    | "I know this workflow / task type." | Past experience ≠ current spec. Re-check. |
-   | "I've handled an emergency" | You might be lost in the middle. Come back finish all steps |
+   | "I've handled an emergency" | You might be lost in the middle. Finish all steps |
    | "The main doc gave me the overview, so I don't need the ref." | Required refs contain critical steps not in the main doc. Read them. |
 
-## Workflows and Output Formats
+## Workflows and Output Formats (see details below)
 [The heart of the skill, step-by-step processes]
 [Output Template / Bullets / Example]
-see below details in Part 3
+
 
 ## Guardrails
-
-### Anti-Patterns/Edge Cases (Optional)
 
 ### Critical Gotchas
 | ID | Issue / Symptom | Fix |
@@ -196,7 +178,7 @@ see below details in Part 3
 > After each run, agent may propose new gotchas. User approval required to update table or esclate severe ones to Top Reminder. Trival gotchas and long explanations go to `references/gotchas/`.
 
 ## Verification with Evidence
-After completing the skill's process, confirm and provide:
+[After completing the skill's process, confirm and provide:]
 | Check | Evidence |
 |-------|----------|
 | [ ] Exit criteria | [e.g., reviewed trigger list] |
@@ -204,34 +186,34 @@ After completing the skill's process, confirm and provide:
 | ...|...|
 
 ```
-#### Part 3. Body Sections Detailed Guide
+**Workflows Detail Guide**
 
-**Workflows and Output Formats**
-
-- **Phases or Steps**: 
-
-   - An process overview on top, use concise flowcharts (ASCII) where decision points exist
+   - An process overview on top, use concise flowcharts (ASCII) / decision tree / TL;DR where decision points exist
    - Break operations into numbered and actionable phases or steps, include working examples where they help
    - Give the agent freedom when multiple approaches are valid and the task tolerates variation — explaining why and goal can be helpful
-   - Consider using pseudocode for complex condition logics, algorithm-like steps, etc. — it increases precision and sequence consistency beyond ext-based instructions.
+   - Consider using pseudocode for complex condition logics, algorithm-like steps, etc. to increases precision and sequence consistency beyond text-based instructions.
    - Add utility scripts when the operation is deterministic and error-prone (e.g., validation, formatting), the same code would be generated repeatedly, or errors need explicit handling. 
+   - Most skills have a mix. Calibrate each part independently
+   - 缺少用户确认检查点 → 在关键决策处插入
+   · 清晰定义边界：明确能做什么、不能做什么，以及失败时的降级策略或人工介入条件。
 
-
+**Input and Output**: 
    - Use checklists for complex tasks to avoid skipping steps, especially when steps have dependencies or validation gates
    - 
 
-- **Phases or Steps**: 
-
-Good: "Run npm test and verify all tests pass" Bad: "Make sure the tests work"
-
-   Step-by-step processes with checklists for complex tasks and output formats if needed. 编号步骤。每步必要时引用 Anti-Patterns 或 Rationalizations]
-
-?pattern, prescriptive, contraints(anti-patterns)
-specific?
+输出模板vs输出要点;补充格式、路径、示例
+?pattern, , contraints(anti-patterns)
+?
 ?common edge cases?
 output 2 formats: template, bullets, examples--Examples pattern- It's useful to include examples
 
 constraints-skill manager 衔接
+
+5. 确保 references 文件有价值
+检查references/output-patterns.md和的内容是否：
+• 是 SKILL.md 的补充，而不是重复
+• 提供了 SKILL.md 中没有的新信息
+• 如果内容重复，应该合并到 SKILL.md 或删除
 
    - **Body**: Imperative form. Keep under 500 lines. Only operational instructions — teaching material goes in references.
 
