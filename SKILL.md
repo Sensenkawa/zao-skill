@@ -34,7 +34,7 @@ This skill guides the creation, review, and maintenance of effective skills.
 skill-name/
 ├── SKILL.md (required)
 │   ├── YAML frontmatter (name, description required)
-│   └── Markdown instructions
+│   └── Markdown instructions body
 └── Bundled Resources (optional)
     ├── scripts/    - Executable code for deterministic/repetitive tasks
     ├── references/ - Docs loaded into context as needed
@@ -52,9 +52,9 @@ Skills use a three-level loading system and should be structured to take advanta
 
 #### Guidelines
 
-- Keep SKILL.md under 500 lines; if approaching this limit, split into Bundled Resources and link them from SKILL.md with clear "when to read" guidance
+- Keep SKILL.md body under 500 lines; if approaching this limit, split into Bundled Resources and link them from SKILL.md with clear "when to read" guidance
 - Keep file references one level deep from SKILL.md and for large reference files (>300 lines), include a table of contents
-- Avoid duplication: Each reference must add genuinely new value — never repeat what SKILL.md already says.
+- Avoid duplication: Each reference MUST add genuinely new value — never repeat what SKILL.md already says.
 - The agent reads only the relevant reference file. So keep reference files focused.
 
 #### Example: Domain organization
@@ -109,24 +109,22 @@ Skip this step only when usage patterns are already clearly understood.
 
 ### Phase 2: Draft the Skill.md
 
-Base on the outputs from Phase 1, create `skill-name/` with `SKILL.md`and draft the SKILL.md following the template and rules below. Optionally, run `scripts/init_skill.py <name> --path <dir>` to generate a template with example files.
+Base on the outputs from Phase 1, create `skill-name/` and draft `SKILL.md` following the template and rules below. Optionally, run `scripts/init_skill.py <name> --path <dir>` to generate a template with example files.
 //都可以删掉？----更新skill git manager
    - SKILL.md with concise instructions
    - Additional reference files if content exceeds 500 lines
    - Utility scripts if deterministic operations needed
 
-#### Part 1. YAML Frontmatter (Required)
+
+#### Part 1. Frontmatter Metadata (Required)
 
 ```md
 ---
 name: skill-name-in-kebab-case
 description: Brief description of capability. Use when [specific triggers].
 ---
-# Skill Name
-[Markdown instructions]
 ```
-
-   **Rules**:
+   **Frontmatter Rules**:
    - name: skill identifier.
    - description: Start with what the skill does in third person, then include one or more clear "Use when" trigger conditions. Include both what and when. Maximum 1024 characters. All "when to use" info goes here, not in the markdown instructions.
 
@@ -144,7 +142,27 @@ description: Brief description of capability. Use when [specific triggers].
    - Good example: "How to build a simple fast dashboard to display internal Anthropic data. Make sure to use this skill whenever the user mentions dashboards, data visualization, internal metrics, or wants to display any kind of company data, even if they don't explicitly ask for a 'dashboard.'"
 
 
-#### Part 2. Markdown Instruction Modules (Recommanded)
+#### Part 2. Modules in SKILL.md body (Recommanded)
+
+**Writing Rules/Patterns**
+
+- Prefer using the imperative form to draft instructions in concise and operaional way.
+- Keep under 500 lines with only concise and operational instructions
+
+Anti-rationalization. Every skip-worthy step needs a counter-argument in the rationalizations table.
+
+Progressive disclosure. Main SKILL.md is the entry point. Bundled Resources are loaded only when needed.
+
+Token-conscious. Every section must justify its inclusion. If removing it wouldn't change agent behavior, remove it.
+
+**Writing Style**
+
+- Try to explain to the model why things are important in lieu of heavy-handed musty MUSTs. 
+- Use theory of mind and try to make the skill general and not super-narrow to specific examples.
+- Start by writing a draft and then look at it with fresh eyes and improve it.
+
+ — teaching material goes in references.
+  
 
 ```md
 # Skill Name
@@ -153,7 +171,7 @@ description: Brief description of capability. Use when [specific triggers].
 [Purpose + Scope/Exclusion (+ Minimal working example)]
 
 ## Top Reminders
-- [Core Principles/Critial Rules, serving as entry quality gates. eg, can include Alwyas, Must, Never items]
+- [Core Principles/Critial Rules and Constraints, serving as entry quality gates. eg, can include Alwyas, Must, Never items]
 - Mindset Warning:
    [End this section with these real case excuses agents use to rationalize its way out of following the workflows]
    | Rationalization | Reality |
@@ -188,24 +206,38 @@ description: Brief description of capability. Use when [specific triggers].
 ```
 **Workflows Detail Guide**
 
-   - An process overview on top, use concise flowcharts (ASCII) / decision tree / TL;DR where decision points exist
+   - Start with a process overview – Use TL;DR, decision tree, or ASCII flowchart at decision points
    - Break operations into numbered and actionable phases or steps, include working examples where they help
-   - Give the agent freedom when multiple approaches are valid and the task tolerates variation — explaining why and goal can be helpful
-   - Consider using pseudocode for complex condition logics, algorithm-like steps, etc. to increases precision and sequence consistency beyond text-based instructions.
-   - Add utility scripts when the operation is deterministic and error-prone (e.g., validation, formatting), the same code would be generated repeatedly, or errors need explicit handling. 
+   - Give the agent freedom when multiple approaches / variation are tolerated — explain the goal
+   - Consider pseudocode for complex condition logics, algorithm-like steps, etc. to better precision and sequence consistency than plain text.
+   - Add utility scripts for deterministic, code-repetitive and error-prone tasks (e.g., validation, formatting), or errors need explicit handling. 
    - Most skills have a mix. Calibrate each part independently
-   - 缺少用户确认检查点 → 在关键决策处插入
-   · 清晰定义边界：明确能做什么、不能做什么，以及失败时的降级策略或人工介入条件。
-
+   - Consider user confirmation checkpoints at key decisions when necessary.
+    Consider splitting longerSKILL.mdcontent into referenced files
+  
 **Input and Output**: 
-   - Use checklists for complex tasks to avoid skipping steps, especially when steps have dependencies or validation gates
-   - 
+   - Use checklists for complex tasks to avoid skipping steps, especially when steps have dependencies or validation gates.
+   - Use predefined templates for rigid output; Use bullet points to guide flexible output.
+   ```md
+   ## Report structure
+   ALWAYS use this exact template:
+   # [Title]
+   ## Executive summary
+   ## Key findings
+   ## Recommendations
+   ```
+   - Input/output template can be used between steps and the final output
+   ```md
+   ## Commit message format
+   **Example 1:**
+   Input: Added user authentication with JWT tokens
+   Output: feat(auth): implement JWT-based authentication
+   ```
+   - check and update correct path.
 
-输出模板vs输出要点;补充格式、路径、示例
-?pattern, , contraints(anti-patterns)
-?
+
+?pattern, 
 ?common edge cases?
-output 2 formats: template, bullets, examples--Examples pattern- It's useful to include examples
 
 constraints-skill manager 衔接
 
