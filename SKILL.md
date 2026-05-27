@@ -28,8 +28,9 @@ This skill guides the creation, review, and maintenance of effective skills.
 
 **Prefer concise examples over verbose explanations.** Challenge each piece in your skill: "Does the agent really need this explanation?" or “Would the agent get this wrong without this instruction?” If the answer is no, cut it. 
 
-### 2. Anatomy of a Skill
+### 2. Progressive Disclosure
 
+**Anatomy of a Skill**
 ```
 skill-name/
 ├── SKILL.md (required)
@@ -41,23 +42,21 @@ skill-name/
     └── assets/     - Files used in output (templates, icons, fonts)
 ```
 
-Only include what the agent needs to do the job. Do NOT create README, CHANGELOG, INSTALLATION_GUIDE, or other auxiliary files.
-
-### 3. Progressive Disclosure
-Skills use a three-level loading system and should be structured to take advantage of this:
+Skills use a three-level loading system and should be structured to take advantage of this progressive disclosure mechanism:
 
  1. Metadata (name + description) - Always in context (~100 words)
  2. SKILL.md body - In context whenever skill triggers (<500 lines ideal)
  3. Bundled resources - As needed (unlimited, scripts can execute without loading)
 
-#### Guidelines
+**Structure Rules**
 
 - Keep SKILL.md body under 500 lines; if approaching this limit, split into Bundled Resources and link them from SKILL.md with clear "when to read" guidance
 - Keep file references one level deep from SKILL.md and for large reference files (>300 lines), include a table of contents
 - Avoid duplication: Each reference MUST add genuinely new value — never repeat what SKILL.md already says.
 - The agent reads only the relevant reference file. So keep reference files focused.
 
-#### Example: Domain organization
+**Example: Domain organization**
+
 When a skill supports multiple domains/frameworks, organize by variant:
 ```
 cloud-deploy/
@@ -67,18 +66,29 @@ cloud-deploy/
     ├── gcp.md
     └── azure.md
 ```
+
+### 3. Mindset Warning
+
+| Rationalization | Reality |
+|---|---|
+| "I know this workflow / task type." | Past experience ≠ current spec. Re-check. |
+| "I've handled an emergency" | You might be lost in the middle. Finish all steps |
+| "The main doc gave me the overview, so I don't need the ref." | Required refs contain critical steps not in the main doc. Read them. |
+
+
 ---
 
 ## Workflows and Output Formats
 
-Choose your entry point based on user's need:
+**Choose your entry point based on user's need**:
 
 - **Creating a new skill?** → Phase 1 Alignment
-- **Updating or reviewing an existing skill?** → Phase 2 Drafting
-- **Just validating or packaging?** → Jump to Validate & Package
+- **Editing or reviewing an existing skill?** → Phase 2 Drafting
+- **Just validating or packaging?** → Jump to Phase 3 or Phase 4
+//register
 
 ### Phase 1: Pre-Creation Alignment
-
+//?简化or加引到图
 //总要test不写skill自己跑是不是也行，太简单or太复杂，合并gril 
 //!带skill比不带还差 → skill可能过度约束，考虑精简----确立基线
 // trigger scenarios, ...Proactively ask questions about edge cases, input/output formats, example files, success criteria, and dependencies. Wait to write test prompts until you've got this part ironed out.
@@ -107,16 +117,18 @@ Skip this step only when usage patterns are already clearly understood.
 
 //+claude plus：you can also run the skill description improver, which we have a whole separate script for, to optimize the triggering of the skill.
 
+
 ### Phase 2: Draft the Skill.md
 
-Base on the outputs from Phase 1, create `skill-name/` and draft `SKILL.md` following the template and rules below. Optionally, run `scripts/init_skill.py <name> --path <dir>` to generate a template with example files.
-//都可以删掉？----更新skill git manager
-   - SKILL.md with concise instructions
-   - Additional reference files if content exceeds 500 lines
-   - Utility scripts if deterministic operations needed
+Base on the outputs from Phase 1, set up `skill-name/`, draft `SKILL.md`and creat boundled resources.
 
+Optionally, run `scripts/init_skill.py <name> --path <dir>` to generate a template with reusable example files. After initialization, customize or remove the generated SKILL.md and example files as needed.
 
-#### Part 1. Frontmatter Metadata (Required)
+No need to create README, CHANGELOG, INSTALLATION_GUIDE, or other auxiliary files.
+
+Follow below guides. If updating an existing skill, skip directory creation and work directly on the existing files.
+
+#### **2.1 Draft Frontmatter (Required)**
 
 ```md
 ---
@@ -132,7 +144,7 @@ description: Brief description of capability. Use when [specific triggers].
    - Under progressive disclosure, the description is **the only thing the agent sees** when deciding which skill to load. 
    - It carries the entire burden of skill triggering.
 
-   **Patterns**
+   **Writing Patterns**
    - Use imperative phrasing
    - Explicitly list contexts where the skill applies
    - Focus on user intent, not implementation steps
@@ -142,27 +154,18 @@ description: Brief description of capability. Use when [specific triggers].
    - Good example: "How to build a simple fast dashboard to display internal Anthropic data. Make sure to use this skill whenever the user mentions dashboards, data visualization, internal metrics, or wants to display any kind of company data, even if they don't explicitly ask for a 'dashboard.'"
 
 
-#### Part 2. Modules in SKILL.md body (Recommanded)
+#### **2.2 Draft Body Sections and Bundled Resources**
 
-**Writing Rules/Patterns**
+**Writing Rules**
 
-- Prefer using the imperative form to draft instructions in concise and operaional way.
-- Keep under 500 lines with only concise and operational instructions
-
-Anti-rationalization. Every skip-worthy step needs a counter-argument in the rationalizations table.
-
-Progressive disclosure. Main SKILL.md is the entry point. Bundled Resources are loaded only when needed.
-
-Token-conscious. Every section must justify its inclusion. If removing it wouldn't change agent behavior, remove it.
-
-**Writing Style**
-
+- Prefer using the imperative and concise form. (Core Principles 1)
+- Progressive disclosure. Main SKILL.md is the entry point. (Core Principles 2)
+- Valuable and non-duplicate. Every section must justify its inclusion. If removing it wouldn't change agent behavior, remove it.
 - Try to explain to the model why things are important in lieu of heavy-handed musty MUSTs. 
 - Use theory of mind and try to make the skill general and not super-narrow to specific examples.
-- Start by writing a draft and then look at it with fresh eyes and improve it.
 
- — teaching material goes in references.
-  
+
+**Template with Recommended Sections**
 
 ```md
 # Skill Name
@@ -171,7 +174,7 @@ Token-conscious. Every section must justify its inclusion. If removing it wouldn
 [Purpose + Scope/Exclusion (+ Minimal working example)]
 
 ## Top Reminders
-- [Core Principles/Critial Rules and Constraints, serving as entry quality gates. eg, can include Alwyas, Must, Never items]
+- [Core Principles/Critial Rules and Constraints, serving as entry quality gates. e.g. can include Alwyas, Must, Never items]
 - Mindset Warning:
    [End this section with these real case excuses agents use to rationalize its way out of following the workflows]
    | Rationalization | Reality |
@@ -179,6 +182,7 @@ Token-conscious. Every section must justify its inclusion. If removing it wouldn
    | "I know this workflow / task type." | Past experience ≠ current spec. Re-check. |
    | "I've handled an emergency" | You might be lost in the middle. Finish all steps |
    | "The main doc gave me the overview, so I don't need the ref." | Required refs contain critical steps not in the main doc. Read them. |
+
 
 ## Workflows and Output Formats (see details below)
 [The heart of the skill, step-by-step processes]
@@ -202,66 +206,76 @@ Token-conscious. Every section must justify its inclusion. If removing it wouldn
 | [ ] Exit criteria | [e.g., reviewed trigger list] |
 | [ ] Format compliance | [e.g., paste output snippet] |
 | ...|...|
+[- Top Reminders should be checked.
+ - Use scripts when necessary]
+
+ ## Advanced features
+
+[Link to separate files: See [...]]
 
 ```
 **Workflows Detail Guide**
 
    - Start with a process overview – Use TL;DR, decision tree, or ASCII flowchart at decision points
-   - Break operations into numbered and actionable phases or steps, include working examples where they help
-   - Give the agent freedom when multiple approaches / variation are tolerated — explain the goal
-   - Consider pseudocode for complex condition logics, algorithm-like steps, etc. to better precision and sequence consistency than plain text.
-   - Add utility scripts for deterministic, code-repetitive and error-prone tasks (e.g., validation, formatting), or errors need explicit handling. 
+   - Break operations into numbered, actionable phases or steps, include working examples where they help
+   - Give the agent freedom when multiple approaches / variation are permitted — explain the goal
+   - Consider pseudocode for complex conditional and algorithmic logic, etc. to improve precision and sequence consistency over plain text.
+   - Add utility scripts for deterministic, code-repetitive and error-prone tasks (e.g., validation, formatting), scripts handle erros explicitly and reduce variability. 
    - Most skills have a mix. Calibrate each part independently
-   - Consider user confirmation checkpoints at key decisions when necessary.
-    Consider splitting longerSKILL.mdcontent into referenced files
+   - See references/workflows.md for workflow pattern examples (sequential, conditional, iteration)
+   - Split long SKILL.md content into referenced files under Progressive Disclosure Structure Rules.
+
   
 **Input and Output**: 
    - Use checklists for complex tasks to avoid skipping steps, especially when steps have dependencies or validation gates.
-   - Use predefined templates for rigid output; Use bullet points to guide flexible output.
+   - Use predefined templates for rigid output; Use bullet points to guide flexible output; Add quick examples if needed.
+   - Consider user confirmation checkpoints when necessary.
+   
    ```md
-   ## Report structure
+   ## Quick Example 1: Report structure
    ALWAYS use this exact template:
    # [Title]
    ## Executive summary
    ## Key findings
    ## Recommendations
    ```
-   - Input/output template can be used between steps and the final output
+
    ```md
-   ## Commit message format
+   ## Quick Example 2: Commit message format
    **Example 1:**
    Input: Added user authentication with JWT tokens
    Output: feat(auth): implement JWT-based authentication
    ```
-   - check and update correct path.
+  
+**Cross-Skill References**
+
+Reference other skills by name:
+
+```
+Follow the `test-driven-development` skill for writing tests.
+If the build breaks, use the `debugging-and-error-recovery` skill.
+```
+
+Don't duplicate content between skills — reference and link instead.
+
+??----skill mgr
+
+### Phase 3: Validate as you go
+
+- Run `scripts/quick_validate.py <skill-dir>` after significant edits for static validation, fix any return error and discuss warnings with the user for quick act.
+
+- Create only the resource types the workflow needs (scripts, references, assets). Test scripts by actually running them; delete unneeded files.
 
 
-?pattern, 
-?common edge cases?
+Iterate – fix any issues, re‑run the validation script, and re‑check manually until the skill is ready for use.
 
-constraints-skill manager 衔接
-
-5. 确保 references 文件有价值
-检查references/output-patterns.md和的内容是否：
-• 是 SKILL.md 的补充，而不是重复
-• 提供了 SKILL.md 中没有的新信息
-• 如果内容重复，应该合并到 SKILL.md 或删除
-
-   - **Body**: Imperative form. Keep under 500 lines. Only operational instructions — teaching material goes in references.
+ ???  human
+??? checklist?
+- Start by writing a draft and then look at it with fresh eyes and improve it.
 
 
-2. **Write bundled resources** — Create scripts, references, and assets as the workflow demands. Test scripts by actually running them. Delete unneeded files. Not every skill needs all three resource types — only create what the workflow requires.
-//-----pocock，2.0提及了吗？其他两个呢。前面还是后面
-
-
-3. 
-
-4. **Validate as you go**: Run `scripts/quick_validate.py <skill-dir>` after significant edits for fast feedback. See references/output-patterns.md and references/workflows.md for design patterns (output formats, workflow structures).
-
-If updating an existing skill, skip directory creation and work directly on the existing files.
-
-### Phase 3: Validate & Package
-
+### Phase 4: Package a Skill
+//skill git mgr
 When the skill is complete, package it for distribution:
 
 ```bash
@@ -270,7 +284,10 @@ scripts/package_skill.py <path/to/skill-folder> [output-directory]
 
 This automatically runs full validation (frontmatter, naming, structure, description quality) before packaging. If validation fails, fix errors and re-run. On success, creates a `<skill-name>.skill` file.
 
-### Phase 4: Iterate
+
+## Verification with Evidence
+
+### Phase 5: Iterate ++++git一开始就要++register
 
 After real usage, collect feedback and improve:
 
@@ -281,9 +298,21 @@ After real usage, collect feedback and improve:
 
 Common iteration triggers: missing trigger scenarios in description, overly long SKILL.md body that should be split to references, script bugs discovered in real use, or missing edge cases.
 
+## Guardrails
+
+### Critical Gotchas
+| ID | Issue / Symptom | Fix |
+|----|----------------|-----|
+| G01 | ... | ... |
+
+
+> After each run, agent may propose new gotchas. User approval required to update table or esclate severe ones to Top Reminder. Trival gotchas and long explanations go to `references/gotchas/`.
+
+
+
 ## Detailed Guides
 
 Load these references when the corresponding scenario arises:
 
 - **Scenario walkthroughs** — See [references/scenarios.md](references/scenarios.md) for end-to-end demonstrations (creating from scratch, updating existing, packaging only) with concrete examples. Load when stuck or learning by example.
-- **Design patterns** — See [references/output-patterns.md](references/output-patterns.md) for output templates and [references/workflows.md](references/workflows.md) for workflow patterns (sequential, conditional, entry-point). Load when choosing output formats or process structures.
+

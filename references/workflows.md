@@ -27,18 +27,32 @@ For tasks with branching logic, guide the agent through decision points:
 3. Editing workflow: [steps]
 ```
 
-## Entry Point Workflows
+This avoids forcing the agent to read through irrelevant steps when working with an existing skill.
 
-For skills that serve multiple entry scenarios, provide a path selector at the start:
+
+## Iterative Optimization Loop
+
+Apply multiple improvement rounds to a skill, keeping only changes that raise a quality score. A pseudocode workflow example:
 
 ```markdown
-## Process
+## Iteration
 
-Choose your entry point:
+round = 0
+while round < MAX_ROUNDS:
+    round += 1
 
-- **Creating new?** → Start at Step 1
-- **Updating existing?** → Jump to Step 4
-- **Just packaging?** → Jump to Step 5
+    lowest = find_lowest_score(scores)
+    fix = propose_fix(lowest)
+    apply_fix(fix)
+    git_commit()
+
+    new_score = evaluate()
+    if new_score > old_score:
+        keep_change()
+        old_score = new_score
+    else:
+        git_revert()
+        log_failure()
+        break   # exit loop, skill saturated
 ```
 
-This avoids forcing the agent to read through irrelevant steps when working with an existing skill.
