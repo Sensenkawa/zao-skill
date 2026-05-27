@@ -45,14 +45,17 @@ def package_skill(skill_path, output_dir=None):
         print(f"Error: SKILL.md not found in {skill_path}")
         return None
 
-    # Run validation before packaging
+    # Run validation before packaging (safety net — normal flow runs Phase 3 separately)
     print("Validating skill...")
-    valid, message = validate_skill(skill_path)
-    if not valid:
-        print(f"Validation failed: {message}")
+    result = validate_skill(skill_path)
+    if not result["valid"]:
+        failures = [c for c in result["checks"] if c["status"] == "FAIL"]
+        print(f"Validation failed ({len(failures)} FAILs):")
+        for f in failures:
+            print(f"  - {f['item']}: {f.get('detail', '')}")
         print("   Please fix the validation errors before packaging.")
         return None
-    print(f"{message}\n")
+    print("Validation passed.\n")
 
     # Determine output location
     skill_name = skill_path.name

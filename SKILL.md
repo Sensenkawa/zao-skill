@@ -267,8 +267,7 @@ Don't duplicate content between skills — reference and link instead.
 
 ### Phase 3: Validate as you go
 
-1. **不改变skill的核心功能和用途** — 只优化"怎么写"和"怎么执行"，不改"做什么"
-2. **不引入新依赖** — 不添加skill原本没有的scripts或references文件
+**Scope-lock** — Polish only: improve existing content, fix issues. No new capabilities, no new dependencies.
 
 
 #### 3.1 Static Validation
@@ -293,19 +292,21 @@ After static validation passes, review the skill against this checklist. For eac
 | [ ] Re-read with fresh eyes — at least one improvement made? | |
 | [ ] Re-read with fresh eyes — at least one improvement made? | |
 
-
 Iterate – fix any issues, re‑run the validation script, and re‑check manually until the skill is ready for use.
+
+//skill git mgr
 
 
 ### Phase 4: Package a Skill
-//skill git mgr
-When the skill is complete, package it for distribution:
+
+
+When jumping directly here (skipping Phase 3), package_skill.py auto-runs validation as a gate. In the normal flow, this re-validation is a harmless safety net.
 
 ```bash
 scripts/package_skill.py <path/to/skill-folder> [output-directory]
 ```
 
-This automatically runs full validation (frontmatter, naming, structure, description quality) before packaging. If validation fails, fix errors and re-run. On success, creates a `<skill-name>.skill` file.
+Reports any FAIL items before packaging. On success, creates a `<skill-name>.skill` file.
 
 
 ### Phase 5: Iterate 
