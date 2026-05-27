@@ -48,7 +48,7 @@ Skills use a three-level loading system and should be structured to take advanta
  2. SKILL.md body - In context whenever skill triggers (<500 lines ideal)
  3. Bundled resources - As needed (unlimited, scripts can execute without loading)
 
-**Structure Rules**
+**Progressive Rules**
 
 - Keep SKILL.md body under 500 lines; if approaching this limit, split into Bundled Resources and link them from SKILL.md with clear "when to read" guidance
 - Keep file references one level deep from SKILL.md and for large reference files (>300 lines), include a table of contents
@@ -83,16 +83,17 @@ cloud-deploy/
 **Choose your entry point based on user's need**:
 
 - **Creating a new skill?** → Phase 1 Alignment
-- **Editing or reviewing an existing skill?** → Phase 2 Drafting
-- **Just validating or packaging?** → Jump to Phase 3 or Phase 4
+- **Drafting or editing an existing skill?** → Phase 2 Drafting
+- **Just reviewing or validating** → Phase 3 Validation
+- **Just packaging** → Phase 4 Packaging
+//?Testing
 //register
 
 ### Phase 1: Pre-Creation Alignment
 //?简化or加引到图
 //总要test不写skill自己跑是不是也行，太简单or太复杂，合并gril 
 //!带skill比不带还差 → skill可能过度约束，考虑精简----确立基线
-// trigger scenarios, ...Proactively ask questions about edge cases, input/output formats, example files, success criteria, and dependencies. Wait to write test prompts until you've got this part ironed out.
-Skip this step only when usage patterns are already clearly understood.
+//centralized registry?
 
 #### Step 1. Understand intent and extract workflow
    - Ask the user to clarify domain, use cases, and practical tasks/functionality, one question at a time.
@@ -103,30 +104,25 @@ Skip this step only when usage patterns are already clearly understood.
    //记录流程，不要清理过程文件，最后再总结清理
 
 #### Step 2. Search for similar skills and decide direction
-   - Based on the confirmed understanding, search local repos and online platforms for matching skills. Follow `references/skillSearchList.md` for the full search strategy.
+   - Based on the confirmed understanding, search local repos and online platforms for high-matching skills. Follow `references/skillSearchList.md` for the full search strategy.
    - Read `ref-skills/_summary.md` and review the SKILL.md copies in `ref-skills/`.
-   - **If similar skills exist**:
-     → Present your recommendations to the user and clarify differences
-     → Discuss one decision at a time to reach a shared understanding on how to extend or modify the reference skills, together with the workflow extraction.
-     → Walk down each branch of the design tree, resolving dependencies step by step and filling the gaps.
-   - **If no similar skills found, or the user chooses not to use them**:
-     → Use the workflow extraction from Step 1 as input.
+      - **If similar skills exist**:
+      → Present your recommendations to the user and clarify differences
+      → Discuss one decision at a time to reach a shared understanding on how to extend or modify the reference skills, together with the workflow extraction.
+      → Walk down each branch of the design tree, resolving dependencies step by step and filling the gaps.
+      - **If no similar skills found, or the user chooses not to use them**:
+      → Use the workflow extraction from Step 1 as input.
    - Confirm with the user then proceed to **Phase 2: Drafting**.
 
-//Skip this phase only when usage patterns are already clearly understood.
-
-//+claude plus：you can also run the skill description improver, which we have a whole separate script for, to optimize the triggering of the skill.
-
+---
 
 ### Phase 2: Draft the Skill.md
 
-Base on the outputs from Phase 1, set up `skill-name/`, draft `SKILL.md`and creat boundled resources.
+**For a new skill** — create the directory structure as shown in the Anatomy diagram above.
 
-Optionally, run `scripts/init_skill.py <name> --path <dir>` to generate a template with reusable example files. After initialization, customize or remove the generated SKILL.md and example files as needed.
+**For an existing skill** — work directly on the existing files.
 
-No need to create README, CHANGELOG, INSTALLATION_GUIDE, or other auxiliary files.
-
-Follow below guides. If updating an existing skill, skip directory creation and work directly on the existing files.
+**Either way** — ensure git tracking from the start.
 
 #### **2.1 Draft Frontmatter (Required)**
 
@@ -165,7 +161,9 @@ description: Brief description of capability. Use when [specific triggers].
 - Use theory of mind and try to make the skill general and not super-narrow to specific examples.
 
 
-**Template with Recommended Sections**
+**Standard Sections (Recommended Pattern)**
+
+The frontmatter contract above is required. The section layout below is a recommended pattern, not a rigid template: equivalent headings are acceptable when they serve the same purpose clearly.
 
 ```md
 # Skill Name
@@ -191,13 +189,15 @@ description: Brief description of capability. Use when [specific triggers].
 
 ## Guardrails
 
+[### Anti-Patterns / Constraints(Optional)]
+
 ### Critical Gotchas
 | ID | Issue / Symptom | Fix |
 |----|----------------|-----|
 | G01 | (Example) | (How to avoid) |
 | ...|...|...|
 
-> After each run, agent may propose new gotchas. User approval required to update table or esclate severe ones to Top Reminder. Trival gotchas and long explanations go to `references/gotchas/`.
+> After each run, agent may propose new gotchas. User approval required to update table or esclate severe ones to Anti-Patterns or Top Reminder. Trival gotchas and long explanations go to `references/gotchas/`.
 
 ## Verification with Evidence
 [After completing the skill's process, confirm and provide:]
@@ -211,24 +211,25 @@ description: Brief description of capability. Use when [specific triggers].
 
  ## Advanced features
 
-[Link to separate files: See [...]]
+[Link to separate resources files: See [...]]
 
 ```
 **Workflows Detail Guide**
 
    - Start with a process overview – Use TL;DR, decision tree, or ASCII flowchart at decision points
    - Break operations into numbered, actionable phases or steps, include working examples where they help
-   - Give the agent freedom when multiple approaches / variation are permitted — explain the goal
+   - Give the agent freedom when multiple approaches / variation are permitted — explain the goal and logic to explore
    - Consider pseudocode for complex conditional and algorithmic logic, etc. to improve precision and sequence consistency over plain text.
    - Add utility scripts for deterministic, code-repetitive and error-prone tasks (e.g., validation, formatting), scripts handle erros explicitly and reduce variability. 
    - Most skills have a mix. Calibrate each part independently
-   - See references/workflows.md for workflow pattern examples (sequential, conditional, iteration)
+   - See `references/structure-design.md` for pattern examples
    - Split long SKILL.md content into referenced files under Progressive Disclosure Structure Rules.
 
   
 **Input and Output**: 
    - Use checklists for complex tasks to avoid skipping steps, especially when steps have dependencies or validation gates.
    - Use predefined templates for rigid output; Use bullet points to guide flexible output; Add quick examples if needed.
+   - Can be used as quality gates between phases/steps
    - Consider user confirmation checkpoints when necessary.
    
    ```md
@@ -260,18 +261,40 @@ Don't duplicate content between skills — reference and link instead.
 
 ??----skill mgr
 
+#### **2.3 Finish your draft by looking at it with fresh eyes and improve it. Then proceed to Phase 3 Validation
+
+---
+
 ### Phase 3: Validate as you go
 
-- Run `scripts/quick_validate.py <skill-dir>` after significant edits for static validation, fix any return error and discuss warnings with the user for quick act.
+1. **不改变skill的核心功能和用途** — 只优化"怎么写"和"怎么执行"，不改"做什么"
+2. **不引入新依赖** — 不添加skill原本没有的scripts或references文件
 
-- Create only the resource types the workflow needs (scripts, references, assets). Test scripts by actually running them; delete unneeded files.
+
+#### 3.1 Static Validation
+
+Run `scripts/quick_validate.py <skill-dir>`. Fix FAIL items; SKIP items are expected for some skill types. See the script's docstring for the full output format.
+
+> Script checks are signals to review, not mandates — some checks don't apply to every architecture. When in doubt, ask the user.
+
+
+#### 3.2 Verification with Evidence
+
+After static validation passes, review the skill against this checklist. For each item, examine the skill you just created and fill the Evidence column — quote specific content, not opinions.
+
+| Check | Evidence |
+|-------|----------|
+| [ ] Instructions are concise and actionable? | |
+| [ ] Every section justifies its inclusion? | |
+| [ ] No duplicated content between body and references? | |
+| [ ] Standard section elements all present? | |
+| [ ] Workflow detail guides followed? | |
+| [ ] Input / output formats properly defined? | |
+| [ ] Re-read with fresh eyes — at least one improvement made? | |
+| [ ] Re-read with fresh eyes — at least one improvement made? | |
 
 
 Iterate – fix any issues, re‑run the validation script, and re‑check manually until the skill is ready for use.
-
- ???  human
-??? checklist?
-- Start by writing a draft and then look at it with fresh eyes and improve it.
 
 
 ### Phase 4: Package a Skill
@@ -285,9 +308,7 @@ scripts/package_skill.py <path/to/skill-folder> [output-directory]
 This automatically runs full validation (frontmatter, naming, structure, description quality) before packaging. If validation fails, fix errors and re-run. On success, creates a `<skill-name>.skill` file.
 
 
-## Verification with Evidence
-
-### Phase 5: Iterate ++++git一开始就要++register
+### Phase 5: Iterate 
 
 After real usage, collect feedback and improve:
 
@@ -308,9 +329,13 @@ Common iteration triggers: missing trigger scenarios in description, overly long
 
 > After each run, agent may propose new gotchas. User approval required to update table or esclate severe ones to Top Reminder. Trival gotchas and long explanations go to `references/gotchas/`.
 
+// trigger scenarios, ...Proactively ask questions about edge cases, input/output formats, example files, success criteria, and dependencies. Wait to write test prompts until you've got this part ironed out.
+Skip this step only when usage patterns are already clearly understood.
+
+//+claude plus：you can also run the skill description improver, which we have a whole separate script for, to optimize the triggering of the skill.
 
 
-## Detailed Guides
+## Scenario Examples
 
 Load these references when the corresponding scenario arises:
 

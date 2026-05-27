@@ -1,10 +1,27 @@
 #!/usr/bin/env python3
 """
-Quick validation script for skills - returns structured result without exit codes.
+Quick validation script for skills — structured output with PASS/FAIL/SKIP.
+
+Usage:
+   python quick_validate.py <skill_directory>
+
+Output:
+   {
+     "valid": true/false,
+     "checks":  [{item: str, status: PASS|FAIL|SKIP, detail: str}],
+     "suggestions": [str]
+   }
+
+- FAIL items → fix before proceeding.
+- SKIP items → expected for some skill types, not an error.
+- suggestions → discuss with the user; some are optional.
+- Checks are signals to review, not mandates — not every check applies
+  to every architecture. When in doubt, ask the user.
 """
 
 import sys
 import re
+import os
 from pathlib import Path
 
 try:
@@ -12,207 +29,419 @@ try:
 except ImportError:
     print("Error: PyYAML is required but not installed.")
     print("Install it with: pip install pyyaml")
-    print("Or: py -m pip install pyyaml")
-    sys.exit(1)  # 保留依赖缺失的退出，因为无法运行
+    sys.exit(1)
 
-def check_references(skill_path, content):
-    """Check that local file references in SKILL.md are reachable."""
-    cleaned = re.sub(r'```[\s\S]*?```', '', content)
-    bad_refs = []
-    checked = set()
+# ── Helpers ──────────────────────────────────────────────
 
-    def add_issue(path, context):
-        target = skill_path / path
-        if path not in checked:
-            checked.add(path)
-            if not target.exists():
-                bad_refs.append(f"  - {path} ({context})")
+def _clean_code_blocks(text):
+    return re.sub(r'```[\s\S]*?```', '', text)
 
+def _extract_body(content, frontmatter_end):
+    """Return the markdown body (after frontmatter), stripped of leading blank lines."""
+    body = content[frontmatter_end:].lstrip('\n')
+    return body
+
+def _body_line_count(body):
+    """Count meaningful lines in the body (exclude empty lines)."""
+    lines = [l for l in body.split('\n') if l.strip()]
+    return len(lines)
+
+def _find_bundled_files(skill_path):
+    """Return {dir: [filenames]} for scripts/, references/, assets/."""
+    result = {}
+    for d in ('scripts', 'references', 'assets'):
+        p = skill_path / d
+        if p.is_dir():
+            files = [f.name for f in p.iterdir() if f.is_file() and not f.name.startswith('__')]
+            result[d] = files
+        else:
+            result[d] = []
+    return result
+
+def _extract_refs_from_content(content, clean_code=True):
+    """Extract all bundled resource paths referenced in SKILL.md.
+    Set clean_code=False to include references inside code blocks (e.g., bash commands)."""
+    if clean_code:
+        content = _clean_code_blocks(content)
+    refs = set()
     # Markdown links
+    for m in re.finditer(r'\[([^\]]*)\]\(([^\)]+)\)', content):
+        path = m.group(2).split('#')[0].split('?')[0].strip()
+        path = re.sub(r'^\./', '', path)
+        if path.startswith(('scripts/', 'references/', 'assets/')):
+            refs.add(path)
+    # Inline backtick (skip triple-backtick code fences via lookahead/lookbehind)
+    for m in re.finditer(r'(?<!`)`([^`]+)`(?!`)', content):
+        parts = m.group(1).strip().split()
+        if not parts:
+            continue
+        path = parts[0]
+        if path.startswith(('scripts/', 'references/', 'assets/')):
+            refs.add(path)
+    # Fenced code blocks (bash/python commands often reference bundled resources)
+    for m in re.finditer(r'```[a-z]*\n(.*?)```', content, re.DOTALL):
+        for line in m.group(1).split('\n'):
+            line = line.strip()
+            if line.startswith(('scripts/', 'references/', 'assets/')):
+                parts = line.split()
+                if parts:
+                    refs.add(parts[0])
+    return refs
+
+# ── Checks ───────────────────────────────────────────────
+
+def check_broken_references(skill_path, content):
+    """Return list of unreachable bundled-resource references."""
+    cleaned = _clean_code_blocks(content)
+    bad = []
+    checked = set()
     for m in re.finditer(r'\[([^\]]*)\]\(([^\)]+)\)', cleaned):
         path = m.group(2).split('#')[0].split('?')[0].strip()
         path = re.sub(r'^\./', '', path)
         if path.startswith(('scripts/', 'references/', 'assets/')):
-            add_issue(path, "markdown link")
-
-    # Inline backtick references
-    first_word = re.compile(r'`([^`]+)`')
-    for m in first_word.finditer(cleaned):
-        path = m.group(1).strip().split()[0]
+            if path not in checked:
+                checked.add(path)
+                if not (skill_path / path).exists():
+                    bad.append(path)
+    for m in re.finditer(r'(?<!`)`([^`]+)`(?!`)', cleaned):
+        parts = m.group(1).strip().split()
+        if not parts:
+            continue
+        path = parts[0]
         if path.startswith(('scripts/', 'references/', 'assets/')):
-            add_issue(path, "inline reference")
+            if path not in checked:
+                checked.add(path)
+                if not (skill_path / path).exists():
+                    bad.append(path)
+    return bad
 
-    return bad_refs
+# ── Main validation ──────────────────────────────────────
 
-def check_recommendations(frontmatter, content, skill_path):
-    """Return a list of warning messages for non-critical improvements.
+def validate_skill(skill_path):
+    """Run all checks. Returns {valid, checks, suggestions}."""
+    skill_path = Path(skill_path).resolve()
+    checks = []
+    suggestions = []
 
-    All content checks operate on cleaned text (code blocks removed)
-    to avoid false positives from template examples inside fenced blocks.
-    Section matching is content-signature-based, not exact header names:
-    - Rationalizations: | Rationalization | Reality | table anywhere
-    - Gotchas: | ID | Issue / Symptom | Fix | table anywhere
-    - Verification: | Check | Evidence | table anywhere
-    - Workflow steps: Phase/Step N headers or plain numbered lists
-    """
-    cleaned = re.sub(r'```[\s\S]*?```', '', content)
-    warnings = []
+    # ── 1. SKILL.md existence ──
+    skill_md = skill_path / 'SKILL.md'
+    if not skill_md.exists():
+        return {"valid": False,
+                "checks": [{"item": "SKILL.md exists", "status": "FAIL"}],
+                "suggestions": []}
+    checks.append({"item": "SKILL.md exists", "status": "PASS"})
 
-    # 1. description contains "use when"
-    desc = frontmatter.get('description', '')
-    if desc and 'use when' not in desc.lower():
-        warnings.append("Recommendation: description should include 'Use when' trigger conditions")
+    content = skill_md.read_text(encoding='utf-8')
 
-    # 2. Rationalization table (content-signature, not header-name)
-    if '| Rationalization | Reality |' not in cleaned:
-        warnings.append(
-            "Recommendation: Consider adding a rationalization table "
-            "(| Rationalization | Reality |) — can live inside Core Principles, Top Reminders, or any section"
-        )
+    # ── 2. Frontmatter ──
+    if not content.startswith('---'):
+        return {"valid": False,
+                "checks": checks + [{"item": "Frontmatter: YAML format", "status": "FAIL"}],
+                "suggestions": []}
+    checks.append({"item": "Frontmatter: YAML format", "status": "PASS"})
 
-    # 3. Gotchas table (content-signature, not header-name)
-    has_gotchas_table = bool(re.search(r'\|.*ID.*Issue.*Symptom.*Fix.*\|', cleaned))
-    if not has_gotchas_table:
-        warnings.append(
-            "Recommendation: Consider adding a Gotchas/Guardrails table "
-            "(| ID | Issue / Symptom | Fix |)"
-        )
+    fm_match = re.match(r'^---\n(.*?)\n---', content, re.DOTALL)
+    if not fm_match:
+        checks.append({"item": "Frontmatter: parseable", "status": "FAIL"})
+        return _build_result(checks, [])
+    checks.append({"item": "Frontmatter: parseable", "status": "PASS"})
 
-    # 4. Verification table (content-signature, not header-name)
-    has_verification_table = bool(re.search(r'\|.*Check.*Evidence.*\|', cleaned))
-    if not has_verification_table:
-        warnings.append(
-            "Recommendation: Consider adding a Verification table "
-            "(| Check | Evidence |)"
-        )
+    try:
+        fm = yaml.safe_load(fm_match.group(1))
+        if not isinstance(fm, dict):
+            checks.append({"item": "Frontmatter: YAML dict", "status": "FAIL"})
+            return _build_result(checks, [])
+    except yaml.YAMLError as e:
+        checks.append({"item": "Frontmatter: YAML dict", "status": "FAIL",
+                       "detail": str(e)})
+        return _build_result(checks, [])
 
-    # 5. Forbidden auxiliary files
+    # Allowed properties
+    ALLOWED = {'name', 'description', 'license', 'allowed-tools', 'metadata', 'compatibility'}
+    unexpected = set(fm.keys()) - ALLOWED
+    if unexpected:
+        checks.append({"item": "Frontmatter: allowed keys", "status": "FAIL",
+                       "detail": f"unexpected: {', '.join(sorted(unexpected))}"})
+    else:
+        checks.append({"item": "Frontmatter: allowed keys", "status": "PASS"})
+
+    # name
+    name = fm.get('name', '')
+    if not isinstance(name, str):
+        checks.append({"item": "Frontmatter: name (string)", "status": "FAIL"})
+        return _build_result(checks, [])
+    name = name.strip()
+    if not name:
+        checks.append({"item": "Frontmatter: name (present)", "status": "FAIL"})
+        return _build_result(checks, [])
+    checks.append({"item": "Frontmatter: name (present)", "status": "PASS", "detail": name})
+
+    if not re.match(r'^[a-z0-9-]+$', name):
+        checks.append({"item": "Frontmatter: name (kebab-case)", "status": "FAIL",
+                       "detail": name})
+    elif name.startswith('-') or name.endswith('-') or '--' in name:
+        checks.append({"item": "Frontmatter: name (no bad hyphens)", "status": "FAIL",
+                       "detail": name})
+    elif len(name) > 64:
+        checks.append({"item": "Frontmatter: name (≤64 chars)", "status": "FAIL",
+                       "detail": f"{len(name)} chars"})
+    else:
+        checks.append({"item": "Frontmatter: name (format)", "status": "PASS", "detail": name})
+
+    if skill_path.name != name:
+        checks.append({"item": "Frontmatter: name matches directory", "status": "FAIL",
+                       "detail": f"dir={skill_path.name}, name={name}"})
+    else:
+        checks.append({"item": "Frontmatter: name matches directory", "status": "PASS"})
+
+    # description
+    desc = fm.get('description', '')
+    if not isinstance(desc, str):
+        checks.append({"item": "Frontmatter: description (string)", "status": "FAIL"})
+        return _build_result(checks, [])
+    desc = desc.strip()
+    if not desc:
+        checks.append({"item": "Frontmatter: description (present)", "status": "FAIL"})
+    else:
+        desc_check = "PASS" if len(desc) <= 1024 else "FAIL"
+        detail = f"{len(desc)} chars"
+        if 'use when' in desc.lower():
+            detail += ", includes 'Use when'"
+        else:
+            detail += ", missing 'Use when'"
+        checks.append({"item": "Frontmatter: description (≤1024 + 'Use when')",
+                       "status": desc_check, "detail": detail})
+
+    if '<' in desc or '>' in desc:
+        checks.append({"item": "Frontmatter: description (no <>)", "status": "FAIL"})
+    else:
+        checks.append({"item": "Frontmatter: description (no <>)", "status": "PASS"})
+
+    # compatibility (optional)
+    compat = fm.get('compatibility', '')
+    if compat:
+        if isinstance(compat, str) and len(compat) <= 500:
+            checks.append({"item": "Frontmatter: compatibility (≤500)", "status": "PASS"})
+        else:
+            checks.append({"item": "Frontmatter: compatibility (≤500)", "status": "FAIL"})
+    else:
+        checks.append({"item": "Frontmatter: compatibility (≤500)", "status": "SKIP",
+                       "detail": "not set"})
+
+    # ── 3. Body checks (extract body after frontmatter) ──
+    body = _extract_body(content, fm_match.end())
+    cleaned = _clean_code_blocks(content)
+    line_count = _body_line_count(body)
+
+    if line_count <= 500:
+        checks.append({"item": "Body: ≤ 500 lines", "status": "PASS",
+                       "detail": f"{line_count}/500"})
+    else:
+        checks.append({"item": "Body: ≤ 500 lines", "status": "FAIL",
+                       "detail": f"{line_count}/500"})
+        suggestions.append("Split body into bundled resources (Progressive Disclosure)")
+
+    # rationalization table
+    if '| Rationalization | Reality |' in cleaned:
+        checks.append({"item": "Body: rationalization table", "status": "PASS"})
+    else:
+        checks.append({"item": "Body: rationalization table", "status": "FAIL",
+                       "detail": "not detected"})
+        suggestions.append("Add a rationalization table (| Rationalization | Reality |) — can live in Top Reminders or any principles section")
+
+    # workflow numbering
+    wf_match = re.search(r'## [^#\n]*[Ww]orkflow', cleaned)
+    if wf_match:
+        rest = cleaned[wf_match.start():]
+        section = re.search(r'(## [^#\n]*[Ww]orkflow.*?)(?=\n## |\Z)', rest, re.DOTALL)
+        if section and (re.search(r'\n\d+\.', section.group(1)) or
+                        re.search(r'###.*[Pp]hase\s+\d+', section.group(1)) or
+                        re.search(r'#+\s*[Ss]tep\s+\d+', section.group(1))):
+            checks.append({"item": "Workflow: numbered steps", "status": "PASS",
+                           "detail": "Phase/Step/numbered pattern"})
+        else:
+            checks.append({"item": "Workflow: numbered steps", "status": "FAIL",
+                           "detail": "no numbering detected"})
+    else:
+        checks.append({"item": "Workflow: numbered steps", "status": "SKIP",
+                       "detail": "no workflow section"})
+
+    # workflow overview
+    if wf_match:
+        rest = cleaned[wf_match.start():]
+        section = re.search(r'(## [^#\n]*[Ww]orkflow.*?\n)(.*?)(?=\n###|\Z)', rest, re.DOTALL)
+        if section:
+            intro = section.group(2).strip()
+            # intro exists if there's non-empty, non-heading, non-list-only text
+            intro_lines = [l for l in intro.split('\n') if l.strip() and not l.strip().startswith(('-', '*', '#'))]
+            if intro_lines:
+                checks.append({"item": "Workflow: process overview", "status": "PASS"})
+            else:
+                checks.append({"item": "Workflow: process overview", "status": "FAIL",
+                               "detail": "no intro paragraph before first sub-step"})
+        else:
+            checks.append({"item": "Workflow: process overview", "status": "FAIL"})
+    else:
+        checks.append({"item": "Workflow: process overview", "status": "SKIP",
+                       "detail": "no workflow section"})
+
+    # pseudocode
+    if re.search(r'```[a-z]*\n', body):
+        checks.append({"item": "Workflow: pseudocode/code examples", "status": "PASS"})
+    else:
+        checks.append({"item": "Workflow: pseudocode/code examples", "status": "SKIP",
+                       "detail": "no code blocks — OK if simple workflow"})
+
+    # checklist pattern
+    if re.search(r'^- \[[ x]\] ', body, re.MULTILINE):
+        checks.append({"item": "Workflow: checklist pattern", "status": "PASS"})
+    else:
+        checks.append({"item": "Workflow: checklist pattern", "status": "SKIP",
+                       "detail": "not needed for simple workflows"})
+
+    # ── 4. Resource checks ──
+    bundled = _find_bundled_files(skill_path)
+    content_refs = _extract_refs_from_content(content, clean_code=False)
+
+    # broken references
+    broken = check_broken_references(skill_path, content)
+    if broken:
+        checks.append({"item": "References: all valid", "status": "FAIL",
+                       "detail": f"broken: {', '.join(broken)}"})
+    else:
+        checks.append({"item": "References: all valid", "status": "PASS"})
+
+    # all bundled files are linked
+    all_linked = True
+    unlinked = []
+    for dirname, files in bundled.items():
+        for f in files:
+            expected = f"{dirname}/{f}"
+            if expected not in content_refs:
+                all_linked = False
+                unlinked.append(expected)
+    if unlinked:
+        checks.append({"item": "References: all linked from SKILL.md", "status": "FAIL",
+                       "detail": f"unlinked: {', '.join(unlinked)}"})
+    else:
+        checks.append({"item": "References: all linked from SKILL.md", "status": "PASS",
+                       "detail": f"{sum(len(v) for v in bundled.values())} files covered"})
+
+    # reference depth ≤ 1 (strip trailing / to avoid false positive on dir refs)
+    deep_refs = [r for r in content_refs if r.rstrip('/').count('/') > 1]
+    if deep_refs:
+        checks.append({"item": "References: depth ≤ 1 level", "status": "FAIL",
+                       "detail": f"deep refs: {', '.join(deep_refs)}"})
+    else:
+        status = "SKIP" if not content_refs else "PASS"
+        checks.append({"item": "References: depth ≤ 1 level", "status": status})
+
+    # TOC for large reference files
+    large_no_toc = []
+    refs_dir = skill_path / 'references'
+    if refs_dir.is_dir():
+        for rf in refs_dir.glob('*.md'):
+            try:
+                rtext = rf.read_text(encoding='utf-8')
+                rlines = len([l for l in rtext.split('\n') if l.strip()])
+                if rlines > 300:
+                    # check for TOC: heading + links or numbered list in first 50 lines
+                    first_50 = '\n'.join(rtext.split('\n')[:50])
+                    has_toc = bool(re.search(r'(?:Table of Contents|## Contents|^[-*]\s+\[.+\])', first_50, re.MULTILINE))
+                    if not has_toc:
+                        large_no_toc.append(rf.name)
+            except Exception:
+                pass
+    if large_no_toc:
+        checks.append({"item": "References: TOC for >300 line files", "status": "FAIL",
+                       "detail": f"missing TOC: {', '.join(large_no_toc)}"})
+    else:
+        checks.append({"item": "References: TOC for >300 line files", "status": "SKIP",
+                       "detail": "no large refs or all have TOC"})
+
+    # scripts present
+    script_files = bundled.get('scripts', [])
+    if script_files:
+        checks.append({"item": "Scripts: files present", "status": "PASS",
+                       "detail": f"{len(script_files)} file(s)"})
+    else:
+        checks.append({"item": "Scripts: files present", "status": "SKIP",
+                       "detail": "no scripts — OK if not needed"})
+
+    # scripts executable (Linux/macOS)
+    if script_files:
+        non_exec = []
+        for sf in script_files:
+            sp = skill_path / 'scripts' / sf
+            if sf.endswith(('.py', '.sh')):
+                try:
+                    mode = sp.stat().st_mode
+                    if not (mode & stat.S_IEXEC):
+                        non_exec.append(sf)
+                except Exception:
+                    pass
+        if non_exec:
+            checks.append({"item": "Scripts: executable permissions", "status": "FAIL",
+                           "detail": f"not +x: {', '.join(non_exec)}"})
+        else:
+            checks.append({"item": "Scripts: executable permissions", "status": "PASS"})
+    else:
+        checks.append({"item": "Scripts: executable permissions", "status": "SKIP"})
+
+    # scripts syntax valid (py_compile check, no execution)
+    if script_files:
+        import py_compile
+        syntax_errors = []
+        for sf in script_files:
+            if sf.endswith('.py'):
+                try:
+                    py_compile.compile(str(skill_path / 'scripts' / sf), doraise=True)
+                except py_compile.PyCompileError as e:
+                    syntax_errors.append(f"{sf}: {e}")
+        if syntax_errors:
+            checks.append({"item": "Scripts: syntax valid", "status": "FAIL",
+                           "detail": "; ".join(syntax_errors)})
+        else:
+            checks.append({"item": "Scripts: syntax valid", "status": "PASS"})
+    else:
+        checks.append({"item": "Scripts: syntax valid", "status": "SKIP"})
+
+    # assets purity (no .md in assets/)
+    asset_files = bundled.get('assets', [])
+    md_assets = [a for a in asset_files if a.endswith('.md')]
+    if md_assets:
+        checks.append({"item": "Assets: no .md files", "status": "FAIL",
+                       "detail": f".md in assets/: {', '.join(md_assets)}"})
+    else:
+        checks.append({"item": "Assets: no .md files", "status": "PASS"})
+
+    # ── 5. Optional tables (suggestions, not failures) ──
+    has_gotchas = bool(re.search(r'\|.*ID.*Issue.*Symptom.*Fix.*\|', cleaned))
+    if not has_gotchas:
+        suggestions.append("Add a Gotchas/Guardrails table (| ID | Issue / Symptom | Fix |)")
+
+    has_verification = bool(re.search(r'\|.*Check.*Evidence.*\|', cleaned))
+    if not has_verification:
+        suggestions.append("Add a Verification table (| Check | Evidence |)")
+
+    # forbidden files
     forbidden = ['README.md', 'CHANGELOG.md', 'INSTALLATION_GUIDE.md']
     for f in forbidden:
         if (skill_path / f).exists():
-            warnings.append(f"Recommendation: Remove auxiliary file {f} – not needed for skills")
+            suggestions.append(f"Remove auxiliary file {f} — not needed for skills")
 
-    # 6. Numbered steps/processes in Workflow-like sections
-    workflow_match = re.search(r'## [^#\n]*[Ww]orkflow', cleaned)
-    if workflow_match:
-        rest = cleaned[workflow_match.start():]
-        section_match = re.search(r'(## [^#\n]*[Ww]orkflow.*?)(?=\n## |\Z)', rest, re.DOTALL)
-        if section_match:
-            section_text = section_match.group(1)
-            has_plain = bool(re.search(r'\n\d+\.', section_text))
-            has_phase = bool(re.search(r'###.*[Pp]hase\s+\d+', section_text))
-            has_step = bool(re.search(r'#+\s*[Ss]tep\s+\d+', section_text))
-            if not (has_plain or has_phase or has_step):
-                warnings.append(
-                    "Recommendation: Workflow section should use numbered steps "
-                    "(e.g., 1., Phase 1, Step 1)"
-                )
+    return _build_result(checks, suggestions)
 
-    return warnings
+def _build_result(checks, suggestions):
+    has_fail = any(c['status'] == 'FAIL' for c in checks)
+    return {"valid": not has_fail, "checks": checks, "suggestions": suggestions}
 
-def validate_skill(skill_path):
-    """
-    Validate a skill. Returns a dictionary with keys:
-      - valid: bool
-      - message: str (error message if invalid, else "Skill is valid!")
-      - warnings: list of str
-    """
-    skill_path = Path(skill_path).resolve()
-    skill_md = skill_path / 'SKILL.md'
-    if not skill_md.exists():
-        return {"valid": False, "message": "SKILL.md not found", "warnings": []}
-
-    content = skill_md.read_text(encoding='utf-8')
-    if not content.startswith('---'):
-        return {"valid": False, "message": "No YAML frontmatter found", "warnings": []}
-
-    match = re.match(r'^---\n(.*?)\n---', content, re.DOTALL)
-    if not match:
-        return {"valid": False, "message": "Invalid frontmatter format", "warnings": []}
-
-    frontmatter_text = match.group(1)
-    try:
-        frontmatter = yaml.safe_load(frontmatter_text)
-        if not isinstance(frontmatter, dict):
-            return {"valid": False, "message": "Frontmatter must be a YAML dictionary", "warnings": []}
-    except yaml.YAMLError as e:
-        return {"valid": False, "message": f"Invalid YAML in frontmatter: {e}", "warnings": []}
-
-    ALLOWED_PROPERTIES = {'name', 'description', 'license', 'allowed-tools', 'metadata', 'compatibility'}
-    unexpected_keys = set(frontmatter.keys()) - ALLOWED_PROPERTIES
-    if unexpected_keys:
-        return {"valid": False,
-                "message": f"Unexpected key(s) in SKILL.md frontmatter: {', '.join(sorted(unexpected_keys))}. "
-                           f"Allowed properties are: {', '.join(sorted(ALLOWED_PROPERTIES))}",
-                "warnings": []}
-
-    if 'name' not in frontmatter:
-        return {"valid": False, "message": "Missing 'name' in frontmatter", "warnings": []}
-    if 'description' not in frontmatter:
-        return {"valid": False, "message": "Missing 'description' in frontmatter", "warnings": []}
-
-    name = frontmatter.get('name', '')
-    if not isinstance(name, str):
-        return {"valid": False, "message": f"Name must be a string, got {type(name).__name__}", "warnings": []}
-    name = name.strip()
-    if not name:
-        return {"valid": False, "message": "Name must not be empty", "warnings": []}
-    if not re.match(r'^[a-z0-9-]+$', name):
-        return {"valid": False,
-                "message": f"Name '{name}' should be kebab-case (lowercase letters, digits, and hyphens only)",
-                "warnings": []}
-    if name.startswith('-') or name.endswith('-') or '--' in name:
-        return {"valid": False,
-                "message": f"Name '{name}' cannot start/end with hyphen or contain consecutive hyphens",
-                "warnings": []}
-    if len(name) > 64:
-        return {"valid": False,
-                "message": f"Name is too long ({len(name)} characters). Maximum is 64 characters.",
-                "warnings": []}
-
-    dir_name = skill_path.name
-    if dir_name != name:
-        return {"valid": False,
-                "message": f"Directory name '{dir_name}' does not match skill name '{name}'",
-                "warnings": []}
-
-    description = frontmatter.get('description', '')
-    if not isinstance(description, str):
-        return {"valid": False, "message": f"Description must be a string, got {type(description).__name__}", "warnings": []}
-    description = description.strip()
-    if description:
-        if '<' in description or '>' in description:
-            return {"valid": False, "message": "Description cannot contain angle brackets (< or >)", "warnings": []}
-        if len(description) > 1024:
-            return {"valid": False,
-                    "message": f"Description is too long ({len(description)} characters). Maximum is 1024 characters.",
-                    "warnings": []}
-
-    compatibility = frontmatter.get('compatibility', '')
-    if compatibility:
-        if not isinstance(compatibility, str):
-            return {"valid": False, "message": f"Compatibility must be a string, got {type(compatibility).__name__}", "warnings": []}
-        if len(compatibility) > 500:
-            return {"valid": False,
-                    "message": f"Compatibility is too long ({len(compatibility)} characters). Maximum is 500 characters.",
-                    "warnings": []}
-
-    ref_issues = check_references(skill_path, content)
-    if ref_issues:
-        msg = "Broken references in SKILL.md:\n" + "\n".join(ref_issues)
-        return {"valid": False, "message": msg, "warnings": []}
-
-    warnings = check_recommendations(frontmatter, content, skill_path)
-
-    return {"valid": True, "message": "Skill is valid!", "warnings": warnings}
+# ── CLI ──────────────────────────────────────────────────
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
         print("Usage: python quick_validate.py <skill_directory>")
-        print("Return value: a JSON-like dictionary printed to stdout.")
         sys.exit(1)
 
     result = validate_skill(sys.argv[1])
-    # 简单打印字典（可改用 json.dumps 如果需要）
     print(result)
-    # 不再使用 sys.exit(1) 来指示失败；调用方根据 result["valid"] 自行判断
