@@ -273,7 +273,7 @@ Loop structure:
 
 **Guardrails Detail Guide**
 
-Critical Gotchas and Evolution are paired: one records failures, the other records wins. Together they form the iteration safety net.
+Gotchas capture failures from any phase. Evolution records wins from real usage only. Together they make iteration safer.
 
 - Commit baseline before making changes. Multiple changes are fine in real usage iteration — commit each separately
 - In subsequent usage: Helped → Evolution entry. Worse → `git revert`, log as gotcha
@@ -331,6 +331,7 @@ Don't duplicate content between skills — reference and link instead.
    #### 3.3 Approval Gate
    When 3.1 has zero FAILs and 3.2 Evidence is all filled:
    → Ask user whether fine with this phase. Show the latest <skill-name>-wip/validation-round-N.md path.
+   → If new gotchas were discovered during validation, propose them for the Critical Gotchas table.
    → On user approval: exit Phase 3.
 
 
