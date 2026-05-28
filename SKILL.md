@@ -98,18 +98,7 @@ After any skill use that produced new insights, accumulate experience → Phase 
 **If the conversation already contains a workflow** (e.g., "turn this into a skill"):
    - Extract it to the output file. Interview for anything unclear, one question at a time.
 
-**If not**:
-   - Interview to clarify use cases, tasks, and domain.
-
-   Grill relentlessly — walk down every branch of the design tree. One question at a time.
-   For each, give your recommended answer. Resolve dependencies before moving on.
-
-   - Once the picture is clear, give your independent judgment:
-     - Is a skill even useful here, or would the agent do fine without it?
-     - Too trivial for a skill or too complex for one skill? If complex, propose a breakdown. Focus on the first piece to start or to stop. Keep the rest as candidates.
-
-   - If the idea passes: for the current piece, suggest completing a real task in conversation, as a living document; do not clean intermediate notes.
-     This crystalizes the workflow to the output file — triggers, I/O, edge cases, failures, tools, conventions.
+**If not** → See `references/step1-interview.md` for the full interview and judgment protocol.
 
 **Output**: Write to `<skill-name>-wip/workflow-extraction.md`.
 Cover: successful steps, failures, I/O, tools, edge cases, project conventions.
