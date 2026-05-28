@@ -105,7 +105,7 @@ cloud-deploy/
 
 #### Step 2. Search for similar skills and decide direction
    - Based on the confirmed understanding, search local repos and online platforms for high-matching skills. Follow `references/skillSearchList.md` for the full search strategy.
-   - Read `<skill-name>-wip/ref-skills/_summary.md` and review the SKILL.md copies in `<skill-name>-wip/ref-skills/`.
+   - Read `_summary.md` and review the SKILL.md copies in `<skill-name>-wip/ref-skills/`.
       - **If similar skills exist**:
       → Present your recommendations to the user and clarify differences
       → Discuss one decision at a time to reach a shared understanding on how to extend or modify the reference skills, together with the workflow extraction.
@@ -172,7 +172,7 @@ The frontmatter contract above is required. The section layout below is a recomm
 [Purpose + Scope/Exclusion (+ Minimal working example)]
 
 ## Top Reminders
-- [Core Principles/Critial Rules and Constraints, serving as entry quality gates. e.g. can include Alwyas, Must, Never items]
+- [Core Principles/Critial Rules/Entry Behaviour and Constraints, serving as entry quality gates. e.g. can include Alwyas, Must, Never items]
 - Mindset Warning://prevent step-skipping in long process
    [End this section with these real case excuses agents use to rationalize its way out of following the workflows]
    | Rationalization | Reality |
@@ -204,7 +204,16 @@ The frontmatter contract above is required. The section layout below is a recomm
 | G01 | (Example) | (How to avoid) |
 | ...|...|...|
 
-> After each run, agent may propose new gotchas. User approval required to update table or esclate severe ones to Anti-Patterns or Top Reminder. Trival gotchas and long explanations go to `references/gotchas/`.
+### Evolution
+| Date | Change | Trigger | Result |
+|------|--------|---------|--------|
+| -- | -- | -- | -- |
+| -- | -- | -- | -- |
+| -- | -- | -- | -- |
+
+> After each run → new gotchas. After each successful iteration → new evolution entry.
+> Keep 3 of each here. Archive older entries to `<skill-name>-wip/skill-log.md`.
+> User approval required to update tables or escalate severe gotchas to Top Reminder.
 
 
 ## Advanced features
@@ -248,7 +257,9 @@ The frontmatter contract above is required. The section layout below is a recomm
 
 **Verification Design Guide**
 
-Divide checks into two layers:
+Can be merged into Workflows and Input/Output or as independent section.
+
+Generally, Divide checks into two layers:
 - **Script** — deterministic, regex‑able: line counts, syntax, reference existence, table format
 - **Checklist** — requires reading content: conciseness, duplication, guide compliance. Each item is a yes/no question, one dimension each
 
@@ -329,7 +340,7 @@ scripts/package_skill.py <path/to/skill-folder> [output-directory]
 Reports any FAIL items before packaging. On success, creates a `<skill-name>.skill` file.
 
 
-### Phase 5: Testing 
+### Phase 5: Evolution in usage and testing 
 
 After real usage, collect feedback and improve:
 
@@ -337,6 +348,8 @@ After real usage, collect feedback and improve:
 2. Identify what to update in SKILL.md or bundled resources
 3. Implement changes, re-validate (`quick_validate.py`), re-package if distributing
 4. Test again
+5. Record: new gotchas → Critical Gotchas table; successful changes → Evolution table.
+   Full history in `<skill-name>-wip/skill-log.md`.
 
 Common testing triggers: missing trigger scenarios in description, overly long SKILL.md body that should be split to references, script bugs discovered in real use, or missing edge cases.
 
@@ -353,8 +366,16 @@ Skip this step only when usage patterns are already clearly understood.
 |----|----------------|-----|
 | G01 | Template references `references/gotchas/` but directory doesn't exist → script reports "all valid" FAIL | Create the directory or remove the reference |
 
+### Evolution
+| Date | Change | Trigger | Result |
+|------|--------|---------|--------|
+| -- | -- | -- | -- |
+| -- | -- | -- | -- |
+| -- | -- | -- | -- |
 
-> After each run, agent may propose new gotchas. User approval required to update table or esclate severe ones to Top Reminder as default. Trival gotchas and long explanations go to `references/gotchas/`.
+> After each run → new gotchas. After each successful iteration → new evolution entry.
+> Keep 3 of each here. Archive older entries to `<skill-name>-wip/skill-log.md`.
+> User approval required to update tables or escalate severe gotchas to Top Reminder.
 
 
 ## Scenario Examples
