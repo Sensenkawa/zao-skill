@@ -86,7 +86,7 @@ cloud-deploy/
 - **Drafting or editing an existing skill?** → Phase 2 Drafting
 - **Just reviewing or validating** → Phase 3 Validation
 - **Just packaging** → Phase 4 Packaging
-- **Accumulating experience from real usage?** → Phase 5 Evolution
+//register
 
 ### Phase 1: Pre-Creation Alignment
 //?简化or加引到图
