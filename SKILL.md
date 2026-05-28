@@ -224,7 +224,7 @@ The frontmatter contract above is required. The section layout below is a recomm
       - Consider pseudocode for complex conditional and algorithmic logic, etc. to improve precision and sequence consistency over plain text
       - Add utility scripts for deterministic, code-repetitive and error-prone tasks (e.g., validation, formatting), scripts handle erros explicitly and reduce variability. 
    - Split long SKILL.md content into referenced files under Progressive Disclosure Structure Rules.
-   - See `references/structure-design.md` for pattern examples
+   - See `references/structure-examples.md` for pattern examples
 
   
 **Input and Output**: 
