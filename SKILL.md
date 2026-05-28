@@ -274,17 +274,15 @@ Don't duplicate content between skills — reference and link instead.
 - Every finding must cite the specific line number. No vague claims.
 - Don't apply changes without user confirmation.
 
+**Repeat until user approves:**
 
 #### 3.1 Static Validation
-
-Run `scripts/quick_validate.py <skill-dir>`. Fix FAIL items; SKIP items are expected for some skill types. See the script's docstring for the full output format.
+Run `scripts/quick_validate.py <skill-dir>`. Report every FAIL item with proposed fix. Apply only after user confirmation.
 
 > Script checks are signals to review, not mandates — some checks don't apply to every architecture. When in doubt, ask the user.
 
-
 #### 3.2 Verification with Evidence
-
-After static validation passes, review the skill against this checklist. For each item, examine the skill you just created and fill the Evidence column — quote specific content, not opinions.
+Work through the checklist. Fill Evidence for each item — quote specific content, not opinions. Report gaps and proposed fixes; apply only after user confirmation.
 
 | Check | Evidence |
 |-------|----------|
@@ -296,10 +294,12 @@ After static validation passes, review the skill against this checklist. For eac
 | [ ] Input / output formats properly defined? | |
 | [ ] Re-read with fresh eyes? | |
 
+If any fix was applied, go back to 3.1.
 
-Iterate – fix any issues, re‑run the validation script, and re‑check manually until the skill is ready for use.
-
-//skill git mgr
+#### 3.3 Approval Gate
+When 3.1 has zero FAILs and 3.2 Evidence is all filled:
+→ Ask user whether fine with this phase.
+→ On user approval: exit Phase 3.
 
 
 ### Phase 4: Package a Skill
