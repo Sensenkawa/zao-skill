@@ -342,13 +342,16 @@ Reports any FAIL items before packaging. On success, creates a `<skill-name>.ski
 
 ### Phase 5: Evolution in usage and testing 
 
-After real usage, collect feedback and improve:
+After real usage, collect feedback and improve — one change at a time:
 
 1. Use the skill on real tasks and note struggles or inefficiencies
-2. Identify what to update in SKILL.md or bundled resources
-3. Implement changes, re-validate (`quick_validate.py`), re-package if distributing
-4. Test again
-5. Record: new gotchas → Critical Gotchas table; successful changes → Evolution table.
+2. Commit the current state as baseline before changing anything
+3. Identify one improvement to try. Don't batch multiple changes
+4. Implement the change, re-validate (`quick_validate.py`), re-package if distributing
+5. Test again. Compare with baseline:
+   - Improved → keep. Record in Evolution table
+   - No improvement or worse → `git revert`. Log as gotcha. Try a different approach
+6. Record: new gotchas → Critical Gotchas table; successful changes → Evolution table.
    Full history in `<skill-name>-wip/skill-log.md`.
 
 Common testing triggers: missing trigger scenarios in description, overly long SKILL.md body that should be split to references, script bugs discovered in real use, or missing edge cases.
