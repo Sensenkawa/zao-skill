@@ -294,11 +294,13 @@ Work through the checklist. Fill Evidence for each item — quote specific conte
 | [ ] Input / output formats properly defined? | |
 | [ ] Re-read with fresh eyes? | |
 
+Save the filled checklist and script output to `wip/validation-round-N.md`.
+
 If any fix was applied, go back to 3.1.
 
 #### 3.3 Approval Gate
 When 3.1 has zero FAILs and 3.2 Evidence is all filled:
-→ Ask user whether fine with this phase.
+→ Ask user whether fine with this phase. Show the latest wip/validation-round-N.md path.
 → On user approval: exit Phase 3.
 
 
@@ -330,7 +332,7 @@ Common iteration triggers: missing trigger scenarios in description, overly long
 ### Critical Gotchas
 | ID | Issue / Symptom | Fix |
 |----|----------------|-----|
-| G01 | ... | ... |
+| G01 | Template references `references/gotchas/` but directory doesn't exist → script reports "all valid" FAIL | Create the directory or remove the reference |
 
 
 > After each run, agent may propose new gotchas. User approval required to update table or esclate severe ones to Top Reminder. Trival gotchas and long explanations go to `references/gotchas/`.
