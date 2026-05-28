@@ -187,6 +187,17 @@ The frontmatter contract above is required. The section layout below is a recomm
 [Output Template / Bullets / Example]
 
 
+## Verification with Evidence (see design guide below)
+[After completing the skill's process, confirm and provide:]
+| Check | Evidence |
+|-------|----------|
+| [ ] Exit criteria | [e.g., reviewed trigger list] |
+| [ ] Format compliance | [e.g., paste output snippet] |
+| ...|...|
+[- Top Reminders should be checked.
+ - Use scripts when necessary]
+
+
 ## Guardrails
 
 [### Anti-Patterns / Constraints(Optional)]
@@ -198,17 +209,6 @@ The frontmatter contract above is required. The section layout below is a recomm
 | ...|...|...|
 
 > After each run, agent may propose new gotchas. User approval required to update table or esclate severe ones to Anti-Patterns or Top Reminder. Trival gotchas and long explanations go to `references/gotchas/`.
-
-
-## Verification with Evidence
-[After completing the skill's process, confirm and provide:]
-| Check | Evidence |
-|-------|----------|
-| [ ] Exit criteria | [e.g., reviewed trigger list] |
-| [ ] Format compliance | [e.g., paste output snippet] |
-| ...|...|
-[- Top Reminders should be checked.
- - Use scripts when necessary]
 
 
 ## Advanced features
@@ -249,6 +249,22 @@ The frontmatter contract above is required. The section layout below is a recomm
    Input: Added user authentication with JWT tokens
    Output: feat(auth): implement JWT-based authentication
    ```
+
+**Verification Design Guide**
+
+Divide checks into two layers:
+- **Script** — deterministic, regex‑able: line counts, syntax, reference existence, table format
+- **Checklist** — requires reading content: conciseness, duplication, guide compliance. Each item is a yes/no question, one dimension each
+
+Design rules:
+- Only check against rules stated in the skill's text. Don't invent standards
+- Evidence column stays empty — the agent fills it after inspecting its own output
+- Every finding cites the specific line number. No vague claims
+
+Loop structure:
+   Run script → fix FAILs → fill Evidence → fix gaps → re‑run script
+   Stop when: zero FAILs + all Evidence filled + user approves
+   Save each round to wip/validation‑round‑N.md
   
 **Cross-Skill References**
 
@@ -316,7 +332,7 @@ scripts/package_skill.py <path/to/skill-folder> [output-directory]
 Reports any FAIL items before packaging. On success, creates a `<skill-name>.skill` file.
 
 
-### Phase 5: Iterate 
+### Phase 5: Testing 
 
 After real usage, collect feedback and improve:
 
@@ -327,6 +343,12 @@ After real usage, collect feedback and improve:
 
 Common iteration triggers: missing trigger scenarios in description, overly long SKILL.md body that should be split to references, script bugs discovered in real use, or missing edge cases.
 
+// trigger scenarios, ...Proactively ask questions about edge cases, input/output formats, example files, success criteria, and dependencies. Wait to write test prompts until you've got this part ironed out.
+Skip this step only when usage patterns are already clearly understood.
+
+//+claude plus：you can also run the skill description improver, which we have a whole separate script for, to optimize the triggering of the skill.
+
+
 ## Guardrails
 
 ### Critical Gotchas
@@ -335,12 +357,7 @@ Common iteration triggers: missing trigger scenarios in description, overly long
 | G01 | Template references `references/gotchas/` but directory doesn't exist → script reports "all valid" FAIL | Create the directory or remove the reference |
 
 
-> After each run, agent may propose new gotchas. User approval required to update table or esclate severe ones to Top Reminder. Trival gotchas and long explanations go to `references/gotchas/`.
-
-// trigger scenarios, ...Proactively ask questions about edge cases, input/output formats, example files, success criteria, and dependencies. Wait to write test prompts until you've got this part ironed out.
-Skip this step only when usage patterns are already clearly understood.
-
-//+claude plus：you can also run the skill description improver, which we have a whole separate script for, to optimize the triggering of the skill.
+> After each run, agent may propose new gotchas. User approval required to update table or esclate severe ones to Top Reminder as default. Trival gotchas and long explanations go to `references/gotchas/`.
 
 
 ## Scenario Examples
