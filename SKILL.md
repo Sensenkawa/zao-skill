@@ -211,9 +211,7 @@ The frontmatter contract above is required. The section layout below is a recomm
 | -- | -- | -- | -- |
 | -- | -- | -- | -- |
 
-> After each run → new gotchas. After each successful iteration → new evolution entry.
-> Keep 3 of each here. Archive older entries to `<skill-name>-wip/skill-log.md`.
-> User approval required to update tables or escalate severe gotchas to Top Reminder.
+> See Guardrails Detail Guide below.
 
 
 ## Advanced features
@@ -277,9 +275,8 @@ Loop structure:
 
 Critical Gotchas and Evolution are paired: one records failures, the other records wins. Together they form the iteration safety net.
 
-- Commit baseline before any change. One change per iteration
-- After each real usage → new gotchas. After each successful change → new evolution entry
-- Test the change on the next real task: improved → keep. Worse → `git revert`, log as gotcha
+- Commit baseline before making changes. Multiple changes are fine — commit each separately
+- In subsequent usage: helped → Evolution entry. Worse → `git revert`, log as gotcha
 - Keep 3 entries in each table. Archive older to `<skill-name>-wip/skill-log.md`
   
 **Cross-Skill References**
@@ -349,21 +346,15 @@ scripts/package_skill.py <path/to/skill-folder> [output-directory]
 Reports any FAIL items before packaging. On success, creates a `<skill-name>.skill` file.
 
 
-### Phase 5: Iterate 
+### Phase 5: Evolution in usage
 
-After each real usage, accumulate experience — one change at a time:
+In real usage, commit baseline before making changes. Multiple changes are fine — commit each separately.
 
-1. Use the skill on a real task. Note what worked and what didn't
-2. Commit the current state as baseline before changing anything
-3. Identify one improvement. Don't batch multiple changes
-4. Implement the change, re-validate (`quick_validate.py`), re-package if distributing
-5. Use the skill on the next real task. Compare with baseline:
-   - Improved → keep. Record in Evolution table
-   - Worse → `git revert`. Log as gotcha. Try a different approach
-6. Record: new gotchas → Critical Gotchas table; successful changes → Evolution table.
-   Full history in `<skill-name>-wip/skill-log.md`.
+In subsequent usage, observe whether the changes helped:
+- Helped → keep. Record in Evolution table
+- Made things worse → `git revert`. Record as gotcha
 
-Common iteration triggers: missing trigger scenarios in description, overly long SKILL.md body that should be split to references, script bugs discovered in real use, or missing edge cases.
+Full history in `<skill-name>-wip/skill-log.md`.
 
 
 ## Guardrails
@@ -380,9 +371,7 @@ Common iteration triggers: missing trigger scenarios in description, overly long
 | -- | -- | -- | -- |
 | -- | -- | -- | -- |
 
-> After each run → new gotchas. After each successful iteration → new evolution entry.
-> Keep 3 of each here. Archive older entries to `<skill-name>-wip/skill-log.md`.
-> User approval required to update tables or escalate severe gotchas to Top Reminder.
+> After each usage → new gotchas or evolution entry. Keep 3 of each.
 
 
 ## Scenario Examples
