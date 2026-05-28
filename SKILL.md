@@ -86,8 +86,7 @@ cloud-deploy/
 - **Drafting or editing an existing skill?** → Phase 2 Drafting
 - **Just reviewing or validating** → Phase 3 Validation
 - **Just packaging** → Phase 4 Packaging
-//?Testing
-//register
+- **Accumulating experience from real usage?** → Phase 5 Evolution
 
 ### Phase 1: Pre-Creation Alignment
 //?简化or加引到图
@@ -187,14 +186,14 @@ The frontmatter contract above is required. The section layout below is a recomm
 [Output Template / Bullets / Example]
 
 
-## Verification with Evidence (see design guide below)
+## Verification with Evidence (see Design Detail Guide below)
 [After completing the skill's process, confirm and provide:]
 | Check | Evidence |
 |-------|----------|
 | [ ] Exit criteria | [e.g., reviewed trigger list] |
 
 
-## Guardrails
+## Guardrails (see Guardrails Detail Guide below)
 
 [### Anti-Patterns / Constraints(Optional)]
 
@@ -210,9 +209,6 @@ The frontmatter contract above is required. The section layout below is a recomm
 | -- | -- | -- | -- |
 | -- | -- | -- | -- |
 | -- | -- | -- | -- |
-
-> See Guardrails Detail Guide below.
-
 
 ## Advanced features
 
@@ -271,6 +267,7 @@ Loop structure:
    Stop when: zero FAILs + all Evidence filled + user approves
    Save each round to <skill-name>-wip/validation‑round‑N.md
 
+
 **Guardrails Detail Guide**
 
 Gotchas capture failures from any phase. Evolution records wins from real usage only. Together they make iteration safer.
@@ -289,8 +286,6 @@ If the build breaks, use the `debugging-and-error-recovery` skill.
 ```
 
 Don't duplicate content between skills — reference and link instead.
-
-//??----skill mgr
 
 #### **2.3 When the SKILL.md and its resources have been drafted in complete, re-read once with fresh eyes for improvements. Then proceed to Phase 3 Validation
 
@@ -333,6 +328,8 @@ Don't duplicate content between skills — reference and link instead.
    → Ask user whether fine with this phase. Show the latest <skill-name>-wip/validation-round-N.md path.
    → If new gotchas were discovered during validation, propose them for the Critical Gotchas table.
    → On user approval: exit Phase 3.
+
+//??----skill mgr
 
 
 ### Phase 4: Package a Skill
