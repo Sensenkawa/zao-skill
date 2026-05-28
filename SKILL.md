@@ -275,8 +275,8 @@ Loop structure:
 
 Critical Gotchas and Evolution are paired: one records failures, the other records wins. Together they form the iteration safety net.
 
-- Commit baseline before making changes. Multiple changes are fine — commit each separately
-- In subsequent usage: helped → Evolution entry. Worse → `git revert`, log as gotcha
+- Commit baseline before making changes. Multiple changes are fine in real usage iteration — commit each separately
+- In subsequent usage: Helped → Evolution entry. Worse → `git revert`, log as gotcha
 - Keep 3 entries in each table. Archive older to `<skill-name>-wip/skill-log.md`
   
 **Cross-Skill References**
@@ -346,13 +346,13 @@ scripts/package_skill.py <path/to/skill-folder> [output-directory]
 Reports any FAIL items before packaging. On success, creates a `<skill-name>.skill` file.
 
 
-### Phase 5: Evolution in usage
+### Phase 5: Evolution in Usage
 
 In real usage, commit baseline before making changes. Multiple changes are fine — commit each separately.
 
 In subsequent usage, observe whether the changes helped:
 - Helped → keep. Record in Evolution table
-- Made things worse → `git revert`. Record as gotcha
+- Made things Worse → `git revert`. Record as gotcha
 
 Full history in `<skill-name>-wip/skill-log.md`.
 
