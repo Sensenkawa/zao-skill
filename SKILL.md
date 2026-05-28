@@ -98,7 +98,7 @@ After any skill use that produced new insights, accumulate experience → Phase 
 **If the conversation already contains a workflow** (e.g., "turn this into a skill"):
    - Extract it to the output file. Interview for anything unclear, one question at a time.
 
-**If not** → See `references/step1-interview.md` for the full interview and judgment protocol.
+**If not** → See `references/design-gate.md` for the full interview and judgment protocol.
 
 **Output**: Write to `<skill-name>-wip/workflow-extraction.md`.
 Cover: successful steps, failures, I/O, tools, edge cases, project conventions.
