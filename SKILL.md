@@ -272,6 +272,15 @@ Loop structure:
    Run script → fix FAILs → fill Evidence → fix gaps → re‑run script
    Stop when: zero FAILs + all Evidence filled + user approves
    Save each round to <skill-name>-wip/validation‑round‑N.md
+
+**Guardrails Detail Guide**
+
+Critical Gotchas and Evolution are paired: one records failures, the other records wins. Together they form the iteration safety net.
+
+- Commit baseline before any change. One change per iteration
+- After each real usage → new gotchas. After each successful change → new evolution entry
+- Test the change on the next real task: improved → keep. Worse → `git revert`, log as gotcha
+- Keep 3 entries in each table. Archive older to `<skill-name>-wip/skill-log.md`
   
 **Cross-Skill References**
 
@@ -340,26 +349,21 @@ scripts/package_skill.py <path/to/skill-folder> [output-directory]
 Reports any FAIL items before packaging. On success, creates a `<skill-name>.skill` file.
 
 
-### Phase 5: Evolution in usage and testing 
+### Phase 5: Iterate 
 
-After real usage, collect feedback and improve — one change at a time:
+After each real usage, accumulate experience — one change at a time:
 
-1. Use the skill on real tasks and note struggles or inefficiencies
+1. Use the skill on a real task. Note what worked and what didn't
 2. Commit the current state as baseline before changing anything
-3. Identify one improvement to try. Don't batch multiple changes
+3. Identify one improvement. Don't batch multiple changes
 4. Implement the change, re-validate (`quick_validate.py`), re-package if distributing
-5. Test again. Compare with baseline:
+5. Use the skill on the next real task. Compare with baseline:
    - Improved → keep. Record in Evolution table
-   - No improvement or worse → `git revert`. Log as gotcha. Try a different approach
+   - Worse → `git revert`. Log as gotcha. Try a different approach
 6. Record: new gotchas → Critical Gotchas table; successful changes → Evolution table.
    Full history in `<skill-name>-wip/skill-log.md`.
 
-Common testing triggers: missing trigger scenarios in description, overly long SKILL.md body that should be split to references, script bugs discovered in real use, or missing edge cases.
-
-// trigger scenarios, ...Proactively ask questions about edge cases, input/output formats, example files, success criteria, and dependencies. Wait to write test prompts until you've got this part ironed out.
-Skip this step only when usage patterns are already clearly understood.
-
-//+claude plus：you can also run the skill description improver, which we have a whole separate script for, to optimize the triggering of the skill.
+Common iteration triggers: missing trigger scenarios in description, overly long SKILL.md body that should be split to references, script bugs discovered in real use, or missing edge cases.
 
 
 ## Guardrails
