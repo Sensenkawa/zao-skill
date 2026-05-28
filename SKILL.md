@@ -89,21 +89,31 @@ cloud-deploy/
 
 After any skill use that produced new insights, accumulate experience → Phase 5.
 
-//register
+//centralized register
 
 ### Phase 1: Pre-Creation Alignment
-//?简化or加引到图
-//总要test不写skill自己跑是不是也行，太简单or太复杂，合并gril 
-//!带skill比不带还差 → skill可能过度约束，考虑精简----确立基线
-//centralized registry?
 
 #### Step 1. Understand intent and extract workflow
-   - Ask the user to clarify domain, use cases, and practical tasks/functionality, one question at a time.
-   - If the current conversation already contains a workflow to capture (e.g., "turn this into a skill"), extract it
-   - **If not**: Suggest that the user complete a real task in conversation first, then crystalize the workflow. 
-   - **Output**: Write to `<skill-name>-wip/workflow-extraction.md` with successful steps, failures/corrections, input/output formats, tools, and any project‑specific facts/doc/conventions, or constraints. 
-   - Confirm your understanding with the user before proceeding.
-   //记录流程，不要清理过程文件，最后再总结清理
+
+**If the conversation already contains a workflow** (e.g., "turn this into a skill"):
+   - Extract it to the output file. Interview for anything unclear, one question at a time.
+
+**If not**:
+   - Interview to clarify use cases, tasks, and domain.
+
+   Grill relentlessly — walk down every branch of the design tree. One question at a time.
+   For each, give your recommended answer. Resolve dependencies before moving on.
+
+   - Once the picture is clear, give your independent judgment:
+     - Is a skill even useful here, or would the agent do fine without it?
+     - Too trivial for a skill or too complex for one skill? If complex, propose a breakdown. Focus on the first piece to start or to stop. Keep the rest as candidates.
+
+   - If the idea passes: for the current piece, suggest completing a real task in conversation, as a living document; do not clean intermediate notes.
+     This crystalizes the workflow to the output file — triggers, I/O, edge cases, failures, tools, conventions.
+
+**Output**: Write to `<skill-name>-wip/workflow-extraction.md`.
+Cover: successful steps, failures, I/O, tools, edge cases, project conventions.
+Present for confirmation before proceeding.
 
 #### Step 2. Search for similar skills and decide direction
    - Based on the confirmed understanding, search local repos and online platforms for high-matching skills. Follow `references/skillSearchList.md` for the full search strategy.
