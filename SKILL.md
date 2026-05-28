@@ -88,6 +88,7 @@ cloud-deploy/
 - **Just packaging** → Phase 4 Packaging
 
 After any skill use that produced new insights, accumulate experience → Phase 5.
+
 //register
 
 ### Phase 1: Pre-Creation Alignment
@@ -155,9 +156,7 @@ description: Brief description of capability. Use when [specific triggers].
 
 **Writing Rules**
 
-- Prefer using the imperative and concise form. (Core Principles 1)
-- Progressive disclosure. Main SKILL.md is the entry point. (Core Principles 2)
-- Valuable and non-duplicate. Every section must justify its inclusion. If removing it wouldn't change agent behavior, remove it.
+- Follow Core Principles. Be concise and use progressive disclosure. Every section must justify its inclusion — if removing it wouldn't change agent behavior, remove it
 - Try to explain to the model why things are important in lieu of heavy-handed musty MUSTs. 
 - Use theory of mind and try to make the skill general and not super-narrow to specific examples.
 
@@ -278,7 +277,7 @@ Gotchas capture failures from any phase. Evolution records wins from real usage 
 - In subsequent usage: Helped → Evolution entry. Worse → `git revert`, log as gotcha
 - Keep 3 entries in each table. Archive older to `<skill-name>-wip/skill-log.md`
   
-**Cross-Skill References**
+**How to Cross-Reference Another Skill**
 
 Reference other skills by name:
 
