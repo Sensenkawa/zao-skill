@@ -99,13 +99,13 @@ cloud-deploy/
    - Ask the user to clarify domain, use cases, and practical tasks/functionality, one question at a time.
    - If the current conversation already contains a workflow to capture (e.g., "turn this into a skill"), extract it
    - **If not**: Suggest that the user complete a real task in conversation first, then crystalize the workflow. 
-   - **Output**: Write to `wip/workflow-extraction.md` with successful steps, failures/corrections, input/output formats, tools, and any project‑specific facts/doc/conventions, or constraints. 
+   - **Output**: Write to `<skill-name>-wip/workflow-extraction.md` with successful steps, failures/corrections, input/output formats, tools, and any project‑specific facts/doc/conventions, or constraints. 
    - Confirm your understanding with the user before proceeding.
    //记录流程，不要清理过程文件，最后再总结清理
 
 #### Step 2. Search for similar skills and decide direction
    - Based on the confirmed understanding, search local repos and online platforms for high-matching skills. Follow `references/skillSearchList.md` for the full search strategy.
-   - Read `wip/ref-skills/_summary.md` and review the SKILL.md copies in `wip/ref-skills/`.
+   - Read `<skill-name>-wip/ref-skills/_summary.md` and review the SKILL.md copies in `<skill-name>-wip/ref-skills/`.
       - **If similar skills exist**:
       → Present your recommendations to the user and clarify differences
       → Discuss one decision at a time to reach a shared understanding on how to extend or modify the reference skills, together with the workflow extraction.
@@ -260,7 +260,7 @@ Design rules:
 Loop structure:
    Run script → fix FAILs → fill Evidence → fix gaps → re‑run script
    Stop when: zero FAILs + all Evidence filled + user approves
-   Save each round to wip/validation‑round‑N.md
+   Save each round to <skill-name>-wip/validation‑round‑N.md
   
 **Cross-Skill References**
 
@@ -306,14 +306,14 @@ Don't duplicate content between skills — reference and link instead.
    | [ ] Input / output formats properly defined? | |
    | [ ] Re-read with fresh eyes? | |
 
-   Save the filled checklist and script output to `wip/validation-round-N.md`.
+   Save the filled checklist and script output to `<skill-name>-wip/validation-round-N.md`.
 
    If script fixes were applied, go back to 3.1.
    If checklist gaps were fixed, re-check only those items.
 
    #### 3.3 Approval Gate
    When 3.1 has zero FAILs and 3.2 Evidence is all filled:
-   → Ask user whether fine with this phase. Show the latest wip/validation-round-N.md path.
+   → Ask user whether fine with this phase. Show the latest <skill-name>-wip/validation-round-N.md path.
    → On user approval: exit Phase 3.
 
 
