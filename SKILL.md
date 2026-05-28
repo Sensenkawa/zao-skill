@@ -87,7 +87,7 @@ cloud-deploy/
 - **Just reviewing or validating** → Phase 3 Validation
 - **Just packaging** → Phase 4 Packaging
 
-After any skill use, accumulate experience → Phase 5.
+After any skill use that produced new insights, accumulate experience → Phase 5.
 //register
 
 ### Phase 1: Pre-Creation Alignment
@@ -353,6 +353,8 @@ In real usage, commit baseline before making changes. Multiple changes are fine 
 In subsequent usage, observe whether the changes helped:
 - Helped → keep. Record in Evolution table
 - Made things Worse → `git revert`. Record as gotcha
+
+If the usage was uneventful, skip. Don't force entries.
 
 Full history in `<skill-name>-wip/skill-log.md`.
 
