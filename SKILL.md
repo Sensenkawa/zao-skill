@@ -182,7 +182,7 @@ The frontmatter contract above is required. The section layout below is a recomm
    | "The main doc gave me the overview, so I don't need the ref." | Required refs contain critical steps not in the main doc. Read them. |
 
 
-## Workflows and Output Formats (see details below)
+## Workflows and Output Formats (see Workflows Detail Guide below)
 [The heart of the skill, step-by-step processes]
 [Output Template / Bullets / Example]
 
@@ -199,6 +199,7 @@ The frontmatter contract above is required. The section layout below is a recomm
 
 > After each run, agent may propose new gotchas. User approval required to update table or esclate severe ones to Anti-Patterns or Top Reminder. Trival gotchas and long explanations go to `references/gotchas/`.
 
+
 ## Verification with Evidence
 [After completing the skill's process, confirm and provide:]
 | Check | Evidence |
@@ -209,7 +210,8 @@ The frontmatter contract above is required. The section layout below is a recomm
 [- Top Reminders should be checked.
  - Use scripts when necessary]
 
- ## Advanced features
+
+## Advanced features
 
 [Link to separate resources files: See [...]]
 
@@ -218,12 +220,12 @@ The frontmatter contract above is required. The section layout below is a recomm
 
    - Start with a process overview – Use TL;DR, decision tree, or ASCII flowchart at decision points
    - Break operations into numbered, actionable phases or steps, include working examples where they help
-   - Give the agent freedom when multiple approaches / variation are permitted — explain the goal and logic to explore
-   - Consider pseudocode for complex conditional and algorithmic logic, etc. to improve precision and sequence consistency over plain text.
-   - Add utility scripts for deterministic, code-repetitive and error-prone tasks (e.g., validation, formatting), scripts handle erros explicitly and reduce variability. 
-   - Most skills have a mix. Calibrate each part independently
-   - See `references/structure-design.md` for pattern examples
+   - Match specificity to the task's fragility. Most skills have a mix to calibrate:
+      - Give the agent freedom when multiple approaches / variation are permitted — explain the goal and logic to explore
+      - Consider pseudocode for complex conditional and algorithmic logic, etc. to improve precision and sequence consistency over plain text
+      - Add utility scripts for deterministic, code-repetitive and error-prone tasks (e.g., validation, formatting), scripts handle erros explicitly and reduce variability. 
    - Split long SKILL.md content into referenced files under Progressive Disclosure Structure Rules.
+   - See `references/structure-design.md` for pattern examples
 
   
 **Input and Output**: 
@@ -261,13 +263,16 @@ Don't duplicate content between skills — reference and link instead.
 
 ??----skill mgr
 
-#### **2.3 Finish your draft by looking at it with fresh eyes and improve it. Then proceed to Phase 3 Validation
+#### **2.3 When the SKILL.md and its resources have been drafted in complete, re-read once with fresh eyes for improvements. Then proceed to Phase 3 Validation
 
 ---
 
 ### Phase 3: Validate as you go
 
-**Scope-lock** — Polish only: improve existing content, fix issues. No new capabilities, no new dependencies.
+**Scope-lock** :
+- Polish how the skill works, don't change what it does. No new capabilities, no new dependencies.
+- Every finding must cite the specific line number. No vague claims.
+- Don't apply changes without user confirmation.
 
 
 #### 3.1 Static Validation
@@ -289,8 +294,8 @@ After static validation passes, review the skill against this checklist. For eac
 | [ ] Standard section elements all present? | |
 | [ ] Workflow detail guides followed? | |
 | [ ] Input / output formats properly defined? | |
-| [ ] Re-read with fresh eyes — at least one improvement made? | |
-| [ ] Re-read with fresh eyes — at least one improvement made? | |
+| [ ] Re-read with fresh eyes? | |
+
 
 Iterate – fix any issues, re‑run the validation script, and re‑check manually until the skill is ready for use.
 
