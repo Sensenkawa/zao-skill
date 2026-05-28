@@ -99,13 +99,13 @@ cloud-deploy/
    - Ask the user to clarify domain, use cases, and practical tasks/functionality, one question at a time.
    - If the current conversation already contains a workflow to capture (e.g., "turn this into a skill"), extract it
    - **If not**: Suggest that the user complete a real task in conversation first, then crystalize the workflow. 
-   - **Output**: Write to `wip/workflow-extraction.md` with successful steps, failures/corrections, input/output formats, tools, and any project‑specific facts/doc/conventions, or constraints. 
+   - **Output**: Write to `zao-skill-wip/workflow-extraction.md` with successful steps, failures/corrections, input/output formats, tools, and any project‑specific facts/doc/conventions, or constraints. 
    - Confirm your understanding with the user before proceeding.
    //记录流程，不要清理过程文件，最后再总结清理
 
 #### Step 2. Search for similar skills and decide direction
    - Based on the confirmed understanding, search local repos and online platforms for high-matching skills. Follow `references/skillSearchList.md` for the full search strategy.
-   - Read `ref-skills/_summary.md` and review the SKILL.md copies in `ref-skills/`.
+   - Read `zao-skill-ref-skills/_summary.md` and review the SKILL.md copies in `zao-skill-ref-skills/`.
       - **If similar skills exist**:
       → Present your recommendations to the user and clarify differences
       → Discuss one decision at a time to reach a shared understanding on how to extend or modify the reference skills, together with the workflow extraction.
@@ -173,7 +173,7 @@ The frontmatter contract above is required. The section layout below is a recomm
 
 ## Top Reminders
 - [Core Principles/Critial Rules and Constraints, serving as entry quality gates. e.g. can include Alwyas, Must, Never items]
-- Mindset Warning:
+- Mindset Warning://prevent step-skipping in long process
    [End this section with these real case excuses agents use to rationalize its way out of following the workflows]
    | Rationalization | Reality |
    |---|---|
@@ -192,10 +192,6 @@ The frontmatter contract above is required. The section layout below is a recomm
 | Check | Evidence |
 |-------|----------|
 | [ ] Exit criteria | [e.g., reviewed trigger list] |
-| [ ] Format compliance | [e.g., paste output snippet] |
-| ...|...|
-[- Top Reminders should be checked.
- - Use scripts when necessary]
 
 
 ## Guardrails
@@ -264,7 +260,7 @@ Design rules:
 Loop structure:
    Run script → fix FAILs → fill Evidence → fix gaps → re‑run script
    Stop when: zero FAILs + all Evidence filled + user approves
-   Save each round to wip/validation‑round‑N.md
+   Save each round to zao-skill-wip/validation‑round‑N.md
   
 **Cross-Skill References**
 
@@ -277,7 +273,7 @@ If the build breaks, use the `debugging-and-error-recovery` skill.
 
 Don't duplicate content between skills — reference and link instead.
 
-??----skill mgr
+//??----skill mgr
 
 #### **2.3 When the SKILL.md and its resources have been drafted in complete, re-read once with fresh eyes for improvements. Then proceed to Phase 3 Validation
 
@@ -292,32 +288,33 @@ Don't duplicate content between skills — reference and link instead.
 
 **Repeat until user approves:**
 
-#### 3.1 Static Validation
-Run `scripts/quick_validate.py <skill-dir>`. Report every FAIL item with proposed fix. Apply only after user confirmation.
+   #### 3.1 Static Validation
+   Run `scripts/quick_validate.py <skill-dir>`. Report every FAIL item with proposed fix. Apply only after user confirmation.
 
-> Script checks are signals to review, not mandates — some checks don't apply to every architecture. When in doubt, ask the user.
+   > Script checks are signals to review, not mandates — some checks don't apply to every architecture. When in doubt, ask the user.
 
-#### 3.2 Verification with Evidence
-Work through the checklist. Fill Evidence for each item — quote specific content, not opinions. Report gaps and proposed fixes; apply only after user confirmation.
+   #### 3.2 Verification with Evidence
+   Work through the checklist. Fill Evidence for each item — quote specific content, not opinions. Report gaps and proposed fixes; apply only after user confirmation.
 
-| Check | Evidence |
-|-------|----------|
-| [ ] Instructions are concise and actionable? | |
-| [ ] Every section justifies its inclusion? | |
-| [ ] No duplicated content between body and references? | |
-| [ ] Standard section elements all present? | |
-| [ ] Workflow detail guides followed? | |
-| [ ] Input / output formats properly defined? | |
-| [ ] Re-read with fresh eyes? | |
+   | Check | Evidence |
+   |-------|----------|
+   | [ ] Instructions are concise and actionable? | |
+   | [ ] Every section justifies its inclusion? | |
+   | [ ] No duplicated content between body and references? | |
+   | [ ] Standard section elements all present? | |
+   | [ ] Workflow detail guides followed? | |
+   | [ ] Input / output formats properly defined? | |
+   | [ ] Re-read with fresh eyes? | |
 
-Save the filled checklist and script output to `wip/validation-round-N.md`.
+   Save the filled checklist and script output to `zao-skill-wip/validation-round-N.md`.
 
-If any fix was applied, go back to 3.1.
+   If script fixes were applied, go back to 3.1.
+   If checklist gaps were fixed, re-check only those items.
 
-#### 3.3 Approval Gate
-When 3.1 has zero FAILs and 3.2 Evidence is all filled:
-→ Ask user whether fine with this phase. Show the latest wip/validation-round-N.md path.
-→ On user approval: exit Phase 3.
+   #### 3.3 Approval Gate
+   When 3.1 has zero FAILs and 3.2 Evidence is all filled:
+   → Ask user whether fine with this phase. Show the latest zao-skill-wip/validation-round-N.md path.
+   → On user approval: exit Phase 3.
 
 
 ### Phase 4: Package a Skill
@@ -341,7 +338,7 @@ After real usage, collect feedback and improve:
 3. Implement changes, re-validate (`quick_validate.py`), re-package if distributing
 4. Test again
 
-Common iteration triggers: missing trigger scenarios in description, overly long SKILL.md body that should be split to references, script bugs discovered in real use, or missing edge cases.
+Common testing triggers: missing trigger scenarios in description, overly long SKILL.md body that should be split to references, script bugs discovered in real use, or missing edge cases.
 
 // trigger scenarios, ...Proactively ask questions about edge cases, input/output formats, example files, success criteria, and dependencies. Wait to write test prompts until you've got this part ironed out.
 Skip this step only when usage patterns are already clearly understood.
