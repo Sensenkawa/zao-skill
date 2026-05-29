@@ -130,7 +130,7 @@ description: Brief description of capability. Use when [specific triggers].
 ```
    **Frontmatter Rules**:
    - name: skill identifier.
-   - description: Start with what the skill does in third person, then include one or more clear "Use when" trigger conditions. Include both what and when. Maximum 1024 characters. All "when to use" info goes here, not in the markdown instructions.
+   - description: Start with what the skill does, then include one or more clear "Use when" trigger conditions. Maximum 1024 characters. All "when to use" info goes here, not in the markdown instructions.
 
    **Purpose**:
    - Under progressive disclosure, the description is **the only thing the agent sees** when deciding which skill to load. 
