@@ -87,7 +87,9 @@ cloud-deploy/
 - **Just reviewing or validating** → Phase 3 Validation
 - **Just packaging** → Phase 4 Packaging
 
-After any skill use that produced new insights, accumulate experience → Phase 5.
+**After each use of this skill, which if produces new insights**, accumulate experience → Phase 5.
+
+//centralized register
 
 ### Phase 1: Pre-Creation Alignment
 
@@ -95,31 +97,24 @@ After any skill use that produced new insights, accumulate experience → Phase 
 
 - **If the conversation already contains a workflow** (e.g., "turn this into a skill") → Extract it to the output file and interview for anything unclear, one question at a time.
 
-- **If not** → See `references/design-gate.md` for the full interview and judgment protocol.
+- **If not** → See `references/design-gate.md` Part 1 for the full interview and judgment protocol.
 
-- **Output**: Write to `<skill-name>-wip/workflow-extraction.md`, covering triggers, successful steps, failures/corrections, input/output formats, tools, and any project‑specific facts/doc/conventions, or constraints. Present for confirmation before proceeding.
+- **Output**: Write to `<skill-name>-wip/workflow-extraction.md`, covering triggers, successful steps, failures/corrections, input/output formats, tools, and any project‑specific facts/doc/conventions, or constraints.   Present for confirmation before proceeding.
 
 #### Step 2. Search for similar skills and refine the design
 
-**2.1 Ask**: "Search for existing similar skills (local repos / online platforms)?"
+**2.1 Ask**: "Search for existing similar skills (local repos / online platforms)?" 
+- **If No** → Skip search. Proceed to Phase 2 with Step 1 output.
 
-- **No** → Skip. Proceed to Phase 2 with Step 1 output.
+**2.2 If yes**→ Follow `references/skillSearchList.md` to execute search. 
+- If nothing is found, inform the user and proceed to Phase 2 with Step 1 output.
 
-**2.2 If yes**, follow `references/skillSearchList.md`.
+**2.3 Present the summary and Ask**, "Further refine the design using these results?" 
+   - **If the user doesn't want to refine** → Proceed to Phase 2 with Step 1 output.
+   - **Refine** → Follow `references/design-gate.md` Part 2 for the full refinement protocol. 
+   After refinement, proceed to Phase 2 with Step 1 output and 
 
-- **If nothing found** → Inform the user. Proceed to Phase 2 with Step 1 output.
 
-**2.3 Present the summary**. Ask: "Integrate or just review?"
-
-- **Just review** → Proceed to Phase 2 with Step 1 output.
-- **Integrate** → Continue to 2.4.
-
-**2.4 Integration**
-
-- Clarify differences between the existing skill(s) and the user's intent (from Step 1 workflow extraction).
-- Recommend which skill(s) to base on, borrow from, or discard.
-- Discuss one decision at a time. Walk down each branch, resolve dependencies step by step.
-- Confirm shared understanding → Phase 2.
 
 ---
 
