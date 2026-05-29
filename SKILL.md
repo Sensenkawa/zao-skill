@@ -89,31 +89,37 @@ cloud-deploy/
 
 After any skill use that produced new insights, accumulate experience → Phase 5.
 
-//centralized register
-
 ### Phase 1: Pre-Creation Alignment
 
 #### Step 1. Understand intent and extract workflow
 
-**If the conversation already contains a workflow** (e.g., "turn this into a skill"):
-   - Extract it to the output file. Interview for anything unclear, one question at a time.
+- **If the conversation already contains a workflow** (e.g., "turn this into a skill") → Extract it to the output file and interview for anything unclear, one question at a time.
 
-**If not** → See `references/design-gate.md` for the full interview and judgment protocol.
+- **If not** → See `references/design-gate.md` for the full interview and judgment protocol.
 
-**Output**: Write to `<skill-name>-wip/workflow-extraction.md`.
-Cover: successful steps, failures, I/O, tools, edge cases, project conventions.
-Present for confirmation before proceeding.
+- **Output**: Write to `<skill-name>-wip/workflow-extraction.md`, covering triggers, successful steps, failures/corrections, input/output formats, tools, and any project‑specific facts/doc/conventions, or constraints. Present for confirmation before proceeding.
 
-#### Step 2. Search for similar skills and decide direction
-   - Based on the confirmed understanding, search local repos and online platforms for high-matching skills. Follow `references/skillSearchList.md` for the full search strategy.
-   - Read `_summary.md` and review the SKILL.md copies in `<skill-name>-wip/ref-skills/`.
-      - **If similar skills exist**:
-      → Present your recommendations to the user and clarify differences
-      → Discuss one decision at a time to reach a shared understanding on how to extend or modify the reference skills, together with the workflow extraction.
-      → Walk down each branch of the design tree, resolving dependencies step by step and filling the gaps.
-      - **If no similar skills found, or the user chooses not to use them**:
-      → Use the workflow extraction from Step 1 as input.
-   - Confirm with the user then proceed to **Phase 2: Drafting**.
+#### Step 2. Search for similar skills and refine the design
+
+**2.1 Ask**: "Search for existing similar skills (local repos / online platforms)?"
+
+- **No** → Skip. Proceed to Phase 2 with Step 1 output.
+
+**2.2 If yes**, follow `references/skillSearchList.md`.
+
+- **If nothing found** → Inform the user. Proceed to Phase 2 with Step 1 output.
+
+**2.3 Present the summary**. Ask: "Integrate or just review?"
+
+- **Just review** → Proceed to Phase 2 with Step 1 output.
+- **Integrate** → Continue to 2.4.
+
+**2.4 Integration**
+
+- Clarify differences between the existing skill(s) and the user's intent (from Step 1 workflow extraction).
+- Recommend which skill(s) to base on, borrow from, or discard.
+- Discuss one decision at a time. Walk down each branch, resolve dependencies step by step.
+- Confirm shared understanding → Phase 2.
 
 ---
 
