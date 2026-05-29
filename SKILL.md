@@ -87,7 +87,7 @@ cloud-deploy/
 - **Just reviewing or validating** → Phase 3 Validation
 - **Just packaging** → Phase 4 Packaging
 
-**After each use of this skill, which if produces new insights**, accumulate experience → Phase 5.
+**After each run**, if the use of this skill produces new insights to self-evolve, accumulate experience → Phase 5.Evolution in Usage
 
 //centralized register
 
@@ -104,17 +104,15 @@ cloud-deploy/
 #### Step 2. Search for similar skills and refine the design
 
 **2.1 Ask**: "Search for existing similar skills (local repos / online platforms)?" 
-- **If No** → Skip search. Proceed to Phase 2 with Step 1 output.
+- **If No** → Skip to Phase 2 with Step 1 output.
 
 **2.2 If yes**→ Follow `references/skillSearchList.md` to execute search. 
-- If nothing is found, inform the user and proceed to Phase 2 with Step 1 output.
+- If nothing is found, inform the user and skip to Phase 2 with Step 1 output.
 
 **2.3 Present the summary and Ask**, "Further refine the design using these results?" 
    - **If the user doesn't want to refine** → Proceed to Phase 2 with Step 1 output.
    - **Refine** → Follow `references/design-gate.md` Part 2 for the full refinement protocol. 
-   After refinement, proceed to Phase 2 with Step 1 output and 
-
-
+   After refinement, proceed to Phase 2 with outputs from Step 1 and 2.
 
 ---
 
