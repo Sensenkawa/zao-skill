@@ -1,17 +1,13 @@
 ---
 name: zao-skill
-description: >-
-  Guide for creating effective skills that extend AI agent capabilities.
-  Use when users request to:
-  (1) Create a new skill from scratch,
-  (2) Update or improve an existing skill,
-  (3) Review or validate skill quality against best practices,
-  (4) Package a skill for distribution,
-  (5) Learn skill design principles or structure conventions.
-  Covers full lifecycle: alignment, drafting, validation, packaging, and iteration.
+description: >
+  Guide the complete lifecycle of agent skills — from design and drafting to review,
+  packaging, and evolution through real usage. Use when the user wants to create a
+  new skill, improve an existing skill, review skill quality, package a skill, or
+  learn about skill design, progressive disclosure, or guardrails and evolution.
 ---
 
-# Zao Skill 
+# Zao Skill
 
 ## Overview (Purpose/Quick Start)
 
