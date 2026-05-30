@@ -241,7 +241,10 @@ Write `_summary.md` analyzing all discovered results. Structure:
 
 ### What Happens Next
 
-The `ref-skills/` folder and `_summary.md` serve as the input for **Phase 2: Creating**. The agent can:
+The `ref-skills/` folder and `_summary.md` are the search outputs.
+The calling flow (SKILL.md Step 2.2) appends key findings to the Design Context
+section of `workflow-extraction.md`, which becomes the input for Phase 2 drafting.
+The agent can:
 
 - **Base the new skill** on the most relevant existing SKILL.md (copy and modify)
 - **Borrow patterns** from multiple reference skills (combine approaches)

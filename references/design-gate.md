@@ -29,4 +29,4 @@ Load when Phase 1 Step 2 user chooses "Refine".
 - Clarify differences between the existing skill(s) and the user's intent (from Step 1 workflow extraction).
 - Recommend which skill(s) to base on, borrow from, or discard.
 - Discuss one decision at a time. Walk down each branch, resolve dependencies and fill gaps.
-- Confirm shared understanding and save your output refine plan in `<skill-name>/.wip/refined-design.md.
+- Confirm shared understanding and append refinement decisions to the Design Context section in `workflow-extraction.md`.

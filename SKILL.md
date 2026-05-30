@@ -102,19 +102,32 @@ Jump to the phase that matches your current need.
 #### Step 2. Search for similar skills and refine the design
 
 **2.1 Ask**: "Search for existing similar skills (local repos / online platforms)?" 
-- **If No** → Skip to Phase 2 with Step 1 output.
+- **If No** → Proceed to Phase 2.
 
-**2.2 If yes**→ Follow `references/skillSearchList.md` to execute search. 
-- If nothing is found, inform the user and skip to Phase 2 with Step 1 output.
+**2.2 If yes** → Follow `references/skillSearchList.md` to execute search.
+  After search, append a "Design Context" section to `workflow-extraction.md`,
+  covering: skills found, reusable ideas, and gap analysis.
+  - If nothing is found → note that in Design Context.
 
 **2.3 Present the summary and Ask**, "Further refine the design using these results?" 
-   - **If the user doesn't want to refine** → Proceed to Phase 2 with Step 1 output.
-   - **Refine** → Follow `references/design-gate.md` Part 2 for the full refinement protocol. 
-   After refinement, proceed to Phase 2 with outputs from Step 1 and 2.
+   - **If the user doesn't want to refine** → Proceed to Phase 2.
+   - **Refine** → Follow `references/design-gate.md` Part 2 for the full refinement protocol.
+     Append refinement decisions to Design Context in `workflow-extraction.md`.
+     Then proceed to Phase 2.
 
 ---
 
 ### Phase 2: Draft the Skill.md
+
+**Entry**: Read `<skill-name>/.wip/workflow-extraction.md`. Extract into SKILL.md sections:
+
+| From workflow-extraction | → SKILL.md section |
+|--------------------------|-------------------|
+| "Triggers" | frontmatter description |
+| "Steps / Workflow" | Workflows section |
+| "Design Context" (if exists) | Overview / Scope & Exclusion |
+| "I/O formats, tools" | Input/Output formats |
+| "Edge cases, failure modes" | Gotchas / Error handling |
 
 **For a new skill** — create the directory structure as shown in the Anatomy diagram above.
 
