@@ -242,10 +242,10 @@ Write `_summary.md` analyzing all discovered results. Structure:
 ### What Happens Next
 
 After producing `_summary.md`, append a "Design Context" section to
-`workflow-extraction.md`, covering: skills found, reusable ideas, and gap analysis.
+`workflow-extraction.md`, covering: any useful summary info such as skills found, reusable ideas, and gap analysis.
 (If nothing was found, note that in the Design Context.)
 
-The agent can then, based on the summary:
+The agent can then, based on the summary and design context in extraction:
 
 - **Base the new skill** on the most relevant existing SKILL.md (copy and modify)
 - **Borrow patterns** from multiple reference skills (combine approaches)

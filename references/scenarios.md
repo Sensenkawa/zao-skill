@@ -15,7 +15,7 @@
    - Confirm understanding with the user
 
 2. **Phase 1 — Search for similar skills and decide direction (Step 2)**
-   - Search for existing audio/podcast skills using `references/skillSearchList.md`
+   - Search for existing audio/podcast skills using `references/search-compare.md`
    - If similar skills found: present comparison, discuss differences, decide on approach
    - If none found or user opts out: proceed with workflow extraction as sole input
 

@@ -104,7 +104,7 @@ Jump to the phase that matches your current need.
 **2.1 Ask**: "Search for existing similar skills (local repos / online platforms)?" 
 - **If No** → Proceed to Phase 2.
 
-**2.2 If yes** → Follow `references/skillSearchList.md` to execute search.
+**2.2 If yes** → Follow `references/search-compare.md` to execute search.
   - If nothing is found → inform the user and proceed to Phase 2.
 
 **2.3 Present the summary and Ask**, "Further refine the design using these results?" 
