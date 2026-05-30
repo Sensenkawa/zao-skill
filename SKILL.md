@@ -65,29 +65,31 @@ cloud-deploy/
 
 ### 3. Mindset Warning
 
-| Rationalization | Reality |
-|---|---|
-| "I know this workflow / task type." | Past experience ≠ current spec. Re-check. |
-| "I've handled an emergency" | You might be lost in the middle. Finish all steps |
-| "The main doc gave me the overview, so I don't need the ref." | Required refs contain critical steps not in the main doc. Read them. |
-
+| Root Bias | Typical Rationalization | Reality Check |
+|-----------|------------------------|----------------|
+| **Memory reliance** | "I've seen this file before." ;"I've done similar tasks before." | Memory is unreliable. **Re-read the current state** before deciding. |
+| **Closure seeking** | "I've handled that emergency / sub-task, so I'm done."| Don't assume completion. **Check if there are remaining steps** . |
+| **Cognitive laziness** | "Checking this one field/trigger is enough to know it's fine.";"The main doc gave me the overview, ref is no need."  | Spot-check is not reliaable. Each verification is an investment, not a waste. **Do the full check**.  Required refs contain critical info not in the main doc. |
 
 ---
 
 ## Workflows and Output Formats
 
-**Choose your entry point based on user's need**:
+Jump to the phase that matches your need to start.
 
-- **Creating a new skill?** → Phase 1 Alignment
-- **Drafting or editing an existing skill?** → Phase 2 Drafting
-- **Just reviewing or validating** → Phase 3 Validation
-- **Just packaging** → Phase 4 Packaging
+### Overview
 
-**After each run**, if the use of this skill produces new insights to self-evolve, accumulate experience → Phase 5.Evolution in Usage
+```
+Start → User Need?
+   ├─ Create new skill              → Phase 1: Design
+   ├─ Draft / update / edit skill   → Phase 2: Drafting
+   ├─ Review / validate             → Phase 3: Validation
+   └─ Package for release           → Phase 4: Packaging
+```
 
-//centralized register
+Jump to the phase that matches your current need.
 
-### Phase 1: Pre-Creation Alignment
+### Phase 1: Design
 
 #### Step 1. Understand intent and extract workflow
 
@@ -169,11 +171,11 @@ The frontmatter contract above is required. The section layout below is a recomm
 - [Core Principles/Critical Rules/Entry Behaviour and Constraints, serving as entry quality gates. e.g. can include Always, Must, Never items]
 - Mindset Warning://prevent step-skipping in long process
    [End this section with these real case excuses agents use to rationalize its way out of following the workflows]
-   | Rationalization | Reality |
-   |---|---|
-   | "I know this workflow / task type." | Past experience ≠ current spec. Re-check. |
-   | "I've handled an emergency" | You might be lost in the middle. Finish all steps |
-   | "The main doc gave me the overview, so I don't need the ref." | Required refs contain critical steps not in the main doc. Read them. |
+   | Root Bias | Typical Rationalization | Reality Check |
+   |-----------|------------------------|----------------|
+   | **Memory reliance** | "I've seen this file before." ;"I've done similar tasks before." | Memory is unreliable. **Re-read the current state** before deciding. |
+   | **Closure seeking** | "I've handled that emergency / sub-task, so I'm done."| Don't assume completion. **Check if there are remaining steps** . |
+   | **Cognitive laziness** | "Checking this one field/trigger is enough to know it's fine.";"The main doc gave me the overview, ref is no need."  | Spot-check is not reliaable. Each verification is an investment, not a waste. **Do the full check**.  Required refs contain critical info not in the main doc. |
 
 
 ## Workflows and Output Formats (see Workflows Detail Guide below)
@@ -188,7 +190,12 @@ The frontmatter contract above is required. The section layout below is a recomm
 | [ ] Exit criteria | [e.g., reviewed trigger list] |
 
 
-## Guardrails and Evolution (see Detail Guide below)
+## After Completing the Requested Workflow: Evolution Check
+
+**Trigger**: Agent self-checks after each run: 
+ did it produce a repeatable fix or a meaningful improvement?  
+- If uneventful, skip. 
+- If yes → follow `references/skill-evolution.md` to maintain following tables.
 
 ### Critical Gotchas
 | ID | Issue / Symptom | Fix |
@@ -203,7 +210,7 @@ The frontmatter contract above is required. The section layout below is a recomm
 | -- | -- | -- | -- |
 | -- | -- | -- | -- |
 
-> Full workflow → `references/skill-evolution.md`
+
 
 
 ## Advanced features
@@ -213,7 +220,7 @@ The frontmatter contract above is required. The section layout below is a recomm
 ```
 **Workflows Detail Guide**
 
-   - Start with a process overview – Use TL;DR, decision tree, or ASCII flowchart at decision points
+   - Start with a process overview – Use TL;DR, decision tree, or concise ASCII flowchart at decision points
    - Break operations into numbered, actionable phases or steps, include working examples where they help
    - Match specificity to the task's fragility. Most skills have a mix to calibrate:
       - Give the agent freedom when multiple approaches / variation are permitted — explain the goal and logic to explore
@@ -262,41 +269,6 @@ Loop structure:
    Save each round to <skill-name>-wip/validation‑round‑N.md
 
 
-**Guardrails and Evolution Detail Guide**
-
-Store all practical experience from real usage in
-`references/skill-evolution.md`. Gotchas capture failures;
-Success Patterns capture what worked well. This skill evolves through both.
-
-- Commit baseline before making changes
-- **Trigger**: After any run with a repeatable fix or a config/workflow
-  change that improves results → propose a new entry for user approval.
-  If uneventful, skip
-- In subsequent usage: Helped → Success Patterns entry.
-  Worse → undo and log as gotcha
-- **Approval**: SKILL.md table updates and escalation of severe gotchas
-  to Top Reminder require user approval. `references/skill-evolution.md`
-  entries (full archive) are just recording — no approval needed
-
-### Gotchas table
-Table: `ID`, `Issue / Symptom`, `Fix`.
-
-### Success Patterns table
-Table: `Date`, `Change`, `Trigger`, `Result`.
-
-**What to record vs Gotchas:**
-(some items could go either way — this clarifies the boundary)
-
-- Parameter tuning or environment-specific config that improved
-  performance or adaptability — **Success Pattern**
-- Workflow redesign that proved reliable — **Success Pattern**
-- Any eventful experience that made this skill better — **Success Pattern**
-- Failures with a repeatable fix — **Gotcha**
-- Trivial changes (e.g., fixing a typo) — **neither**
-
-**Main SKILL.md tables**: Keep 3 most critical Gotchas and 3 most recent
-Success Patterns. Full archive → `references/skill-evolution.md`.
-  
 **How to Cross-Reference Another Skill**
 
 Reference other skills by name:
@@ -350,8 +322,6 @@ Don't duplicate content between skills — reference and link instead.
    → If new gotchas were discovered during validation, propose them for the Critical Gotchas table.
    → On user approval: exit Phase 3.
 
-//??----skill mgr
-
 
 ### Phase 4: Package a Skill
 
@@ -365,15 +335,12 @@ scripts/package_skill.py <path/to/skill-folder> [output-directory]
 Reports any FAIL items before packaging. On success, creates a `<skill-name>.skill` file.
 
 
-### Phase 5: Evolution in Usage
+## After Completing the Requested Workflow: Evolution Check
 
-**Trigger**: After any run with a repeatable fix or a config/workflow
-change that improved results → propose a new entry. If uneventful, skip.
-
-→ See `references/skill-evolution.md`.
-
-
-## Guardrails and Evolution
+**Trigger**: Agent self-checks after each run: 
+ did it produce a repeatable fix or a meaningful improvement?  
+- If uneventful, skip. 
+- If yes → follow `references/skill-evolution.md` to maintain following tables.
 
 ### Critical Gotchas
 | ID | Issue / Symptom | Fix |
@@ -387,8 +354,6 @@ change that improved results → propose a new entry. If uneventful, skip.
 | -- | -- | -- | -- |
 | -- | -- | -- | -- |
 | -- | -- | -- | -- |
-
-> See Guardrails and Evolution Detail Guide above.
 
 
 
