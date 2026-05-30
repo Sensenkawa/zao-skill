@@ -105,14 +105,11 @@ Jump to the phase that matches your current need.
 - **If No** → Proceed to Phase 2.
 
 **2.2 If yes** → Follow `references/skillSearchList.md` to execute search.
-  After search, append a "Design Context" section to `workflow-extraction.md`,
-  covering: skills found, reusable ideas, and gap analysis.
-  - If nothing is found → note that in Design Context.
+  - If nothing is found → inform the user and proceed to Phase 2.
 
 **2.3 Present the summary and Ask**, "Further refine the design using these results?" 
    - **If the user doesn't want to refine** → Proceed to Phase 2.
    - **Refine** → Follow `references/design-gate.md` Part 2 for the full refinement protocol.
-     Append refinement decisions to Design Context in `workflow-extraction.md`.
      Then proceed to Phase 2.
 
 ---
