@@ -159,7 +159,7 @@ description: Brief description of capability. Use when [specific triggers].
 
 **Standard Sections (Recommended Pattern)**
 
-The frontmatter contract above is required. The section layout below is a recommended pattern, not a rigid template: for example, verification table can be nested in workflow.
+The frontmatter contract above is required. The section layout below is a recommended pattern, not a rigid template: equivalent headings are acceptable when they serve the same purpose clearly.
 
 ```md
 # Skill Name
@@ -181,14 +181,6 @@ The frontmatter contract above is required. The section layout below is a recomm
 ## Workflows and Output Formats (see Workflows Detail Guide below)
 [The heart of the skill, step-by-step processes]
 [Output Template / Bullets / Example]
-
-
-## Verification with Evidence (see Design Detail Guide below)
-[After completing the skill's process, confirm and provide:]
-| Check | Evidence |
-|-------|----------|
-| [ ] Exit criteria | [e.g., reviewed trigger list] |
-
 
 ## After Completing the Requested Workflow: Evolution Check
 
@@ -212,6 +204,11 @@ The frontmatter contract above is required. The section layout below is a recomm
 
 
 
+## Verification with Evidence (see Design Detail Guide below)
+[After completing the skill's process, confirm and provide:]
+| Check | Evidence |
+|-------|----------|
+| [ ] Exit criteria | [e.g., reviewed trigger list] |
 
 ## Advanced features
 
