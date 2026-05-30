@@ -1,10 +1,10 @@
 ---
 name: zao-skill
 description: >
-  Guide the complete lifecycle of agent skills — from design and drafting to review,
-  packaging, and evolution through real usage. Use when the user wants to create a
-  new skill, improve an existing skill, review skill quality, package a skill, or
-  learn about skill design, progressive disclosure, or guardrails and evolution.
+  Create, design, review, and maintain agent skills following best practices.
+  Use when the user asks to create, write, edit, improve, review, or package a skill;
+  also use when describing a new capability that should be turned into a skill;
+  or when asking about skill design and structure.
 ---
 
 # Zao Skill
@@ -96,7 +96,7 @@ Jump to the phase that matches your current need.
 - **If the conversation already contains a workflow** (e.g., "turn this into a skill") → Extract it to the output file and interview for anything unclear, one question at a time.
 
 - **If not** → See `references/design-gate.md` Part 1 for the full interview and judgment protocol.
-
+//project structure, 
 - **Output**: Write to `<skill-name>-wip/workflow-extraction.md`, covering triggers, successful steps, failures/corrections, input/output formats, tools, and any project‑specific facts/doc/conventions, or constraints.   Present for confirmation before proceeding.
 
 #### Step 2. Search for similar skills and refine the design
@@ -198,7 +198,8 @@ The frontmatter contract above is required. The section layout below is a recomm
 ### Success Patterns
 | Date | Change | Context | Result |
 |------|--------|---------|--------|
-| -- | -- | -- | -- |
+| 2026-05-30 | Rewrote description for better trigger coverage | "做一个投票的技能" failed to trigger; old description required explicit "skill" mention | New description catches "capability that should be turned into a skill" patterns |
+| 2026-05-30 | Expanded skillSearchList Part3 + _summary.md template | First search used invalid `site:A OR site:B` syntax; _summary lacked gap analysis | Added parallel/sequential search strategy + 3-section _summary template (Skills / Non-skill Resources / Gap Analysis) |
 | -- | -- | -- | -- |
 | -- | -- | -- | -- |
 

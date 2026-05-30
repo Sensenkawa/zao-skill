@@ -108,7 +108,14 @@ Use the **understanding** from the previous phase (the user's intent, domain, an
 
 ### Platforms to Search
 
-Search all of the following platforms with the derived keywords:
+**CRITICAL**: Each platform requires a SEPARATE WebSearch call.
+Do NOT combine multiple `site:` operators in one query — most search engines
+(including Brave Search) do not support `site:A OR site:B` syntax.
+
+**Preferred**: Spawn subagents to run all platform searches in parallel.
+**Fallback (no subagent)**: Run one WebSearch per platform, sequentially.
+
+Search **each** of the following platforms with a separate query:
 
 1. `clawhub.ai`
 2. `skills.sh`
@@ -196,7 +203,7 @@ ref-skills/
 
 ### Summary (`_summary.md`)
 
-Write `_summary.md` comparing all discovered skills. Structure:
+Write `_summary.md` analyzing all discovered results. Structure:
 
 ```markdown
 # Skill Search Summary
@@ -204,18 +211,31 @@ Write `_summary.md` comparing all discovered skills. Structure:
 **Search intent**: [user's stated need]
 **Date**: [current date]
 
-## Found Skills
+## 1. Existing Skills Found
 
 | # | Skill | Source | Relevance | Key Differentiator |
 |---|-------|--------|-----------|-------------------|
 | 1 | wechat | local | High | Publishes to WeChat draft box |
-| 2 | wechat-publisher | clawhub | Medium | WeChat publishing, different API |
-| 3 | article-formatter | skillsmp | Medium | Markdown to article, no WeChat |
-| ... | ... | ... | ... | ... |
 
-## Recommendation
+## 2. Non-Skill Resources (Ideas to Borrow)
+
+| # | Resource | Type | Reusable Idea |
+|---|----------|------|---------------|
+| 1 | article-url | Blog post / Script / Tool | [e.g., "Uses IP proxy rotation on each request"] |
+
+## 3. Gap Analysis: Why No Existing Skill?
+
+| Hypothesis | Evidence | Conclusion |
+|------------|----------|------------|
+| Too niche / low demand | [e.g., "Search returned 0 results across all 6 platforms"] | Accept / Adjust scope |
+| Too complex / hard to generalize | [e.g., "Voting pages vary too much, generic skill is impractical"] | Accept / Narrow scope |
+| Legal/ToS risk | [e.g., "vote bots violate most ToS"] | Document risk / Proceed with caution |
+| Search missed it | [e.g., "Maybe exists under different keywords"] | Refine and retry |
+
+## 4. Recommendation
 
 [Which skill(s) to use as a base, or whether to create from scratch]
+[Direction based on gap analysis: proceed, narrow scope, or abandon]
 [Rationale for the recommendation]
 ```
 
