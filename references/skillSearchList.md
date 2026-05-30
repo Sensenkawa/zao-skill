@@ -55,7 +55,7 @@ Examine the agent's configuration to identify which skills are enabled.
 
 ## Part 2: Local Discovery & Collection
 
-Once we have the **name** of an enabled skill (or when no configuration exists), locate its installation folder, read the full `SKILL.md`, and **copy it into the `ref-skills/` folder**.
+Once we have the **name** of an enabled skill (or when no configuration exists), locate its installation folder, read the full `SKILL.md`, and **copy it into the `<skill-name>/.wip/ref-skills/` folder**.
 
 ### Priority Hierarchy
 
@@ -79,7 +79,7 @@ For **each skill** whose name or description suggests relevance to the user's in
 
 1. Locate its folder following the priority hierarchy above.
 2. Read the `SKILL.md` to confirm relevance.
-3. **Copy the `SKILL.md` into `ref-skills/`**, renamed as:
+3. **Copy the `SKILL.md` into `<skill-name>/.wip/ref-skills/`**, renamed as:
 
    ```
    local.<skill-name>.SKILL.md
@@ -94,7 +94,7 @@ For **each skill** whose name or description suggests relevance to the user's in
 For each copied skill, record:
 - **Name** and **source path**
 - **Enablement status**: Explicit (from config) or implicit (from directory)
-- **Output file**: Path within `ref-skills/`
+- **Output file**: Path within `<skill-name>/.wip/ref-skills/`
 
 ---
 
@@ -158,7 +158,7 @@ Search **each** of the following platforms with a separate query:
 For each skill identified as relevant from the web search:
 
 1. Fetch its full `SKILL.md` content.
-2. **Copy the `SKILL.md` into `ref-skills/`**, renamed as:
+2. **Copy the `SKILL.md` into `<skill-name>/.wip/ref-skills/`**, renamed as:
 
    ```
    <platform>.<skill-name>.SKILL.md
