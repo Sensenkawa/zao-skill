@@ -151,13 +151,13 @@ description: Brief description of capability. Use when [specific triggers].
 **Writing Rules**
 
 - Follow Core Principles. Be concise and use progressive disclosure. Every section must justify its inclusion — if removing it wouldn't change agent behavior, remove it
-- Try to explain to the model why things are important in lieu of heavy-handed musty MUSTs. 
+- Try to explain to the model why things are important in lieu of heavy-handed MUSTs in workflow section. 
 - Use theory of mind and try to make the skill general and not super-narrow to specific examples.
 
 
 **Standard Sections (Recommended Pattern)**
 
-The frontmatter contract above is required. The section layout below is a recommended pattern, not a rigid template: equivalent headings are acceptable when they serve the same purpose clearly.
+The frontmatter contract above is required. The section layout below is a recommended pattern, not a rigid template: for example, verification able can be nested in workflow.
 
 ```md
 # Skill Name
@@ -166,7 +166,7 @@ The frontmatter contract above is required. The section layout below is a recomm
 [Purpose + Scope/Exclusion (+ Minimal working example)]
 
 ## Top Reminders
-- [Core Principles/Critial Rules/Entry Behaviour and Constraints, serving as entry quality gates. e.g. can include Alwyas, Must, Never items]
+- [Core Principles/Critial Rules/Entry Behaviour and Constraints, serving as entry quality gates. e.g. can include Always, Must, Never items]
 - Mindset Warning://prevent step-skipping in long process
    [End this section with these real case excuses agents use to rationalize its way out of following the workflows]
    | Rationalization | Reality |
@@ -188,9 +188,7 @@ The frontmatter contract above is required. The section layout below is a recomm
 | [ ] Exit criteria | [e.g., reviewed trigger list] |
 
 
-## Guardrails (see Guardrails Detail Guide below)
-
-[### Anti-Patterns / Constraints(Optional)]
+## Guardrails and Evolution (see Detail Guide below)
 
 ### Critical Gotchas
 | ID | Issue / Symptom | Fix |
@@ -198,12 +196,15 @@ The frontmatter contract above is required. The section layout below is a recomm
 | G01 | (Example) | (How to avoid) |
 | ...|...|...|
 
-### Evolution
+### Success Patterns
 | Date | Change | Trigger | Result |
 |------|--------|---------|--------|
 | -- | -- | -- | -- |
 | -- | -- | -- | -- |
 | -- | -- | -- | -- |
+
+> Full workflow → `references/skill-evolution.md`
+
 
 ## Advanced features
 
@@ -246,8 +247,6 @@ The frontmatter contract above is required. The section layout below is a recomm
 
 **Verification Design Guide**
 
-Can be merged into Workflows and Input/Output or as independent section.
-
 Generally, Divide checks into two layers:
 - **Script** — deterministic, regex‑able: line counts, syntax, reference existence, table format
 - **Checklist** — requires reading content: conciseness, duplication, guide compliance. Each item is a yes/no question, one dimension each
@@ -263,13 +262,40 @@ Loop structure:
    Save each round to <skill-name>-wip/validation‑round‑N.md
 
 
-**Guardrails Detail Guide**
+**Guardrails and Evolution Detail Guide**
 
-Gotchas capture failures from any phase. Evolution records wins from real usage only. Together they make iteration safer.
+Store all practical experience from real usage in
+`references/skill-evolution.md`. Gotchas capture failures;
+Success Patterns capture what worked well. This skill evolves through both.
 
-- Commit baseline before making changes. Multiple changes are fine in real usage iteration — commit each separately
-- In subsequent usage: Helped → Evolution entry. Worse → `git revert`, log as gotcha
-- Keep 3 entries in each table. Archive older to `<skill-name>-wip/skill-log.md`
+- Commit baseline before making changes
+- **Trigger**: After any run with a repeatable fix or a config/workflow
+  change that improves results → propose a new entry for user approval.
+  If uneventful, skip
+- In subsequent usage: Helped → Success Patterns entry.
+  Worse → undo and log as gotcha
+- **Approval**: SKILL.md table updates and escalation of severe gotchas
+  to Top Reminder require user approval. `references/skill-evolution.md`
+  entries (full archive) are just recording — no approval needed
+
+### Gotchas table
+Table: `ID`, `Issue / Symptom`, `Fix`.
+
+### Success Patterns table
+Table: `Date`, `Change`, `Trigger`, `Result`.
+
+**What to record vs Gotchas:**
+(some items could go either way — this clarifies the boundary)
+
+- Parameter tuning or environment-specific config that improved
+  performance or adaptability — **Success Pattern**
+- Workflow redesign that proved reliable — **Success Pattern**
+- Any eventful experience that made this skill better — **Success Pattern**
+- Failures with a repeatable fix — **Gotcha**
+- Trivial changes (e.g., fixing a typo) — **neither**
+
+**Main SKILL.md tables**: Keep 3 most critical Gotchas and 3 most recent
+Success Patterns. Full archive → `references/skill-evolution.md`.
   
 **How to Cross-Reference Another Skill**
 
@@ -341,32 +367,27 @@ Reports any FAIL items before packaging. On success, creates a `<skill-name>.ski
 
 ### Phase 5: Evolution in Usage
 
-In real usage, commit baseline before making changes. Multiple changes are fine — commit each separately.
+**Trigger**: After any run with a repeatable fix or a config/workflow
+change that improved results → propose a new entry. If uneventful, skip.
 
-In subsequent usage, observe whether the changes helped:
-- Helped → keep. Record in Evolution table
-- Made things Worse → `git revert`. Record as gotcha
-
-If the usage was uneventful, skip. Don't force entries.
-
-Full history in `<skill-name>-wip/skill-log.md`.
+→ See `references/skill-evolution.md`.
 
 
-## Guardrails
+## Guardrails and Evolution
 
 ### Critical Gotchas
 | ID | Issue / Symptom | Fix |
 |----|----------------|-----|
-| G01 | Template references `references/gotchas/` but directory doesn't exist → script reports "all valid" FAIL | Create the directory or remove the reference |
+| G01 | (Example) | (How to avoid) |
+| ...|...|...|
 
-### Evolution
+### Success Patterns
 | Date | Change | Trigger | Result |
 |------|--------|---------|--------|
 | -- | -- | -- | -- |
 | -- | -- | -- | -- |
 | -- | -- | -- | -- |
 
-> After each usage → new gotchas or evolution entry. Keep 3 of each.
 
 
 ## Scenario Examples

@@ -22,6 +22,7 @@ Output:
 import sys
 import re
 import os
+import stat
 from pathlib import Path
 
 try:
@@ -368,8 +369,8 @@ def validate_skill(skill_path):
         checks.append({"item": "Scripts: files present", "status": "SKIP",
                        "detail": "no scripts — OK if not needed"})
 
-    # scripts executable (Linux/macOS)
-    if script_files:
+    # scripts executable (Linux/macOS only; skip on Windows)
+    if script_files and os.name != 'nt':
         non_exec = []
         for sf in script_files:
             sp = skill_path / 'scripts' / sf
