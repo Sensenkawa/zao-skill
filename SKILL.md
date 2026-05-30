@@ -96,7 +96,7 @@ Jump to the phase that matches your current need.
 - **If the conversation already contains a workflow** (e.g., "turn this into a skill") → Extract it to the output file and interview for anything unclear, one question at a time.
 
 - **If not** → See `references/design-gate.md` Part 1 for the full interview and judgment protocol.
-//project structure, 
+
 - **Output**: Write to `<skill-name>/.wip/workflow-extraction.md`, covering triggers, successful steps, failures/corrections, input/output formats, tools, and any project‑specific facts/doc/conventions, or constraints.   Present for confirmation before proceeding.
 
 #### Step 2. Search for similar skills and refine the design
@@ -112,19 +112,13 @@ Jump to the phase that matches your current need.
    - **Refine** → Follow `references/design-gate.md` Part 2 for the full refinement protocol.
      Then proceed to Phase 2.
 
+- **Output Updated**: `<skill-name>/.wip/workflow-extraction.md` updated with Design Context.
+
 ---
 
 ### Phase 2: Draft the Skill.md
 
-**Entry**: Read `<skill-name>/.wip/workflow-extraction.md`. Extract into SKILL.md sections:
-
-| From workflow-extraction | → SKILL.md section |
-|--------------------------|-------------------|
-| "Triggers" | frontmatter description |
-| "Steps / Workflow" | Workflows section |
-| "Design Context" (if exists) | Overview / Scope & Exclusion |
-| "I/O formats, tools" | Input/Output formats |
-| "Edge cases, failure modes" | Gotchas / Error handling |
+**Entry**: Read `<skill-name>/.wip/workflow-extraction.md`. 
 
 **For a new skill** — create the directory structure as shown in the Anatomy diagram above.
 
