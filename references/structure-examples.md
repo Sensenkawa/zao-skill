@@ -1,5 +1,7 @@
 # Structure Design Patterns
 
+Load when: Phase 2.2 — deciding how to organize the skill body or how to write individual workflow steps.
+
 Two-level decision guide for organizing a skill's content:
 **Part 1** helps choose the overall body architecture. **Part 2** helps design the steps within the workflow section.
 

@@ -431,6 +431,34 @@ def validate_skill(skill_path):
         if (skill_path / f).exists():
             suggestions.append(f"Remove auxiliary file {f} — not needed for skills")
 
+    # ── 6. Content hygiene ──
+    # Developer artifact comments (// in markdown body, outside code blocks)
+    dev_artifacts = re.findall(r'^\s*//.{5,}', body, re.MULTILINE)
+    if dev_artifacts:
+        checks.append({"item": "Body: no developer artifact comments (//...)",
+                       "status": "FAIL",
+                       "detail": f"{len(dev_artifacts)} line(s): {dev_artifacts[:3]}"})
+    else:
+        checks.append({"item": "Body: no developer artifact comments (//...)",
+                       "status": "PASS"})
+
+    # Common typos in skill content (outside code blocks)
+    typo_patterns = {
+        'Critial': 'Critical',
+        'erros': 'errors',
+        'verification able': 'verification table',
+    }
+    found_typos = []
+    for typo, fix in typo_patterns.items():
+        if re.search(r'\b' + re.escape(typo) + r'\b', cleaned):
+            found_typos.append(f"'{typo}' → '{fix}'")
+    if found_typos:
+        checks.append({"item": "Body: common typos",
+                       "status": "FAIL",
+                       "detail": '; '.join(found_typos)})
+    else:
+        checks.append({"item": "Body: common typos", "status": "PASS"})
+
     return _build_result(checks, suggestions)
 
 def _build_result(checks, suggestions):

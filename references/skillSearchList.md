@@ -112,9 +112,9 @@ Search all of the following platforms with the derived keywords:
 
 1. `clawhub.ai`
 2. `skills.sh`
-3. `officialskills.sh`
+3. `officialskills.sh` (low trust score — verify results before relying on them)
 4. `GitHub` (search for repositories relevant to the keywords — not raw `*.md` files)
-5. `skillhub.tencent.com`
+5. `skillhub.cloud.tencent.com`
 6. `https://skillsmp.com`
 
 ### Filtering
@@ -191,7 +191,7 @@ ref-skills/
 | skills.sh | `skillssh` | `skillssh.pdf-toolkit.SKILL.md` |
 | officialskills.sh | `officialskills` | `officialskills.image-gen.SKILL.md` |
 | GitHub | `github` | `github.react-boilerplate.SKILL.md` |
-| skillhub.tencent.com | `skillhub` | `skillhub.code-review.SKILL.md` |
+| skillhub.cloud.tencent.com | `skillhub` | `skillhub.code-review.SKILL.md` |
 | skillsmp.com | `skillsmp` | `skillsmp.doc-generator.SKILL.md` |
 
 ### Summary (`_summary.md`)
@@ -250,6 +250,6 @@ The user reviews the summary and chooses the direction.
 | `GitHub` | Stars + Forks (combined) |
 | `skillsmp.com` | "Popularity" score |
 | `officialskills.sh` | "Downloads" (if available) |
-| `skillhub.tencent.com` | "热度" / "下载量" |
+| `skillhub.cloud.tencent.com` | "热度" / "下载量" |
 
 If a number is not available, note the absence and use qualitative description (e.g., "this skill appears actively maintained").

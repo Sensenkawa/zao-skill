@@ -1,5 +1,7 @@
 # Skill Evolution
 
+Load when: Phase 5 (Evolution in Usage) triggers, or when adding/reviewing gotchas and success patterns.
+
 ## Purpose
 
 Store all practical experience from real usage. Gotchas capture failures;

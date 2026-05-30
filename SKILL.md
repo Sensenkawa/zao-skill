@@ -157,7 +157,7 @@ description: Brief description of capability. Use when [specific triggers].
 
 **Standard Sections (Recommended Pattern)**
 
-The frontmatter contract above is required. The section layout below is a recommended pattern, not a rigid template: for example, verification able can be nested in workflow.
+The frontmatter contract above is required. The section layout below is a recommended pattern, not a rigid template: for example, verification table can be nested in workflow.
 
 ```md
 # Skill Name
@@ -166,7 +166,7 @@ The frontmatter contract above is required. The section layout below is a recomm
 [Purpose + Scope/Exclusion (+ Minimal working example)]
 
 ## Top Reminders
-- [Core Principles/Critial Rules/Entry Behaviour and Constraints, serving as entry quality gates. e.g. can include Always, Must, Never items]
+- [Core Principles/Critical Rules/Entry Behaviour and Constraints, serving as entry quality gates. e.g. can include Always, Must, Never items]
 - Mindset Warning://prevent step-skipping in long process
    [End this section with these real case excuses agents use to rationalize its way out of following the workflows]
    | Rationalization | Reality |
@@ -218,7 +218,7 @@ The frontmatter contract above is required. The section layout below is a recomm
    - Match specificity to the task's fragility. Most skills have a mix to calibrate:
       - Give the agent freedom when multiple approaches / variation are permitted — explain the goal and logic to explore
       - Consider pseudocode for complex conditional and algorithmic logic, etc. to improve precision and sequence consistency over plain text
-      - Add utility scripts for deterministic, code-repetitive and error-prone tasks (e.g., validation, formatting), scripts handle erros explicitly and reduce variability. 
+      - Add utility scripts for deterministic, code-repetitive and error-prone tasks (e.g., validation, formatting), scripts handle errors explicitly and reduce variability.
    - Split long SKILL.md content into referenced files under Progressive Disclosure Structure Rules.
    - See `references/structure-examples.md` for pattern examples
 
@@ -387,6 +387,8 @@ change that improved results → propose a new entry. If uneventful, skip.
 | -- | -- | -- | -- |
 | -- | -- | -- | -- |
 | -- | -- | -- | -- |
+
+> See Guardrails and Evolution Detail Guide above.
 
 
 

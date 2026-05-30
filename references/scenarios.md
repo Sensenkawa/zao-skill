@@ -29,7 +29,7 @@
 
 5. **Phase 2.2 — Draft body and bundled resources**
    - Refer to Standard Sections (Recommended Pattern) for the body layout
-   - Check `references/structure-design.md` if a non-standard architecture fits better
+   - Check `references/structure-examples.md` if a non-standard architecture fits better
    - Write the actual bundled resources:
      - Audio conversion script (deterministic, repeated task)
      - ffmpeg reference guide (too detailed for SKILL.md body)
