@@ -11,7 +11,7 @@
 1. **Phase 1 — Understand intent and extract workflow (Step 1)**
    - Ask: "What operations should this skill support? Transcribing? Editing? Converting formats?"
    - Ask: "What would trigger this skill? Give me 2-3 example user requests."
-   - Write findings to `wip/workflow-extraction.md`
+   - Write findings to `.wip/workflow-extraction.md`
    - Confirm understanding with the user
 
 2. **Phase 1 — Search for similar skills and decide direction (Step 2)**

@@ -97,7 +97,7 @@ Jump to the phase that matches your current need.
 
 - **If not** → See `references/design-gate.md` Part 1 for the full interview and judgment protocol.
 //project structure, 
-- **Output**: Write to `<skill-name>-wip/workflow-extraction.md`, covering triggers, successful steps, failures/corrections, input/output formats, tools, and any project‑specific facts/doc/conventions, or constraints.   Present for confirmation before proceeding.
+- **Output**: Write to `<skill-name>/.wip/workflow-extraction.md`, covering triggers, successful steps, failures/corrections, input/output formats, tools, and any project‑specific facts/doc/conventions, or constraints.   Present for confirmation before proceeding.
 
 #### Step 2. Search for similar skills and refine the design
 
@@ -296,7 +296,7 @@ Don't duplicate content between skills — reference and link instead.
 
    #### 3.3 Approval Gate
    When 3.1 has zero FAILs and 3.2 Evidence is all filled:
-   → Ask user whether fine with this phase. Show and save a summary to `<skill-name>-wip/validation-N-summary.md` .
+   → Ask user whether fine with this phase. Show and save a summary to `<skill-name>/.wip/validation-N-summary.md` .
    → If new gotchas were discovered during validation, propose them for the Critical Gotchas table.
    → On user approval: exit Phase 3.
 

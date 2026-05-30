@@ -15,7 +15,7 @@ Load when Phase 1 Step 1 has no existing workflow.
    - Is it too trivial for a skill? (If yes → stop; handle conversationally.)
    - Is it too complex for one skill?  
      If complex, propose a breakdown. Focus on the **first piece** to start.  
-     Keep the remaining pieces as a todo list in `<skill-name>-wip/`.
+     Keep the remaining pieces as a todo list in `<skill-name>/.wip/`.
 
 4. If the idea passes (skill is useful and appropriately scoped):
    - Suggest that the user complete a **real task** in conversation to crystallize the workflow.
@@ -29,4 +29,4 @@ Load when Phase 1 Step 2 user chooses "Refine".
 - Clarify differences between the existing skill(s) and the user's intent (from Step 1 workflow extraction).
 - Recommend which skill(s) to base on, borrow from, or discard.
 - Discuss one decision at a time. Walk down each branch, resolve dependencies and fill gaps.
-- Confirm shared understanding and save your output refine plan in `<skill-name>-wip/refined-design.md.
+- Confirm shared understanding and save your output refine plan in `<skill-name>/.wip/refined-design.md.

@@ -23,7 +23,7 @@ Generally, devise your verification by dividing into two complementary layers:
 
 ## Output
 
-Save the summary to `<skill-name>-wip/validation-N-summary.md` 
+Save the summary to `<skill-name>/.wip/validation-N-summary.md` 
 
 > For exit verification, if some verifications have already been embedded in the workflow and outputs, you don't need to repeat them. Add only additional checks if needed.
 

@@ -175,12 +175,12 @@ For each skill identified as relevant from the web search:
 
 ## Part 4: Assemble and Summarize
 
-After both Part 2 and Part 3 complete, assemble all results in `ref-skills/` and produce a comparison summary.
+After both Part 2 and Part 3 complete, assemble all results in `<skill-name>/.wip/ref-skills/` and produce a comparison summary.
 
-### `ref-skills/` Folder Structure Example
+### `<skill-name>/.wip/ref-skills/` Folder Structure Example
 
 ```
-ref-skills/
+<skill-name>/.wip/ref-skills/
 ├── local.wechat.SKILL.md
 ├── local.obsidian.SKILL.md
 ├── clawhub.wechat-publisher.SKILL.md
