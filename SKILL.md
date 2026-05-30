@@ -69,7 +69,7 @@ cloud-deploy/
 |-----------|------------------------|----------------|
 | **Memory reliance** | "I've seen this file before." ;"I've done similar tasks before." | Memory is unreliable. **Re-read the current state** before deciding. |
 | **Closure seeking** | "I've handled that emergency / sub-task, so I'm done."| Don't assume completion. **Check if there are remaining steps** . |
-| **Cognitive laziness** | "Checking this one field/trigger is enough to know it's fine.";"The main doc gave me the overview, ref is no need."  | Spot-check is not reliaable. Each verification is an investment, not a waste. **Do the full check**.  Required refs contain critical info not in the main doc. |
+| **Cognitive laziness** | "Checking this one field/trigger is enough to know it's fine.";"The main doc gave me the overview, ref is no need."  | Spot-check is not reliable. Each verification is an investment, not a waste. **Do the full check**.  Required refs contain critical info not in the main doc. |
 
 ---
 
@@ -157,7 +157,7 @@ description: Brief description of capability. Use when [specific triggers].
 - Use theory of mind and try to make the skill general and not super-narrow to specific examples.
 
 
-**Standard Sections (Recommended Pattern)**
+**Standard Sections for Skill Creation**
 
 The frontmatter contract above is required. The section layout below is a recommended pattern, not a rigid template: equivalent headings are acceptable when they serve the same purpose clearly.
 
@@ -175,14 +175,14 @@ The frontmatter contract above is required. The section layout below is a recomm
    |-----------|------------------------|----------------|
    | **Memory reliance** | "I've seen this file before." ;"I've done similar tasks before." | Memory is unreliable. **Re-read the current state** before deciding. |
    | **Closure seeking** | "I've handled that emergency / sub-task, so I'm done."| Don't assume completion. **Check if there are remaining steps** . |
-   | **Cognitive laziness** | "Checking this one field/trigger is enough to know it's fine.";"The main doc gave me the overview, ref is no need."  | Spot-check is not reliaable. Each verification is an investment, not a waste. **Do the full check**.  Required refs contain critical info not in the main doc. |
+   | **Cognitive laziness** | "Checking this one field/trigger is enough to know it's fine.";"The main doc gave me the overview, ref is no need."  | Spot-check is not reliable. Each verification is an investment, not a waste. **Do the full check**.  Required refs contain critical info not in the main doc. | Each verification is an investment, not a waste. **Do the full check**.  Required refs contain critical info not in the main doc. |
 
 
 ## Workflows and Output Formats (see Workflows Detail Guide below)
 [The heart of the skill, step-by-step processes]
 [Output Template / Bullets / Example]
 
-## After Completing the Requested Workflow: Evolution Check
+## After Completing the Requested Workflow: Evolution Check (Effective Post-Usage)
 
 **Trigger**: Agent self-checks after each run: 
  did it produce a repeatable fix or a meaningful improvement?  
@@ -196,19 +196,19 @@ The frontmatter contract above is required. The section layout below is a recomm
 | ...|...|...|
 
 ### Success Patterns
-| Date | Change | Trigger | Result |
+| Date | Change | Context | Result |
 |------|--------|---------|--------|
 | -- | -- | -- | -- |
 | -- | -- | -- | -- |
 | -- | -- | -- | -- |
 
 
-
-## Verification with Evidence (see Design Detail Guide below)
-[After completing the skill's process, confirm and provide:]
+## Exit Verification (see Design Detail Guide below)
+[Before Exit, do the overall verification: follow `references/verification-guide.md` to devise the checks.]
 | Check | Evidence |
 |-------|----------|
 | [ ] Exit criteria | [e.g., reviewed trigger list] |
+
 
 ## Advanced features
 
@@ -249,23 +249,6 @@ The frontmatter contract above is required. The section layout below is a recomm
    Output: feat(auth): implement JWT-based authentication
    ```
 
-**Verification Design Guide**
-
-Generally, Divide checks into two layers:
-- **Script** — deterministic, regex‑able: line counts, syntax, reference existence, table format
-- **Checklist** — requires reading content: conciseness, duplication, guide compliance. Each item is a yes/no question, one dimension each
-
-Design rules:
-- Only check against rules stated in the skill's text. Don't invent standards
-- Evidence column stays empty — the agent fills it after inspecting its own output
-- Every finding cites the specific line number. No vague claims
-
-Loop structure:
-   Run script → fix FAILs → fill Evidence → fix gaps → re‑run script
-   Stop when: zero FAILs + all Evidence filled + user approves
-   Save each round to <skill-name>-wip/validation‑round‑N.md
-
-
 **How to Cross-Reference Another Skill**
 
 Reference other skills by name:
@@ -286,14 +269,12 @@ Don't duplicate content between skills — reference and link instead.
 **Scope-lock** :
 - Polish how the skill works, don't change what it does. No new capabilities, no new dependencies.
 - Every finding must cite the specific line number. No vague claims.
-- Don't apply changes without user confirmation.
+- Don't apply changes without user confirmation and git save.
 
 **Repeat until user approves:**
 
    #### 3.1 Static Validation
    Run `scripts/quick_validate.py <skill-dir>`. Report every FAIL item with proposed fix. Apply only after user confirmation.
-
-   > Script checks are signals to review, not mandates — some checks don't apply to every architecture. When in doubt, ask the user.
 
    #### 3.2 Verification with Evidence
    Work through the checklist. Fill Evidence for each item — quote specific content, not opinions. Report gaps and proposed fixes; apply only after user confirmation.
@@ -308,14 +289,13 @@ Don't duplicate content between skills — reference and link instead.
    | [ ] Input / output formats properly defined? | |
    | [ ] Re-read with fresh eyes? | |
 
-   Save the filled checklist and script output to `<skill-name>-wip/validation-round-N.md`.
 
    If script fixes were applied, go back to 3.1.
    If checklist gaps were fixed, re-check only those items.
 
    #### 3.3 Approval Gate
    When 3.1 has zero FAILs and 3.2 Evidence is all filled:
-   → Ask user whether fine with this phase. Show the latest <skill-name>-wip/validation-round-N.md path.
+   → Ask user whether fine with this phase. Show and save a summary to `<skill-name>-wip/validation-N-summary.md` .
    → If new gotchas were discovered during validation, propose them for the Critical Gotchas table.
    → On user approval: exit Phase 3.
 
@@ -332,7 +312,7 @@ scripts/package_skill.py <path/to/skill-folder> [output-directory]
 Reports any FAIL items before packaging. On success, creates a `<skill-name>.skill` file.
 
 
-## After Completing the Requested Workflow: Evolution Check
+## After Completing the Requested Workflow: Evolution Check (Effective Post-Usage)
 
 **Trigger**: Agent self-checks after each run: 
  did it produce a repeatable fix or a meaningful improvement?  
@@ -346,12 +326,16 @@ Reports any FAIL items before packaging. On success, creates a `<skill-name>.ski
 | ...|...|...|
 
 ### Success Patterns
-| Date | Change | Trigger | Result |
+| Date | Change | Context | Result |
 |------|--------|---------|--------|
 | -- | -- | -- | -- |
-| -- | -- | -- | -- |
-| -- | -- | -- | -- |
 
+
+## Exit Verification
+
+- Evolution Check done? → any insights recorded?
+- Top Reminders: re-read the mindset warning — skipped any steps?
+- Phase 3 rules still apply: scope-lock, cite line numbers, user confirmation
 
 
 ## Scenario Examples

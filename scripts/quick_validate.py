@@ -242,13 +242,13 @@ def validate_skill(skill_path):
                        "detail": f"{line_count}/500"})
         suggestions.append("Split body into bundled resources (Progressive Disclosure)")
 
-    # rationalization table
-    if '| Rationalization | Reality |' in cleaned:
+    # rationalization / mindset warning table
+    if re.search(r'\| *Rationalization *\| *Reality *\||\| *Root Bias *\|.*Reality Check *\|', cleaned):
         checks.append({"item": "Body: rationalization table", "status": "PASS"})
     else:
         checks.append({"item": "Body: rationalization table", "status": "FAIL",
                        "detail": "not detected"})
-        suggestions.append("Add a rationalization table (| Rationalization | Reality |) — can live in Top Reminders or any principles section")
+        suggestions.append("Add a rationalization table — can live in Top Reminders or any principles section")
 
     # workflow numbering
     wf_match = re.search(r'## [^#\n]*[Ww]orkflow', cleaned)

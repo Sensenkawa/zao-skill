@@ -80,6 +80,9 @@ def package_skill(skill_path, output_dir=None):
                     # Skip excluded directories
                     if any(part in EXCLUDE_DIRS for part in file_path.parts):
                         continue
+                    # Skip wip directories (any -wip directory in path)
+                    if any(part.endswith('-wip') for part in file_path.parts):
+                        continue
                     # Skip excluded files
                     if file_path.name.lower() in EXCLUDE_FILES:
                         continue

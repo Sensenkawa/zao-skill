@@ -5,7 +5,7 @@ Load when Phase 1 Step 1 has no existing workflow.
 
 ### Interview and Crystalize the workflow
 
-1. Interview to clarify use cases, tasks, and domain.— **one question at a time**
+1. Interview to clarify use cases, tasks, and domain — **one question at a time**
 
 2. **Grill systematically**  — walk down every branch of the design tree. One question at a time.
    For each, give your recommended answer. Resolve dependencies before moving on.
@@ -29,4 +29,4 @@ Load when Phase 1 Step 2 user chooses "Refine".
 - Clarify differences between the existing skill(s) and the user's intent (from Step 1 workflow extraction).
 - Recommend which skill(s) to base on, borrow from, or discard.
 - Discuss one decision at a time. Walk down each branch, resolve dependencies and fill gaps.
-- Confirm shared understanding and save your refine plan in `<skill-name>-wip/.
+- Confirm shared understanding and save your output refine plan in `<skill-name>-wip/refined-design.md.
