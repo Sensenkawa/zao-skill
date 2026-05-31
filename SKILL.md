@@ -73,11 +73,11 @@ Every decision that depends on a file's content requires a fresh read of that fi
 
 ## Workflows and Output Formats
 
-### Pre-Step Bias Check (before every file operation)
+### Pre-Step Rationalization Bias Check (before every step operation)
 
-1. **Re-read.** Memory ≠ current file. Read the target file now.
+1. **Re-read.** Memory ≠ current file. Read the target file now. Context is frozen at load time.
 2. **Follow references.** If the step says "see `references/X`",
-   read X before acting. Context is frozen at load time.
+   no spot-check, no cognitive laziness. Read every detail.
 3. **Check completion.** Review the step list — 
    don't assume done after one sub-task.
 
