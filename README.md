@@ -1,45 +1,164 @@
-# zao-skill
+# zao-skill · 造技能
 
-AI 为 AI 创造技能的元技能框架。
+**The Meta-Skill Framework — AI creating skills for AI.**
 
-默认技能创建器 v0.1.0 版。本技能新增**设计流、规范步骤流、引入迭代流**，让技能跨平台可继承。
+A lightweight, standardized, self-evolving lifecycle framework for building production-grade AI agent skills. Born from three rounds of ruthless de-duplication and systematic upgrades against industry best practices.
 
-## 工作流概览
+[![GitHub release](https://img.shields.io/github/v/release/Sensenkawa/zao-skill?include_prereleases&style=flat-square)](https://github.com/Sensenkawa/zao-skill/releases)
+[![License](https://img.shields.io/github/license/Sensenkawa/zao-skill?style=flat-square)](LICENSE.txt)
+![Platform](https://img.shields.io/badge/platform-ClawPro%20%7C%20WorkBuddy%20%7C%20CodeBuddy-blue?style=flat-square)
+
+---
+
+## Why zao-skill?
+
+Most skill frameworks solve one problem: *writing a skill*. They don't solve:
+- **AI behavior drift** — Agent acts on frozen context, not current files
+- **Unreliable execution** — Steps skipped, references ignored, premature closure
+- **Unmaintainable evolution** — No versioning, no traceability, no iteration discipline
+
+zao-skill is the first meta-framework that treats these as first-class design problems.
+
+---
+
+## Core Innovations
+
+### 1. Three-Layer Anti-Drift Architecture
+
+A self-reinforcing grid against AI rationalization bias:
+
+| Layer | Mechanism | Role |
+|-------|-----------|------|
+| **Principle** | Files Are Truth — `#3 Core Principle` | Declarative: set the rule |
+| **Execution** | Pre-Step Rationalization Bias Check | Actionable: must pass before every operation |
+| **Feedback** | Gotchas G01–G03 (real failure cases) | Archival: replay error patterns |
+
+This is the industry's first systematic skill-grade behavior correction architecture.
+
+### 2. Lightweight Verification, Not Heavy Testing
+
+Industry convention (Claude Code 2.0, Darwin Skills) favors heavy automated testing — complex prompt design, test loops, I/O fixtures. We reject that.
+
+**Verification over Testing**: dual-lane quality assurance:
+- **Static Check** — Automated script (`quick_validate.py`): syntax, format, structure, duplication
+- **Interactive Check** — Human-in-the-loop: logic, edge cases, workflow soundness
+
+Result: rigorous quality assurance at <10% of the cost of traditional testing.
+
+### 3. Evolution in Usage (Not in Lab)
+
+Skills improve through real use, not pre-flight testing. The framework includes:
+- **Gotcha Archives** — Real failures with repeatable fixes, tiered escalation
+- **Success Patterns** — Free-form records of parameter tuning, workflow redesigns, platform adaptations
+- **Git-forced versioning** — Every change tracked, every regression traceable
+
+This replaces finite pre-release testing with infinite real-world adaptation.
+
+---
+
+## Workflow Overview
 
 ```
-Start → User Need?
-   ├─ Create new skill              → Phase 1: Design
-   ├─ Draft / update / edit skill   → Phase 2: Drafting
-   ├─ Review / validate             → Phase 3: Validation
-   └─ Package for release           → Phase 4: Packaging
-After any run → Evolution in Usage (self-improve)
+Pre-Step Rationalization Bias Check (mandatory before every phase)
+                            │
+                            ▼
+                    ┌──────────────┐
+                    │  User Need?  │
+                    └──────┬───────┘
+                           │
+         ┌─────────────────┼──────────────────┐
+         ▼                 ▼                  ▼
+   Phase 1: Design   Phase 2: Drafting   Phase 3: Validation
+   (align + search   (standardized       (dual-lane verify)
+    + run first)      sections + CC+GD)    │
+         │                 │               │
+         └─────────────────┴───────────────┘
+                           │
+                           ▼
+                    Phase 4: Packaging
+                           │
+                           ▼
+              Deployment → Evolution in Usage
+                          (self-improving)
 ```
 
-## 特性
+### Phase 1: Design
+- **Intent extraction** — Interview, clarify, scope. "Is this even a skill?"
+- **Skill search** — Scan local + online (`search-compare.md`) for existing solutions
+- **Run first, code later** — Validate workflow in practice before writing SKILL.md
+- **Design Context** — All findings append to `workflow-extraction.md` — single source of truth for Phase 2
 
-- **Design Gate**: 意图理解 → 相似技能搜索 → 设计提炼
-- **规范化创作**: 严格定义 Frontmatter + Standard Sections + Bundled Resources
-- **自动化验证**: 25+ 项静态检查（quick_validate.py）
-- **Self-Evolution**: Success Patterns 自由记录经验，Gotchas 归档失败
-- **跨平台**: 兼容 WorkBuddy / ClawPro / Codex / OpenClaw
+### Phase 2: Drafting
+- **Critical Directives** — All behavioral constraints upfront (AI reads top section most carefully)
+- **Files Are Truth** — Every decision reads from disk, not frozen context
+- **Imperative tone** — No "consider" or "suggest". Direct commands only.
+- **Structured workflows** — TL;DR + ASCII flowcharts for decisions, pseudocode for fixed logic, scripts for mechanical tasks
 
-## 快速开始
+### Phase 3: Validation
+- `quick_validate.py` — Static checks: line count, reference existence, Pre-Step Bias presence, no orphaned refs
+- Interactive checklist — 7 evidence-backed quality dimensions
+- Loop until: zero FAILs + all evidence filled + user approved
+
+### Phase 4: Packaging
+- `package_skill.py` — Auto-excludes `.wip/` directories, validates before build
+- Outputs: `<skill-name>.skill` (standard format, ready for submission/audit/deployment)
+
+---
+
+## Key Differentiators
+
+| Dimension | Industry Convention | zao-skill |
+|-----------|-------------------|-----------|
+| Testing approach | Heavy automated testing | Lightweight dual-lane verification |
+| Error handling | Pre-flight only | Real-use evolution with tiered escalation |
+| File consistency | Assumes context is fresh | Forces re-read: Files Are Truth |
+| Workflow writing | Educational/didactic | Imperative, pseudocode-locked |
+| Versioning | Optional | Mandatory Git tracking |
+| Learning mechanism | One-time instruction | Self-evolving gotcha + pattern archives |
+
+---
+
+## Quick Start
 
 ```bash
-# 验证 skill
-python scripts/quick_validate.py <skill-dir>
+# Load the skill (trigger phrase)
+"Use zao-skill to create a new skill"
 
-# 打包发布
-python scripts/package_skill.py <skill-dir>
+# The framework walks you through:
+# Phase 1 → Design interview → search → run-first
+# Phase 2 → Draft SKILL.md with Critical Directives
+# Phase 3 → Validate with quick_validate.py
+# Phase 4 → Package with package_skill.py
 ```
 
-## 安装
+---
 
-将 `zao-skill` 目录放入你的 Agent 平台 skill 目录：
+## Meta-Skill Note
 
-- **WorkBuddy**: `~/.workbuddy/skills/`
-- **QClaw / OpenClaw**: `~/.openclaw/skills/`
+zao-skill is itself a skill — and it eats its own dog food:
+- ✅ Uses its own design protocol
+- ✅ Passes its own validation
+- ✅ Records its own gotchas (G01–G03 from real failures)
+- ✅ Maintains its own success patterns
+- ✅ Version-controlled with semantic tags (v0.1.0 → v0.7.2)
 
-## License
+---
 
-Apache 2.0
+## Competition Info
+
+- **Event**: Tencent Cloud Hackathon - AI Agent Competition
+- **Track**: Skill Track
+- **Supported Platforms**: ClawPro / WorkBuddy / CodeBuddy
+- **License**: MIT
+
+---
+
+## Recognition & References
+
+- **Base inspiration**: Skill Creator V0.1.0 (2026-01-27)
+- **Standards aligned**: agentskills.io, Claude Code 2.0 (2026-04)
+- **Practitioners referenced**: Matt Pocock, Garry Tan, Addy Osmani, Darwin Skills
+
+---
+
+*"A skill that teaches AI how to build skills — not just write them, but design, verify, evolve, and trust them."*
