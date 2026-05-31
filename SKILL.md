@@ -63,17 +63,23 @@ cloud-deploy/
     └── azure.md
 ```
 
-### 3. Mindset Warning
+### 3. Files Are Truth — Read, Don't Recall
 
-| Root Bias | Typical Rationalization | Reality Check |
-|-----------|------------------------|----------------|
-| **Memory reliance** | "I've seen this file before." ;"I've done similar tasks before." | Memory is unreliable. **Re-read the current state** before deciding. |
-| **Closure seeking** | "I've handled that emergency / sub-task, so I'm done."| Don't assume completion. **Check if there are remaining steps** . |
-| **Cognitive laziness** | "Checking this one field/trigger is enough to know it's fine.";"The main doc gave me the overview, ref is no need."  | Spot-check is not reliable. Each verification is an investment, not a waste. **Do the full check**.  Required refs contain critical info not in the main doc. |
+The file on disk is the canonical source for rules and procedures.
+Context and memory are stale shadows — never use them instead of reading.
+Every decision that depends on a file's content requires a fresh read of that file.
 
 ---
 
 ## Workflows and Output Formats
+
+### Pre-Step Bias Check (before every file operation)
+
+1. **Re-read.** Memory ≠ current file. Read the target file now.
+2. **Follow references.** If the step says "see `references/X`",
+   read X before acting. Context is frozen at load time.
+3. **Check completion.** Review the step list — 
+   don't assume done after one sub-task.
 
 Jump to the phase that matches your need to start.
 
@@ -177,7 +183,7 @@ The frontmatter contract above is required. The section layout below is a recomm
    [End this section with these real case excuses agents use to rationalize its way out of following the workflows]
    | Root Bias | Typical Rationalization | Reality Check |
    |-----------|------------------------|----------------|
-   | **Memory reliance** | "I've seen this file before." ;"I've done similar tasks before." | Memory is unreliable. **Re-read the current state** before deciding. |
+   | **Memory reliance** | "I've seen this file before." ;"I've done similar/know workflow before." | Memory is unreliable. **Re-read the current state** before deciding. |
    | **Closure seeking** | "I've handled that emergency / sub-task, so I'm done."| Don't assume completion. **Check if there are remaining steps** . |
    | **Cognitive laziness** | "Checking this one field/trigger is enough to know it's fine.";"The main doc gave me the overview, ref is no need."  | Spot-check is not reliable. Each verification is an investment, not a waste. **Do the full check**.  Required refs contain critical info not in the main doc. | Each verification is an investment, not a waste. **Do the full check**.  Required refs contain critical info not in the main doc. |
 
@@ -202,8 +208,7 @@ The frontmatter contract above is required. The section layout below is a recomm
 ### Success Patterns
 | Date | Change | Context | Result |
 |------|--------|---------|--------|
-| 2026-05-30 | Rewrote description for better trigger coverage | "做一个投票的技能" failed to trigger; old description required explicit "skill" mention | New description catches "capability that should be turned into a skill" patterns |
-| 2026-05-30 | Expanded skillSearchList Part3 + _summary.md template | First search used invalid `site:A OR site:B` syntax; _summary lacked gap analysis | Added parallel/sequential search strategy + 3-section _summary template (Skills / Non-skill Resources / Gap Analysis) |
+| -- | -- | -- | -- |
 | -- | -- | -- | -- |
 | -- | -- | -- | -- |
 
@@ -226,7 +231,7 @@ The frontmatter contract above is required. The section layout below is a recomm
    - Break operations into numbered, actionable phases or steps, include working examples where they help
    - Match specificity to the task's fragility. Most skills have a mix to calibrate:
       - Give the agent freedom when multiple approaches / variation are permitted — explain the goal and logic to explore
-      - Consider pseudocode for complex conditional and algorithmic logic, etc. to improve precision and sequence consistency over plain text
+      - Use pseudocode for complex conditional and algorithmic logic, etc. to improve precision and sequence consistency over plain text
       - Add utility scripts for deterministic, code-repetitive and error-prone tasks (e.g., validation, formatting), scripts handle errors explicitly and reduce variability.
    - Split long SKILL.md content into referenced files under Progressive Disclosure Structure Rules.
    - See `references/structure-examples.md` for pattern examples
@@ -327,8 +332,9 @@ Reports any FAIL items before packaging. On success, creates a `<skill-name>.ski
 ### Critical Gotchas
 | ID | Issue / Symptom | Fix |
 |----|----------------|-----|
-| G01 | (Example) | (How to avoid) |
-| ...|...|...|
+| G01 | Memory reliance — acted on stale context, not current file | Re-read target file before any edit |
+| G02 | Closure seeking — assumed workflow complete after one sub-task | Review step checklist, don't skip |
+| G03 | Cognitive laziness — skipped reference files, relied on main doc alone | Follow all "see references/X" instructions |
 
 ### Success Patterns
 | Date | Change | Context | Result |

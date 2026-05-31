@@ -31,6 +31,9 @@ Store all practical experience from real usage. Gotchas capture failures; Succes
 ## Gotchas Archive
 | ID | Date | Issue / Symptom | Fix |
 |----|------|-----------------|-----|
+| G01 | 2026-05-30 | Memory reliance — wrote Success Patterns from stale context/injected text, not current file | Read the file now before any edit — context freezes at load time |
+| G02 | 2026-05-30 | Closure seeking — after description + skillSearchList fix, assumed workflow done, skipped evolution-approval step | Review the full step checklist after each sub-task |
+| G03 | 2026-05-30 | Cognitive laziness — skipped reading `skill-evolution.md` reference; also wrote to template table instead of zao-skill's own Gotchas/Success Patterns | Follow every "see references/X" instruction; scan for ambiguity (two tables with same name)
 
 
 ## Success Patterns
