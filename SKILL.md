@@ -72,10 +72,12 @@ When files are revised, every operation guided by file's content requires a fres
 
 ## Workflows and Output Formats
 
+Apply the bias check before every operation, then jump to your entry point.
+
 ### Pre-Step Rationalization Bias Check (before every step operation)
 
 1. **Re-read.** Memory ≠ current file. Read the target file now. Context is frozen at load time.
-2. **Follow references.** If the step says "see `references/X`",  no spot-check, no cognitive laziness. Read every detail.
+2. **Follow references.** If the step says "see references/...", no spot-check, no cognitive laziness. Read every detail.
 3. **Check completion.** Review the completed work and re-engage the missing steps —  don't assume done after one sub-task, no closure seeking.
 
 Jump to the phase that matches your need to start.
@@ -186,7 +188,7 @@ Suggested template for the drafting skill:
 ### Pre-Step Rationalization Bias Check (before every step operation)
 
 1. **Re-read.** Memory ≠ current file. Read the target file now. Context is frozen at load time.
-2. **Follow references.** If the step says "see `references/X`",  no spot-check, no cognitive laziness. Read every detail.
+2. **Follow references.** If the step says "see references/...", no spot-check, no cognitive laziness. Read every detail.
 3. **Check completion.** Review the completed work and re-engage the missing steps —  don't assume done after one sub-task, no closure seeking.
 
 [The heart of the skill, step-by-step processes]
@@ -331,7 +333,7 @@ Reports any FAIL items before packaging. On success, creates a `<skill-name>.ski
 |----|----------------|-----|
 | G01 | Memory reliance — acted on stale context, not current file | Re-read target file before any edit |
 | G02 | Closure seeking — assumed workflow complete after one sub-task | Review step checklist, don't skip |
-| G03 | Cognitive laziness — skipped reference files, relied on main doc alone | Follow all "see references/X" instructions |
+| G03 | Cognitive laziness — skipped reference files, relied on main doc alone | Follow "see references/..." instructions, no spot-check |
 
 ### Success Patterns
 | Date | Change | Context | Result |
