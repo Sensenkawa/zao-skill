@@ -67,7 +67,7 @@ cloud-deploy/
 
 The file on disk is the canonical source for rules and procedures.
 Context and memory are stale shadows — never use them instead of reading.
-Every decision that depends on a file's content requires a fresh read of that file.
+When files are revised, every operation guided by file's content requires a fresh read of that file.
 
 ---
 
@@ -177,7 +177,7 @@ The frontmatter contract above is required. The section layout below is a recomm
 ## Overview 
 [Purpose + Scope/Exclusion (+ Minimal working example)]
 
-## Top Reminders
+## Critical Directives
 - [Core Principles/Critical Rules/Entry Behaviour and Constraints, serving as entry quality gates. e.g. can include Always, Must, Never items]
 - Mindset Warning://prevent step-skipping in long process
    [End this section with these real case excuses agents use to rationalize its way out of following the workflows]
@@ -345,7 +345,7 @@ Reports any FAIL items before packaging. On success, creates a `<skill-name>.ski
 ## Exit Verification
 
 - Evolution Check done? → any insights recorded?
-- Top Reminders: re-read the mindset warning — skipped any steps?
+- Critical Directives: re-read the mindset warning — skipped any steps?
 - Phase 3 rules still apply: scope-lock, cite line numbers, user confirmation
 
 
