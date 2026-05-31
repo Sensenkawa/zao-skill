@@ -2,8 +2,7 @@
 
 ## How to use this file
 
-**Trigger**: After any run with a repeatable fix or a config/workflow
-change that improves results → propose a new entry for user approval.
+**Trigger**: After any run with a repeatable fix or a config/workflow change that improves results → propose a new entry following below **Approval** protocol.
 If uneventful, skip.
 
 ## Purpose
@@ -15,9 +14,10 @@ Store all practical experience from real usage. Gotchas capture failures; Succes
 **Workflow:**
 - Commit baseline before changes
 - Helped → Success Patterns entry. Worse/Pitfalls → undo if needed then log as gotcha
+
 - **Approval**: 
   - SKILL.md table updates and escalation of severe gotchas
-  to Top Reminder require user approval.
+  to Critical Directives require user approval.
   - Entries here (full archive as below) are just recording — no approval needed, but be smart to record
 
 **What to record vs Gotchas** (some items could go either way):

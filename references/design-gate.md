@@ -30,3 +30,11 @@ Load when Phase 1 Step 2 user chooses "Refine".
 - Recommend which skill(s) to base on, borrow from, or discard.
 - Discuss one decision at a time. Walk down each branch, resolve dependencies and fill gaps.
 - Confirm shared understanding and append refinement decisions to the Design Context section in `workflow-extraction.md`.
+
+**Decision format** (append to Design Context):
+```
+### Refinement Decisions
+- **Base on**: [skill-name] — [why]
+- **Borrow from**: [skill-name] — [what pattern]
+- **Key differences from intent**: [list]
+```

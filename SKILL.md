@@ -65,9 +65,8 @@ cloud-deploy/
 
 ### 3. Files Are Truth — Read, Don't Recall
 
-The file on disk is the canonical source for rules and procedures.
-Context and memory are stale shadows — never use them instead of reading.
-When files are revised, every operation guided by file's content requires a fresh read of that file.
+The file on disk is the canonical source for rules and procedures; Context and memory are stale shadows — they are frozen at load time. 
+When files are revised, every operation guided by file's content requires a fresh read. Never use frozen context instead of reading.
 
 ---
 
@@ -76,14 +75,12 @@ When files are revised, every operation guided by file's content requires a fres
 ### Pre-Step Rationalization Bias Check (before every step operation)
 
 1. **Re-read.** Memory ≠ current file. Read the target file now. Context is frozen at load time.
-2. **Follow references.** If the step says "see `references/X`",
-   no spot-check, no cognitive laziness. Read every detail.
-3. **Check completion.** Review the step list — 
-   don't assume done after one sub-task.
+2. **Follow references.** If the step says "see `references/X`",  no spot-check, no cognitive laziness. Read every detail.
+3. **Check completion.** Review the completed work and re-engage the missing steps —  don't assume done after one sub-task, no closure seeking.
 
 Jump to the phase that matches your need to start.
 
-### Overview
+### Process Overview
 
 ```
 Start → User Need?
@@ -171,6 +168,7 @@ description: Brief description of capability. Use when [specific triggers].
 
 The frontmatter contract above is required. The section layout below is a recommended pattern, not a rigid template: equivalent headings are acceptable when they serve the same purpose clearly.
 
+Suggested template for the drafting skill:
 ```md
 # Skill Name
 
@@ -178,17 +176,19 @@ The frontmatter contract above is required. The section layout below is a recomm
 [Purpose + Scope/Exclusion (+ Minimal working example)]
 
 ## Critical Directives
-- [Core Principles/Critical Rules/Entry Behaviour and Constraints, serving as entry quality gates. e.g. can include Always, Must, Never items]
-- Mindset Warning://prevent step-skipping in long process
-   [End this section with these real case excuses agents use to rationalize its way out of following the workflows]
-   | Root Bias | Typical Rationalization | Reality Check |
-   |-----------|------------------------|----------------|
-   | **Memory reliance** | "I've seen this file before." ;"I've done similar/know workflow before." | Memory is unreliable. **Re-read the current state** before deciding. |
-   | **Closure seeking** | "I've handled that emergency / sub-task, so I'm done."| Don't assume completion. **Check if there are remaining steps** . |
-   | **Cognitive laziness** | "Checking this one field/trigger is enough to know it's fine.";"The main doc gave me the overview, ref is no need."  | Spot-check is not reliable. Each verification is an investment, not a waste. **Do the full check**.  Required refs contain critical info not in the main doc. | Each verification is an investment, not a waste. **Do the full check**.  Required refs contain critical info not in the main doc. |
-
+- [Core Principles/Critical Rules/Entry Behaviour and Constraints, serving as mandatory quality gates at entrance]
+- [last point:] Files Are Truth — Read, Don't Recall
+   The file on disk is the canonical source for rules and procedures; Context and memory are stale shadows — they are frozen at load time. 
+   When files are revised, every operation guided by file's content requires a fresh read. Never use frozen context instead of reading.
 
 ## Workflows and Output Formats (see Workflows Detail Guide below)
+
+### Pre-Step Rationalization Bias Check (before every step operation)
+
+1. **Re-read.** Memory ≠ current file. Read the target file now. Context is frozen at load time.
+2. **Follow references.** If the step says "see `references/X`",  no spot-check, no cognitive laziness. Read every detail.
+3. **Check completion.** Review the completed work and re-engage the missing steps —  don't assume done after one sub-task, no closure seeking.
+
 [The heart of the skill, step-by-step processes]
 [Output Template / Bullets / Example]
 
@@ -209,11 +209,9 @@ The frontmatter contract above is required. The section layout below is a recomm
 | Date | Change | Context | Result |
 |------|--------|---------|--------|
 | -- | -- | -- | -- |
-| -- | -- | -- | -- |
-| -- | -- | -- | -- |
 
 
-## Exit Verification (see Design Detail Guide below)
+## Exit Verification 
 [Before Exit, do the overall verification: follow `references/verification-guide.md` to devise the checks.]
 | Check | Evidence |
 |-------|----------|
@@ -234,7 +232,7 @@ The frontmatter contract above is required. The section layout below is a recomm
       - Use pseudocode for complex conditional and algorithmic logic, etc. to improve precision and sequence consistency over plain text
       - Add utility scripts for deterministic, code-repetitive and error-prone tasks (e.g., validation, formatting), scripts handle errors explicitly and reduce variability.
    - Split long SKILL.md content into referenced files under Progressive Disclosure Structure Rules.
-   - See `references/structure-examples.md` for pattern examples
+   - See `references/design-examples.md` ## Part 2 for pattern examples
 
   
 **Input and Output**: 
@@ -306,7 +304,6 @@ Don't duplicate content between skills — reference and link instead.
    #### 3.3 Approval Gate
    When 3.1 has zero FAILs and 3.2 Evidence is all filled:
    → Ask user whether fine with this phase. Show and save a summary to `<skill-name>/.wip/validation-N-summary.md` .
-   → If new gotchas were discovered during validation, propose them for the Critical Gotchas table.
    → On user approval: exit Phase 3.
 
 
@@ -345,7 +342,7 @@ Reports any FAIL items before packaging. On success, creates a `<skill-name>.ski
 ## Exit Verification
 
 - Evolution Check done? → any insights recorded?
-- Critical Directives: re-read the mindset warning — skipped any steps?
+- Critical Directives: re-read the Pre-Step Rationalization Bias Check — skipped any steps?
 - Phase 3 rules still apply: scope-lock, cite line numbers, user confirmation
 
 
@@ -353,5 +350,5 @@ Reports any FAIL items before packaging. On success, creates a `<skill-name>.ski
 
 Load these references when the corresponding scenario arises:
 
-- **Scenario walkthroughs** — See [references/scenarios.md](references/scenarios.md) for end-to-end demonstrations (creating from scratch, updating existing, packaging only) with concrete examples. Load when stuck or learning by example.
+- **Scenario walkthroughs + structure patterns** — See [references/design-examples.md](references/design-examples.md). Load for end-to-end examples or help organizing skill structure.
 

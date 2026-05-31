@@ -9,7 +9,7 @@ agent_types_reference:
 
 # Skill Search Sources & Strategy
 
-This file defines how to discover existing skills during the **Pre-Creation Alignment** phase.  
+This file defines how to discover existing skills during **Phase 1: Design** (search + compare).  
 Search queries are derived from the **understanding** step (user intent, domain, use cases).
 
 The search runs through two **parallel** channels — both are always executed:
@@ -145,7 +145,7 @@ Search **each** of the following platforms with a separate query:
 
 #### Case C: No results or very few low-quality results
 - Inform the user that no suitable existing skills were found.
-- Suggest moving to **Phase 2: Creating** (or allow the user to provide custom search parameters/URLs for vertical domains).
+- Suggest moving to **Phase 2: Drafting** (or allow the user to provide custom search parameters/URLs for vertical domains).
 
 ### Extended / Vertical Search
 
@@ -245,13 +245,13 @@ After producing `_summary.md`, append a "Design Context" section to
 `workflow-extraction.md`, covering: any useful summary info such as skills found, reusable ideas, and gap analysis.
 (If nothing was found, note that in the Design Context.)
 
-The agent can then, based on the summary and design context in extraction:
+Present the summary to the user and ask "Further refine the design using these results?"
+(The calling flow — SKILL.md Step 2.3 — gates the refine / proceed decision.)
 
+If proceeding to Phase 2, the summary and Design Context inform whether to:
 - **Base the new skill** on the most relevant existing SKILL.md (copy and modify)
 - **Borrow patterns** from multiple reference skills (combine approaches)
 - **Create from scratch** if no existing skill is close enough
-
-The user reviews the summary and chooses the direction.
 
 ---
 
