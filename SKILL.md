@@ -1,7 +1,7 @@
 ---
 name: zao-skill
 description: >
-  Create, design, review, and maintain agent skills following best practices.
+  Create, design, review, and self-improve agent skills following best practices.
   Use when the user asks to create, write, edit, improve, review, or package a skill;
   also use when describing a new capability that should be turned into a skill;
   or when asking about skill design and structure.
@@ -11,8 +11,14 @@ description: >
 
 ## Overview (Purpose/Quick Start)
 
-Skills are modular packages that provide specialized knowledge, workflows, and tools to AI agents.
-This skill guides the creation, review, and maintenance of effective skills.
+This skill guides the creation, review, and self-improvement of effective skills.
+
+The Overarching Process: 
+   → Read Overview and Critical Directives 
+   → Follow Workflows with Pre-Step Rationalization Bias Check 
+   → After run and before exit:
+      1. Evolution Check 
+      2. Exit Verification
 
 ---
 
@@ -66,7 +72,6 @@ cloud-deploy/
 ### 3. Files Are Truth — Read, Don't Recall
 
 The file on disk is the canonical source for rules and procedures; Context and memory are stale shadows — they are frozen at load time. 
-When files are revised, every operation guided by file's content requires a fresh read. Never use frozen context instead of reading.
 
 ---
 
@@ -76,7 +81,7 @@ Apply the bias check before every operation, then jump to your entry point.
 
 ### Pre-Step Rationalization Bias Check (before every step operation)
 
-1. **Re-read.** Memory ≠ current file. Read the target file now. Context is frozen at load time.
+1. **Re-read.** Files may be revised without your notice — every operation guided by a file requires a fresh read of that file.
 2. **Follow references.** If the step says "see references/...", no spot-check, no cognitive laziness. Read every detail.
 3. **Check completion.** Review the completed work and re-engage the missing steps —  don't assume done after one sub-task, no closure seeking.
 
@@ -98,23 +103,33 @@ Jump to the phase that matches your current need.
 
 #### Step 1. Understand intent and extract workflow
 
-- **If the conversation already contains a workflow** (e.g., "turn this into a skill") → Extract it to the output file and interview for anything unclear, one question at a time.
+**1.1 Workflow ready?**
 
-- **If not** → See `references/design-gate.md` Part 1 for the full interview and judgment protocol.
+   - **If the conversation does not contain a relevant workflow** → Follow `references/design-gate.md` Part 1 Init Design Step 1 to 4, to walk through a real workflow.
 
-- **Output**: Write to `<skill-name>/.wip/workflow-extraction.md`, covering triggers, successful steps, failures/corrections, input/output formats, tools, and any project‑specific facts/doc/conventions, or constraints.   Present for confirmation before proceeding.
+   - **If already contains** (e.g., "turn this into a skill") → Follow `references/design-gate.md` Part 1 Init Design Step 1 to 3, to interview the user for anything unclear.
 
-#### Step 2. Search for similar skills and refine the design
+   - **Output**: Write to `<skill-name>/.wip/workflow-extraction.md`, covering user goal, triggers, successful steps, failures/corrections, input/output formats, tools, and any project‑specific facts/doc/conventions, or constraints.   
 
-**2.1 Ask**: "Search for existing similar skills (local repos / online platforms)?" 
-- **If No** → Proceed to Phase 2.
+**1.2 Explicit Confirmation for next step**
+   LOOP:
+      ask "Search for existing similar skills(local repos / online platforms) to enhance our initial design? (yes/no)"
+      wait for user response
+      
+      if response is yes → go to Step 2
+      else if response is no → go to Phase 2
+      else:
+         handle the user's request normally (answer, incorporate new info, etc.)
+         continue LOOP      
+ 
+#### Step 2. Search for similar skills and enhance the design
 
-**2.2 If yes** → Follow `references/search-compare.md` to execute search.
+**2.1 Search**: Follow `references/search-compare.md` to execute search.
   - If nothing is found → inform the user and proceed to Phase 2.
 
-**2.3 Present the summary and Ask**, "Further refine the design using these results?" 
-   - **If the user doesn't want to refine** → Proceed to Phase 2.
-   - **Refine** → Follow `references/design-gate.md` Part 2 for the full refinement protocol.
+**2.2 Present the summary and Ask**, "Adjust and enhance the design using these results?" 
+   - **If the user doesn't want to enhance** → Proceed to Phase 2.
+   - **Enhance** → Follow `references/design-gate.md` Part 2 Enhance Design.
      Then proceed to Phase 2.
 
 - **Output Updated**: `<skill-name>/.wip/workflow-extraction.md` updated with Design Context.
@@ -170,29 +185,37 @@ description: Brief description of capability. Use when [specific triggers].
 
 The frontmatter contract above is required. The section layout below is a recommended pattern, not a rigid template: equivalent headings are acceptable when they serve the same purpose clearly.
 
-Suggested template for the drafting skill:
+Suggested template guidance **for the target skill**:
 ```md
 # Skill Name
 
 ## Overview 
 [Purpose + Scope/Exclusion (+ Minimal working example)]
 
+[Must have:] The Overarching Process: 
+   → Read Overview and Critical Directives 
+   → Follow Workflows with Pre-Step Rationalization Bias Check 
+   → After run and before exit:
+      1. Evolution Check 
+      2. Exit Verification
+
 ## Critical Directives
 - [Core Principles/Critical Rules/Entry Behaviour and Constraints, serving as mandatory quality gates at entrance]
-- [last point:] Files Are Truth — Read, Don't Recall
+- [Last point:] Files Are Truth — Read, Don't Recall
    The file on disk is the canonical source for rules and procedures; Context and memory are stale shadows — they are frozen at load time. 
-   When files are revised, every operation guided by file's content requires a fresh read. Never use frozen context instead of reading.
+ 
 
 ## Workflows and Output Formats (see Workflows Detail Guide below)
 
-### Pre-Step Rationalization Bias Check (before every step operation)
+### Pre-Step Rationalization Bias Check (before every step operation) [Must have:]
 
-1. **Re-read.** Memory ≠ current file. Read the target file now. Context is frozen at load time.
+1. **Re-read.** Files may be revised without your notice — every operation guided by a file requires a fresh read of that file.
 2. **Follow references.** If the step says "see references/...", no spot-check, no cognitive laziness. Read every detail.
 3. **Check completion.** Review the completed work and re-engage the missing steps —  don't assume done after one sub-task, no closure seeking.
 
 [The heart of the skill, step-by-step processes]
 [Output Template / Bullets / Example]
+
 
 ## After Completing the Requested Workflow: Evolution Check (Effective Post-Usage)
 
@@ -204,7 +227,6 @@ Suggested template for the drafting skill:
 ### Critical Gotchas
 | ID | Issue / Symptom | Fix |
 |----|----------------|-----|
-| G01 | (Example) | (How to avoid) |
 | ...|...|...|
 
 ### Success Patterns
@@ -214,7 +236,7 @@ Suggested template for the drafting skill:
 
 
 ## Exit Verification 
-[Before Exit, do the overall verification: follow `references/verification-guide.md` to devise the checks.]
+[Before Exit, do the overall verification: follow `references/verification-gate.md` to devise the checks.]
 | Check | Evidence |
 |-------|----------|
 | [ ] Exit criteria | [e.g., reviewed trigger list] |
@@ -234,7 +256,7 @@ Suggested template for the drafting skill:
       - Use pseudocode for complex conditional and algorithmic logic, etc. to improve precision and sequence consistency over plain text
       - Add utility scripts for deterministic, code-repetitive and error-prone tasks (e.g., validation, formatting), scripts handle errors explicitly and reduce variability.
    - Split long SKILL.md content into referenced files under Progressive Disclosure Structure Rules.
-   - See `references/design-examples.md` ## Part 2 for pattern examples
+   - See `references/workflow-examples.md` ## Part 2 for pattern examples
 
   
 **Input and Output**: 
@@ -270,7 +292,7 @@ If the build breaks, use the `debugging-and-error-recovery` skill.
 
 Don't duplicate content between skills — reference and link instead.
 
-#### **2.3 When the SKILL.md and its resources have been drafted in complete, re-read once with fresh eyes for improvements. Then proceed to Phase 3 Validation
+#### **2.3 When the SKILL.md and its resources are completely drafted, re-read once with fresh eyes for improvements. Then proceed to Phase 3 Validation
 
 ---
 
@@ -280,8 +302,10 @@ Don't duplicate content between skills — reference and link instead.
 - Polish how the skill works, don't change what it does. No new capabilities, no new dependencies.
 - Every finding must cite the specific line number. No vague claims.
 - Don't apply changes without user confirmation and git save.
+- Keep wip folder a living doc for future review
 
-**Repeat until user approves:**
+
+**LOOP until user approves:**
 
    #### 3.1 Static Validation
    Run `scripts/quick_validate.py <skill-dir>`. Report every FAIL item with proposed fix. Apply only after user confirmation.
@@ -306,10 +330,11 @@ Don't duplicate content between skills — reference and link instead.
    #### 3.3 Approval Gate
    When 3.1 has zero FAILs and 3.2 Evidence is all filled:
    → Ask user whether fine with this phase. Show and save a summary to `<skill-name>/.wip/validation-N-summary.md` .
+   → If new gotchas were discovered during validation, propose them for the Critical Gotchas table.
    → On user approval: exit Phase 3.
 
 
-### Phase 4: Package a Skill
+### Phase 4 (Optional): Package a Skill when asked
 
 
 When jumping directly here (skipping Phase 3), package_skill.py auto-runs validation as a gate. In the normal flow, this re-validation is a harmless safety net.
@@ -352,5 +377,5 @@ Reports any FAIL items before packaging. On success, creates a `<skill-name>.ski
 
 Load these references when the corresponding scenario arises:
 
-- **Scenario walkthroughs + structure patterns** — See [references/design-examples.md](references/design-examples.md). Load for end-to-end examples or help organizing skill structure.
+- **Scenario walkthroughs + structure patterns** — See [references/workflow-examples.md](references/workflow-examples.md). Load for end-to-end examples or help organizing skill structure.
 

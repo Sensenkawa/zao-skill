@@ -15,6 +15,7 @@ Generally, devise your verification by dividing into two complementary layers:
     - Polish how the skill works, don't change what it does. No new capabilities, no new dependencies.
     - Every finding must cite the specific line number. No vague claims.
     - Don't apply changes without user confirmation and git commit.
+    - Keep wip folder a living doc for future review
 
 ## Loop Structure
 
