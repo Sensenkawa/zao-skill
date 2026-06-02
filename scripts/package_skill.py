@@ -68,7 +68,7 @@ def package_skill(skill_path, output_dir=None):
     skill_filename = output_path / f"{skill_name}.skill"
 
     # Create the .skill file (zip format)
-    EXCLUDE_DIRS = {'__pycache__', '.git', '.hg', '.svn', 'node_modules'}
+    EXCLUDE_DIRS = {'__pycache__', '.git', '.github', '.hg', '.svn', 'node_modules'}
     EXCLUDE_FILES = {'.ds_store', '.gitignore', '.gitattributes'}
 
     try:
