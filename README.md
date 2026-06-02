@@ -127,12 +127,25 @@ Pre-Step Rationalization Bias Check (mandatory before every phase)
 ```bash
 # Load the skill (trigger phrase)
 "Use zao-skill to create a new skill"
+```
 
-# The framework walks you through:
-# Phase 1 → Design interview with LOOP confirmation → search → run-first
-# Phase 2 → Draft SKILL.md with Critical Directives + Overarching Process
-# Phase 3 → Validate with quick_validate.py (dual-lane)
-# Phase 4 → Package with package_skill.py (optional)
+**Every skill execution follows the Overarching Process (outer wrapper):**
+```
+→ Read Overview and Critical Directives
+→ Follow Workflows with Pre-Step Rationalization Bias Check
+→ After run and before exit:
+    1. Evolution Check (record gotchas / success patterns)
+    2. Exit Verification (check compliance)
+```
+
+**Within the workflow wrapper, the framework walks you through:**
+```
+User Need?
+   ├─ Phase 1: Design     — interview → search → run-first → LOOP confirm
+   ├─ Phase 2: Drafting   — Critical Directives + Standard Sections
+   ├─ Phase 3: Validation — quick_validate.py + interactive checklist
+   └─ Phase 4: Packaging  — package_skill.py (optional)
+All paths → Evolution in Usage (self-improve)
 ```
 
 ---
@@ -155,7 +168,7 @@ zao-skill is itself a skill — and it eats its own dog food:
 - **Submission**: [tch.cloud.tencent.com/claw](https://tch.cloud.tencent.com/claw)
 - **Supported Platforms**: ClawPro / WorkBuddy / CodeBuddy
 - **License**: Apache 2.0
-- **Latest Version**: v0.8.2
+- **Latest Version**: v0.8.4
 
 ---
 
