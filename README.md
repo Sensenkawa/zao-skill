@@ -4,7 +4,7 @@
 
 A lightweight, standardized, self-evolving lifecycle framework for building production-grade AI agent skills. Born from three rounds of ruthless de-duplication and systematic upgrades against industry best practices.
 
-[![GitHub release](https://img.shields.io/github/v/release/Sensenkawa/zao-skill?include_prereleases&style=flat-square)](https://github.com/Sensenkawa/zao-skill/releases)
+[![GitHub release](https://img.shields.io/github/v/release/Sensenkawa/zao-skill?include_prereleases&label=version&style=flat-square)](https://github.com/Sensenkawa/zao-skill/releases)
 [![License](https://img.shields.io/github/license/Sensenkawa/zao-skill?style=flat-square)](LICENSE.txt)
 ![Platform](https://img.shields.io/badge/platform-ClawPro%20%7C%20WorkBuddy%20%7C%20CodeBuddy-blue?style=flat-square)
 
@@ -69,8 +69,9 @@ Pre-Step Rationalization Bias Check (mandatory before every phase)
          ┌─────────────────┼──────────────────┐
          ▼                 ▼                  ▼
    Phase 1: Design   Phase 2: Drafting   Phase 3: Validation
-   (align + search   (standardized       (dual-lane verify)
-    + run first)      sections + CC+GD)    │
+   (align + search   (standardized       (dual-lane verify
+    + run first       sections +          + gotcha collection)
+    + LOOP confirm)   Critical Directives)  │
          │                 │               │
          └─────────────────┴───────────────┘
                            │
@@ -86,6 +87,7 @@ Pre-Step Rationalization Bias Check (mandatory before every phase)
 - **Intent extraction** — Interview, clarify, scope. "Is this even a skill?"
 - **Skill search** — Scan local + online (`search-compare.md`) for existing solutions
 - **Run first, code later** — Validate workflow in practice before writing SKILL.md
+- **LOOP confirmation** — Explicit wait-for-user loop around search decision, prevents AI from skipping the search step
 - **Design Context** — All findings append to `workflow-extraction.md` — single source of truth for Phase 2
 
 ### Phase 2: Drafting
@@ -97,6 +99,7 @@ Pre-Step Rationalization Bias Check (mandatory before every phase)
 ### Phase 3: Validation
 - `quick_validate.py` — Static checks: line count, reference existence, Pre-Step Bias presence, no orphaned refs
 - Interactive checklist — 7 evidence-backed quality dimensions
+- **Gotcha collection** — New gotchas discovered during validation auto-proposed for Critical Gotchas table
 - Loop until: zero FAILs + all evidence filled + user approved
 
 ### Phase 4: Packaging
@@ -115,6 +118,8 @@ Pre-Step Rationalization Bias Check (mandatory before every phase)
 | Workflow writing | Educational/didactic | Imperative, pseudocode-locked |
 | Versioning | Optional | Mandatory Git tracking |
 | Learning mechanism | One-time instruction | Self-evolving gotcha + pattern archives |
+| Deployment | Manual publish | CI/CD on tag push — auto-build .skill + GitHub Release |
+| Reference naming | Inconsistent | Convention-aligned: verification-gate, workflow-examples |
 
 ---
 
@@ -125,11 +130,21 @@ Pre-Step Rationalization Bias Check (mandatory before every phase)
 "Use zao-skill to create a new skill"
 
 # The framework walks you through:
-# Phase 1 → Design interview → search → run-first
-# Phase 2 → Draft SKILL.md with Critical Directives
-# Phase 3 → Validate with quick_validate.py
-# Phase 4 → Package with package_skill.py
+# Phase 1 → Design interview with LOOP confirmation → search → run-first
+# Phase 2 → Draft SKILL.md with Critical Directives + Overarching Process
+# Phase 3 → Validate with quick_validate.py (dual-lane)
+# Phase 4 → Package with package_skill.py (optional, only when asked)
 ```
+
+### CI/CD (Automatic on GitHub)
+
+Every `v*` tag push triggers a GitHub Actions workflow:
+
+```
+tag push  →  quick_validate.py  →  package_skill.py  →  .skill attached to Release
+```
+
+The built `.skill` file is immediately available from the [Releases page](https://github.com/Sensenkawa/zao-skill/releases).
 
 ---
 
@@ -140,16 +155,19 @@ zao-skill is itself a skill — and it eats its own dog food:
 - ✅ Passes its own validation
 - ✅ Records its own gotchas (G01–G03 from real failures)
 - ✅ Maintains its own success patterns
-- ✅ Version-controlled with semantic tags (v0.1.0 → v0.7.2)
+- ✅ Version-controlled with semantic tags (v0.1.0 → v0.8.2)
+- ✅ GitHub Actions auto-builds .skill on each tag push
+- ✅ reference files follow naming conventions: verification-gate, workflow-examples
 
 ---
 
 ## Competition Info
 
-- **Event**: Tencent Cloud Hackathon - AI Agent Competition
-- **Track**: Skill Track
+- **Event**: Tencent Cloud Hackathon "AI CAN DO IT" — AI Agent Challenge
+- **Submission**: [tch.cloud.tencent.com/claw](https://tch.cloud.tencent.com/claw)
 - **Supported Platforms**: ClawPro / WorkBuddy / CodeBuddy
-- **License**: MIT
+- **License**: Apache 2.0
+- **Latest Version**: v0.8.2
 
 ---
 
