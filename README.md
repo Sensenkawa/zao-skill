@@ -118,7 +118,6 @@ Pre-Step Rationalization Bias Check (mandatory before every phase)
 | Workflow writing | Educational/didactic | Imperative, pseudocode-locked |
 | Versioning | Optional | Mandatory Git tracking |
 | Learning mechanism | One-time instruction | Self-evolving gotcha + pattern archives |
-| Deployment | Manual publish | CI/CD on tag push — auto-build .skill + GitHub Release |
 | Reference naming | Inconsistent | Convention-aligned: verification-gate, workflow-examples |
 
 ---
@@ -133,18 +132,8 @@ Pre-Step Rationalization Bias Check (mandatory before every phase)
 # Phase 1 → Design interview with LOOP confirmation → search → run-first
 # Phase 2 → Draft SKILL.md with Critical Directives + Overarching Process
 # Phase 3 → Validate with quick_validate.py (dual-lane)
-# Phase 4 → Package with package_skill.py (optional, only when asked)
+# Phase 4 → Package with package_skill.py (optional)
 ```
-
-### CI/CD (Automatic on GitHub)
-
-Every `v*` tag push triggers a GitHub Actions workflow:
-
-```
-tag push  →  quick_validate.py  →  package_skill.py  →  .skill attached to Release
-```
-
-The built `.skill` file is immediately available from the [Releases page](https://github.com/Sensenkawa/zao-skill/releases).
 
 ---
 
@@ -155,9 +144,8 @@ zao-skill is itself a skill — and it eats its own dog food:
 - ✅ Passes its own validation
 - ✅ Records its own gotchas (G01–G03 from real failures)
 - ✅ Maintains its own success patterns
-- ✅ Version-controlled with semantic tags (v0.1.0 → v0.8.2)
-- ✅ GitHub Actions auto-builds .skill on each tag push
-- ✅ reference files follow naming conventions: verification-gate, workflow-examples
+- ✅ Version-controlled with semantic tags (v0.1.0 → v0.8.3)
+- ✅ Reference files follow naming conventions: verification-gate, workflow-examples
 
 ---
 

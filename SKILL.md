@@ -17,7 +17,7 @@ The Overarching Process:
    → Read Overview and Critical Directives 
    → Follow Workflows with Pre-Step Rationalization Bias Check 
    → After run and before exit:
-      1. Evolution Check 
+      1. Meta Evolution Check 
       2. Exit Verification
 
 ---
@@ -113,13 +113,11 @@ Jump to the phase that matches your current need.
 
 **1.2 Explicit Confirmation for next step**
    LOOP:
-      ask "Search for existing similar skills(local repos / online platforms) to enhance our initial design? (yes/no)"
-      wait for user response
-      
+      ask "Search for existing similar skills(local repos / online platforms) to enhance our initial design? (yes/no)"      
       if response is yes → go to Step 2
       else if response is no → go to Phase 2
       else:
-         handle the user's request normally (answer, incorporate new info, etc.)
+         handle the user's request normally
          continue LOOP      
  
 #### Step 2. Search for similar skills and enhance the design
@@ -185,7 +183,7 @@ description: Brief description of capability. Use when [specific triggers].
 
 The frontmatter contract above is required. The section layout below is a recommended pattern, not a rigid template: equivalent headings are acceptable when they serve the same purpose clearly.
 
-Suggested template guidance **for the target skill**:
+Suggested template **for the target skill**:
 ```md
 # Skill Name
 
@@ -196,7 +194,7 @@ Suggested template guidance **for the target skill**:
    → Read Overview and Critical Directives 
    → Follow Workflows with Pre-Step Rationalization Bias Check 
    → After run and before exit:
-      1. Evolution Check 
+      1. Meta Evolution Check 
       2. Exit Verification
 
 ## Critical Directives
@@ -248,7 +246,6 @@ Suggested template guidance **for the target skill**:
 
 ```
 **Workflows Detail Guide**
-
    - Start with a process overview – Use TL;DR, decision tree, or concise ASCII flowchart at decision points
    - Break operations into numbered, actionable phases or steps, include working examples where they help
    - Match specificity to the task's fragility. Most skills have a mix to calibrate:
@@ -256,8 +253,6 @@ Suggested template guidance **for the target skill**:
       - Use pseudocode for complex conditional and algorithmic logic, etc. to improve precision and sequence consistency over plain text
       - Add utility scripts for deterministic, code-repetitive and error-prone tasks (e.g., validation, formatting), scripts handle errors explicitly and reduce variability.
    - Split long SKILL.md content into referenced files under Progressive Disclosure Structure Rules.
-   - See `references/workflow-examples.md` ## Part 2 for pattern examples
-
   
 **Input and Output**: 
    - Use checklists for complex tasks to avoid skipping steps, especially when steps have dependencies or validation gates.
@@ -281,17 +276,6 @@ Suggested template guidance **for the target skill**:
    Output: feat(auth): implement JWT-based authentication
    ```
 
-**How to Cross-Reference Another Skill**
-
-Reference other skills by name:
-
-```
-Follow the `test-driven-development` skill for writing tests.
-If the build breaks, use the `debugging-and-error-recovery` skill.
-```
-
-Don't duplicate content between skills — reference and link instead.
-
 #### **2.3 When the SKILL.md and its resources are completely drafted, re-read once with fresh eyes for improvements. Then proceed to Phase 3 Validation
 
 ---
@@ -303,7 +287,6 @@ Don't duplicate content between skills — reference and link instead.
 - Every finding must cite the specific line number. No vague claims.
 - Don't apply changes without user confirmation and git save.
 - Keep wip folder a living doc for future review
-
 
 **LOOP until user approves:**
 
@@ -336,8 +319,7 @@ Don't duplicate content between skills — reference and link instead.
 
 ### Phase 4 (Optional): Package a Skill when asked
 
-
-When jumping directly here (skipping Phase 3), package_skill.py auto-runs validation as a gate. In the normal flow, this re-validation is a harmless safety net.
+When jumping directly here (skipping Phase 3), package_skill.py auto-runs validation as a gate. 
 
 ```bash
 scripts/package_skill.py <path/to/skill-folder> [output-directory]
@@ -346,7 +328,24 @@ scripts/package_skill.py <path/to/skill-folder> [output-directory]
 Reports any FAIL items before packaging. On success, creates a `<skill-name>.skill` file.
 
 
-## After Completing the Requested Workflow: Evolution Check (Effective Post-Usage)
+## Meta Evolution Check
+
+**Scope Rules** — Evolution records belong to the skill that produced the insight,
+not necessarily the skill that was used to create it. Before recording, determine scope:
+
+1. **Process-level issues** — (e.g., skipped steps, unclear instructions in zao-skill itself,
+   agent misinterpreted zao-skill's directives)
+   → update **zao-skill's** `references/skill-evolution.md` (this file).
+
+2. **Implementation-level issues** — (e.g., code bugs, algorithm flaws, format problems in
+   a skill zao-skill just helped create)
+   → update **the target skill's** `references/skill-evolution.md` (create it if missing).
+
+3. **Cross-cutting issues** — (e.g., zao-skill wasn't explicit enough about X,
+   leading to target-skill error Y)
+   → update **both**, with a cross-reference note.
+
+--- 
 
 **Trigger**: Agent self-checks after each run: 
  did it produce a repeatable fix or a meaningful improvement?  
@@ -368,14 +367,8 @@ Reports any FAIL items before packaging. On success, creates a `<skill-name>.ski
 
 ## Exit Verification
 
-- Evolution Check done? → any insights recorded?
+- Meta Evolution Check done? → any insights recorded?
 - Critical Directives: re-read the Pre-Step Rationalization Bias Check — skipped any steps?
 - Phase 3 rules still apply: scope-lock, cite line numbers, user confirmation
 
-
-## Scenario Examples
-
-Load these references when the corresponding scenario arises:
-
-- **Scenario walkthroughs + structure patterns** — See [references/workflow-examples.md](references/workflow-examples.md). Load for end-to-end examples or help organizing skill structure.
 
