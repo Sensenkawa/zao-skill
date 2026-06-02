@@ -162,16 +162,6 @@ zao-skill is itself a skill — and it eats its own dog food:
 
 ---
 
-## Competition Info
-
-- **Event**: Tencent Cloud Hackathon "AI CAN DO IT" — AI Agent Challenge
-- **Submission**: [tch.cloud.tencent.com/claw](https://tch.cloud.tencent.com/claw)
-- **Supported Platforms**: ClawPro / WorkBuddy / CodeBuddy
-- **License**: Apache 2.0
-- **Latest Version**: v0.8.4
-
----
-
 ## Recognition & References
 
 - **Base inspiration**: Skill Creator V0.1.0 (2026-01-27)
