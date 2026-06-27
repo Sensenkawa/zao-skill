@@ -1,5 +1,6 @@
 ---
 name: zao-skill
+version: 1.0.2
 description: >
   Create, design, review, and self-improve agent skills following best practices.
   Use when the user asks to create, write, edit, improve, review, or package a skill;
@@ -183,7 +184,7 @@ description: Brief description of capability. Use when [specific triggers].
 
 The frontmatter contract above is required. The section layout below is a recommended pattern, not a rigid template: equivalent headings are acceptable when they serve the same purpose clearly.
 
-Suggested template **for the target skill**:
+Suggested template guidance **for the target skill**:
 ```md
 # Skill Name
 
@@ -215,22 +216,37 @@ Suggested template **for the target skill**:
 [Output Template / Bullets / Example]
 
 
-## After Completing the Requested Workflow: Evolution Check (Effective Post-Usage)
+## After Completing the Requested Workflow: Evolution & Maintenance (Self-Improvement)
 
-**Trigger**: Agent self-checks after each run: 
- did it produce a repeatable fix or a meaningful improvement?  
-- If uneventful, skip. 
-- If yes → follow `references/skill-evolution.md` to maintain following tables.
+This skill maintains itself. After each run, check for learning opportunities.
 
-### Critical Gotchas
+### Trigger
+Agent self-checks after each run: did it produce a repeatable fix or meaningful improvement?
+- If uneventful → skip.
+- If yes → record below and/or apply lightweight updates.
+
+### Critical Gotchas (Mandatory — seed at creation with TBD entry)
+Record issues that caused failures, with their reusable fix.
+
 | ID | Issue / Symptom | Fix |
 |----|----------------|-----|
-| ...|...|...|
+| TBD | (首个实际使用中发现的 gotcha 替换此处) | |
 
-### Success Patterns
+### Success Patterns (Mandatory — seed at creation with TBD entry)
+Record what worked well, why, and the context.
+
 | Date | Change | Context | Result |
 |------|--------|---------|--------|
-| -- | -- | -- | -- |
+| TBD | (首个实际使用中发现的成功经验替换此处) | | |
+
+### Lightweight Maintenance
+For routine updates (typos, new info, path changes):
+1. Determine change type: new entry / replace / fix
+2. Apply with `skill_manage(action='patch')` or direct file write
+3. Update index (if `references/_index.md` exists)
+4. Update Critical Gotchas or Success Patterns above if the change reflects a lesson learned
+
+No full design→draft→validation cycle needed for small changes. For structural changes (reorganize, merge, rename), use the `zao-skill` meta-skill.
 
 
 ## Exit Verification 
@@ -243,6 +259,8 @@ Suggested template **for the target skill**:
 ## Advanced features
 
 [Link to separate resources files: See [...]]
+
+**Skill maintenance**: When this skill itself needs structural changes, use the `zao-skill` meta-skill for best practices on structure, evolution, and validation.
 
 ```
 **Workflows Detail Guide**
@@ -335,7 +353,7 @@ not necessarily the skill that was used to create it. Before recording, determin
 
 1. **Process-level issues** — (e.g., skipped steps, unclear instructions in zao-skill itself,
    agent misinterpreted zao-skill's directives)
-   → update **zao-skill's** `references/skill-evolution.md` (this file).
+   → update **zao-skill's** `references/skill-evolution.md`.
 
 2. **Implementation-level issues** — (e.g., code bugs, algorithm flaws, format problems in
    a skill zao-skill just helped create)
@@ -345,29 +363,36 @@ not necessarily the skill that was used to create it. Before recording, determin
    leading to target-skill error Y)
    → update **both**, with a cross-reference note.
 
---- 
+---
 
-**Trigger**: Agent self-checks after each run: 
- did it produce a repeatable fix or a meaningful improvement?  
-- If uneventful, skip. 
-- If yes → follow `references/skill-evolution.md` to maintain following tables.
+### Trigger
+Agent self-checks after each run: did it produce a repeatable fix or meaningful improvement?
+- If uneventful → skip.
+- If yes → record below and/or apply lightweight updates.
 
-### Critical Gotchas
+### Critical Gotchas (Mandatory)
 | ID | Issue / Symptom | Fix |
 |----|----------------|-----|
 | G01 | Memory reliance — acted on stale context, not current file | Re-read target file before any edit |
 | G02 | Closure seeking — assumed workflow complete after one sub-task | Review step checklist, don't skip |
 | G03 | Cognitive laziness — skipped reference files, relied on main doc alone | Follow "see references/..." instructions, no spot-check |
 
-### Success Patterns
+### Success Patterns (Mandatory — seed at creation)
 | Date | Change | Context | Result |
 |------|--------|---------|--------|
-| -- | -- | -- | -- |
+| TBD | (首个实际使用中发现的成功经验替换此处) | | |
+
+### Lightweight Maintenance
+For routine updates (typos, new gotchas, updated commands):
+1. Apply with `skill_manage(action='patch')` or direct edit
+2. Add to Critical Gotchas / Success Patterns above if applicable
+3. Archive full detail to `references/skill-evolution.md`
 
 
 ## Exit Verification
 
-- Meta Evolution Check done? → any insights recorded?
+- Meta Evolution Check done? → tables up to date?
+- Any new gotcha that should be elevated to Critical Directives?
 - Critical Directives: re-read the Pre-Step Rationalization Bias Check — skipped any steps?
 - Phase 3 rules still apply: scope-lock, cite line numbers, user confirmation
 
