@@ -195,7 +195,7 @@ Suggested template guidance **for the target skill**:
    → Read Overview and Critical Directives 
    → Follow Workflows with Pre-Step Rationalization Bias Check 
    → After run and before exit:
-      1. Meta Evolution Check 
+      1. Evolution 
       2. Exit Verification
 
 ## Critical Directives
@@ -216,37 +216,63 @@ Suggested template guidance **for the target skill**:
 [Output Template / Bullets / Example]
 
 
-## After Completing the Requested Workflow: Evolution & Maintenance (Self-Improvement)
+## Evolution
 
-This skill maintains itself. After each run, check for learning opportunities.
+### Knowledge Classification
+When new knowledge needs to be recorded, determine its type and the required approval level:
+
+📚 **Reference knowledge** (diagnostics, architecture deep-dives, benchmarks, config comparisons)
+  → Propose to user → on approval: create `references/<topic>.md`
+  → Optionally add a one-line link reference in the relevant SKILL.md section (also needs approval)
+
+⚠️ **Gotcha / 😊 Success Pattern**
+
+  | Action | Approval needed? |
+  |--------|:----------------:|
+  | Record to `references/evolution.md` (full archive) | **No** — safe recording, do immediately |
+  | Update SKILL.md summary table (Critical Gotchas / Success Patterns) | **Yes** — propose to user first |
+  | Archive older entries from SKILL.md table to evolution.md (when over 5 rows) | **Yes** — propose to user first |
+
+  Archive flow:
+  ```
+  evolution.md (free recording, no approval)
+       ↕ (when table exceeds 5 rows, propose archive → user approves)
+  SKILL.md summary table (curated, up to 5 rows, changes need approval)
+  ```
+
+📝 **Content expansion** (new examples, new commands, additional explanations)
+  → Propose to user → on approval: edit SKILL.md directly
+  → No recording needed
 
 ### Trigger
-Agent self-checks after each run: did it produce a repeatable fix or meaningful improvement?
-- If uneventful → skip.
-- If yes → record below and/or apply lightweight updates.
+Depends on the agent platform:
 
-### Critical Gotchas (Mandatory — seed at creation with TBD entry)
-Record issues that caused failures, with their reusable fix.
+- **Platform supports editing skills mid-conversation** (e.g., Hermes has `skill_manage(action='patch')`)
+  → Record safe items (evolution.md) immediately; propose SKILL.md changes to user
+
+- **Platform does NOT support mid-conversation editing**
+  → Check for new knowledge at the end of each run (Exit Verification stage); propose changes to user then
+
+### Critical Gotchas (Mandatory — seed at creation)
+Record issues that caused failures, with their reusable fix. Changes to this table require user approval.
 
 | ID | Issue / Symptom | Fix |
 |----|----------------|-----|
-| TBD | (首个实际使用中发现的 gotcha 替换此处) | |
+| TBD | (Replace with the first gotcha discovered in actual use) | |
 
-### Success Patterns (Mandatory — seed at creation with TBD entry)
-Record what worked well, why, and the context.
+### Success Patterns (Mandatory — seed at creation)
+Record what worked well, why, and the context. Changes to this table require user approval.
 
 | Date | Change | Context | Result |
 |------|--------|---------|--------|
-| TBD | (首个实际使用中发现的成功经验替换此处) | | |
+| TBD | (Replace with the first success pattern discovered in actual use) | | |
 
-### Lightweight Maintenance
-For routine updates (typos, new info, path changes):
-1. Determine change type: new entry / replace / fix
-2. Apply with `skill_manage(action='patch')` or direct file write
-3. Update index (if `references/_index.md` exists)
-4. Update Critical Gotchas or Success Patterns above if the change reflects a lesson learned
-
-No full design→draft→validation cycle needed for small changes. For structural changes (reorganize, merge, rename), use the `zao-skill` meta-skill.
+### Version Conventions
+Use three-segment versioning (`major.minor.patch`):
+- **Major restructure** (reorganization, merge, split) → bump major (1.x.x → 2.0.0)
+- **New content added** (new section, new reference, new table entry) → bump minor (1.1.x → 1.2.0)
+- **Minor fix** (typo, wording) → bump patch (1.1.1 → 1.1.2)
+- **If the directory is a git repo** → commit normally
 
 
 ## Exit Verification 
@@ -259,8 +285,6 @@ No full design→draft→validation cycle needed for small changes. For structur
 ## Advanced features
 
 [Link to separate resources files: See [...]]
-
-**Skill maintenance**: When this skill itself needs structural changes, use the `zao-skill` meta-skill for best practices on structure, evolution, and validation.
 
 ```
 **Workflows Detail Guide**
@@ -353,22 +377,25 @@ not necessarily the skill that was used to create it. Before recording, determin
 
 1. **Process-level issues** — (e.g., skipped steps, unclear instructions in zao-skill itself,
    agent misinterpreted zao-skill's directives)
-   → update **zao-skill's** `references/skill-evolution.md`.
+   → record in **zao-skill's** SKILL.md Critical Gotchas / Success Patterns table first;
+     archive to `references/skill-evolution.md` when the table exceeds **5 rows**.
 
 2. **Implementation-level issues** — (e.g., code bugs, algorithm flaws, format problems in
    a skill zao-skill just helped create)
-   → update **the target skill's** `references/skill-evolution.md` (create it if missing).
+   → record in **the target skill's** SKILL.md Critical Gotchas / Success Patterns table first;
+     archive to its `references/skill-evolution.md` (create it if missing) when full.
 
 3. **Cross-cutting issues** — (e.g., zao-skill wasn't explicit enough about X,
    leading to target-skill error Y)
-   → update **both**, with a cross-reference note.
+   → update **both**, with cross-reference note.
 
 ---
 
 ### Trigger
 Agent self-checks after each run: did it produce a repeatable fix or meaningful improvement?
 - If uneventful → skip.
-- If yes → record below and/or apply lightweight updates.
+- If yes → record to `references/skill-evolution.md` immediately;
+  propose SKILL.md table updates to user for approval.
 
 ### Critical Gotchas (Mandatory)
 | ID | Issue / Symptom | Fix |
@@ -380,13 +407,13 @@ Agent self-checks after each run: did it produce a repeatable fix or meaningful 
 ### Success Patterns (Mandatory — seed at creation)
 | Date | Change | Context | Result |
 |------|--------|---------|--------|
-| TBD | (首个实际使用中发现的成功经验替换此处) | | |
+| TBD | (Replace with the first success pattern discovered in actual use) | | |
 
-### Lightweight Maintenance
-For routine updates (typos, new gotchas, updated commands):
-1. Apply with `skill_manage(action='patch')` or direct edit
-2. Add to Critical Gotchas / Success Patterns above if applicable
-3. Archive full detail to `references/skill-evolution.md`
+### Version Conventions
+Same as template: three-segment versioning (`major.minor.patch`):
+- Major restructure → bump major (1.x.x → 2.0.0)
+- New content (new entry, new reference) → bump minor (1.1.x → 1.2.0)
+- Minor fix → bump patch (1.1.1 → 1.1.2)
 
 
 ## Exit Verification

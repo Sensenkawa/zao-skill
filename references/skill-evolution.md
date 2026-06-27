@@ -1,49 +1,65 @@
-# Skill Evolution
+# Skill Evolution — Full Archive
 
-## How to use this file
+## How to Use This File
 
-**Trigger**: After any run with a repeatable fix or a config/workflow change that improves results → propose a new entry following below **Approval** protocol.
-If uneventful, skip.
+This file stores the **complete archive** of gotchas and success patterns for this skill.
+The most critical current entries are summarized in SKILL.md's tables — this file holds everything else.
 
-## Purpose
+### Trigger
 
-Store all practical experience from real usage. Gotchas capture failures; Success Patterns capture what worked well. This skill evolves through both.
+- **If the agent platform supports editing skills mid-conversation** (e.g., Hermes with `skill_manage`)
+  → Record new discoveries immediately, before context is lost
+- **Otherwise**
+  → Check at the end of each run (Exit Verification) and record any new insights
 
-**Main SKILL.md**: Keep 3 most critical Gotchas and 3 most recent Success Patterns in SKILL.md. This file holds the full archive.
+### Record Flow
 
-**Workflow:**
-- Commit baseline before changes
-- Helped → Success Patterns entry. Worse/Pitfalls → undo if needed then log as gotcha
+```
+New insight discovered
+  → Add to SKILL.md's Critical Gotchas or Success Patterns table (default location)
+  → When the table exceeds N rows (recommended: 5), move older entries here as narrative records
+  → If the insight is a reference document (diagnosis, comparison, architecture analysis),
+    create references/<topic>.md instead
+```
 
-- **Approval**: 
-  - SKILL.md table updates and escalation of severe gotchas
-  to Critical Directives require user approval.
-  - Entries here (full archive as below) are just recording — no approval needed, but be smart to record
+### What to Record
 
-**What to record vs Gotchas** (some items could go either way):
-- Parameter tuning that improved performance — **Success Pattern**
-- Workflow redesign that proved reliable — **Success Pattern**
-- Any eventful experience that made this skill better — **Success Pattern**
-- Failures with a repeatable fix — **Gotcha**
-- Trivial changes (e.g., fixing a typo) — **neither**
+- **Gotcha** — a failure with a repeatable fix. Record the symptom, root cause, and the fix.
+- **Success Pattern** — a workflow or approach that proved reliably better. Record the change, the context, and the result.
+- **Neither** — trivial changes (typos, one-line updates). No recording needed.
 
+### Version Conventions
+
+When updating this skill, update the `version` field in SKILL.md frontmatter:
+- Major restructure → bump major (1.x → 2.x)
+- New content (new section, new reference) → bump minor (1.2 → 1.3)
+- Minor fix → version unchanged
+
+---
 
 ## Gotchas Archive
-| ID | Date | Issue / Symptom | Fix |
-|----|------|-----------------|-----|
-| G01 | 2026-05-30 | Memory reliance — wrote Success Patterns from stale context/injected text, not current file | Read the file now before any edit — context freezes at load time |
-| G02 | 2026-05-30 | Closure seeking — after description + skillSearchList fix, assumed workflow done, skipped evolution-approval step | Review the full step checklist after each sub-task |
-| G03 | 2026-05-30 | Cognitive laziness — skipped reading `skill-evolution.md` reference; also wrote to template table instead of zao-skill's own Gotchas/Success Patterns | Follow every "see references/X" instruction; scan for ambiguity (two tables with same name)
 
+### 2026-05-30 — [G01] Memory Reliance
+**Issue:** Wrote Success Patterns from stale context / injected text instead of the current file on disk.
+**Root cause:** Context freezes at load time; the agent assumed memory was current without re-reading the file.
+**Fix:** Always re-read the target file before any edit operation. The file on disk is the source of truth.
 
-## Success Patterns
-> Free-form entries. Record what worked, why, and what was learned.
-> Each entry starts with `### YYYY-MM-DD — summary`; context inline.
+### 2026-05-30 — [G02] Closure Seeking
+**Issue:** After completing the description + skillSearchList fix, assumed the full workflow was done. Skipped the evolution-approval step.
+**Root cause:** Premature completion bias — one sub-task success triggered false "done" signal.
+**Fix:** Review the full step checklist after each sub-task. Don't assume completion until every step is verified.
 
-### YYYY-MM-DD — (example) Increased response accuracy
-By adjusting the temperature parameter from 0.7 to 0.3 for factual
-queries, accuracy improved from 82% to 94%. The change was validated
-across 3 different skill types. Lower temperature may not work well
-for creative tasks — keep that in mind.
+### 2026-05-30 — [G03] Cognitive Laziness
+**Issue:** Skipped reading `skill-evolution.md` reference (the current file). Also wrote to the template's table instead of zao-skill's own Critical Gotchas / Success Patterns.
+**Root cause:** Two tables with the same name (template vs zao-skill's own) caused confusion. Reference files skipped due to lazy reading.
+**Fix:** Follow every "see references/X" instruction. Scan for naming ambiguity when two tables with the same label exist in different scopes.
 
-...
+---
+
+## Success Patterns Archive
+
+### YYYY-MM-DD — (example) Increased Response Accuracy
+By adjusting the temperature parameter from 0.7 to 0.3 for factual queries, accuracy improved from 82% to 94%. The change was validated across 3 different skill types. Lower temperature may not work well for creative tasks — keep that in mind.
+
+### YYYY-MM-DD — (example) Profile-based Compression Strategy
+Created separate profiles for serious vs casual work, one with compression disabled and one with default settings. This preserves full context for critical conversations while still saving tokens on casual chat. No loss of information on important sessions.
