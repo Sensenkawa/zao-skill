@@ -237,7 +237,7 @@ The Overarching Process:
 
 [The heart of the skill: step-by-step processes, output templates, examples]
 
-## Evolution
+## Evolution [Must have]
 
 ### Knowledge Classification
 
@@ -358,6 +358,7 @@ Full index of reference files is maintained in `references/evolution.md`. Check 
    | [ ] Every section justifies its inclusion? | |
    | [ ] No duplicated content between body and references? | |
    | [ ] Standard section elements all present? | |
+   | [ ] Evolution section properly set up? (tables seeded, evolution.md created, ref index initialized) | |
    | [ ] Workflow detail guides followed? | |
    | [ ] Input / output formats properly defined? | |
    | [ ] Re-read with fresh eyes? | |

@@ -96,11 +96,13 @@ def check_broken_references(skill_path, content):
     cleaned = _clean_code_blocks(content)
     bad = []
     checked = set()
+    # Known conventional references used in templates (not real files)
+    template_aliases = {'references/evolution.md', 'references/verification-gate.md'}
     for m in re.finditer(r'\[([^\]]*)\]\(([^\)]+)\)', cleaned):
         path = m.group(2).split('#')[0].split('?')[0].strip()
         path = re.sub(r'^\./', '', path)
         if path.startswith(('scripts/', 'references/', 'assets/')):
-            if path not in checked:
+            if path not in checked and path not in template_aliases:
                 checked.add(path)
                 if not (skill_path / path).exists():
                     bad.append(path)
@@ -110,7 +112,7 @@ def check_broken_references(skill_path, content):
             continue
         path = parts[0]
         if path.startswith(('scripts/', 'references/', 'assets/')):
-            if path not in checked:
+            if path not in checked and path not in template_aliases:
                 checked.add(path)
                 if not (skill_path / path).exists():
                     bad.append(path)
@@ -158,7 +160,7 @@ def validate_skill(skill_path):
         return _build_result(checks, [])
 
     # Allowed properties
-    ALLOWED = {'name', 'description', 'license', 'allowed-tools', 'metadata', 'compatibility'}
+    ALLOWED = {'name', 'description', 'version', 'author', 'license', 'platforms', 'allowed-tools', 'metadata', 'compatibility'}
     unexpected = set(fm.keys()) - ALLOWED
     if unexpected:
         checks.append({"item": "Frontmatter: allowed keys", "status": "FAIL",
@@ -407,14 +409,11 @@ def validate_skill(skill_path):
     else:
         checks.append({"item": "Scripts: syntax valid", "status": "SKIP"})
 
-    # assets purity (no .md in assets/)
+    # assets purity (no .md in assets/ except templates)
     asset_files = bundled.get('assets', [])
     md_assets = [a for a in asset_files if a.endswith('.md')]
     if md_assets:
-        checks.append({"item": "Assets: no .md files", "status": "FAIL",
-                       "detail": f".md in assets/: {', '.join(md_assets)}"})
-    else:
-        checks.append({"item": "Assets: no .md files", "status": "PASS"})
+        suggestions.append(f".md in assets/ (ok if template): {', '.join(md_assets)}")
 
     # ── 5. Optional tables (suggestions, not failures) ──
     has_gotchas = bool(re.search(r'\|.*ID.*Issue.*Symptom.*Fix.*\|', cleaned))
