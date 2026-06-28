@@ -86,8 +86,6 @@ Apply the bias check before every operation, then jump to your entry point.
 2. **Follow references.** If the step says "see references/...", no spot-check, no cognitive laziness. Read every detail.
 3. **Check completion.** Review the completed work and re-engage the missing steps —  don't assume done after one sub-task, no closure seeking.
 
-Jump to the phase that matches your need to start.
-
 ### Process Overview
 
 ```
@@ -112,14 +110,12 @@ Jump to the phase that matches your current need.
 
    - **Output**: Write to `<skill-name>/.wip/workflow-extraction.md`, covering user goal, triggers, successful steps, failures/corrections, input/output formats, tools, and any project‑specific facts/doc/conventions, or constraints.   
 
-**1.2 Explicit Confirmation for next step**
+**1.2 Search confirmation**
    LOOP:
-      ask "Search for existing similar skills(local repos / online platforms) to enhance our initial design? (yes/no)"      
-      if response is yes → go to Step 2
-      else if response is no → go to Phase 2
-      else:
-         handle the user's request normally
-         continue LOOP      
+      ask "Search for similar skills to enhance the design? (yes/no)"
+      - yes → Step 2
+      - no → Phase 2
+      - other → handle normally, continue LOOP
  
 #### Step 2. Search for similar skills and enhance the design
 
@@ -289,11 +285,11 @@ Full index: see `references/evolution.md`.
       - Give the agent freedom when multiple approaches / variation are permitted — explain the goal and logic to explore
       - Use pseudocode for complex conditional and algorithmic logic, etc. to improve precision and sequence consistency over plain text
       - Add utility scripts for deterministic, code-repetitive and error-prone tasks (e.g., validation, formatting), scripts handle errors explicitly and reduce variability.
-   - Split long SKILL.md content into referenced files under Progressive Disclosure Structure Rules.
+   - Split long content into references/ per progressive disclosure.
   
 **Input and Output**: 
    - Use checklists for complex tasks to avoid skipping steps, especially when steps have dependencies or validation gates.
-   - Use predefined templates for rigid output; Use bullet points to guide flexible output; Add quick examples if needed.
+   - Templates for rigid output | Bullets for flexible | Add quick examples if needed.
    - Can be used as quality gates between phases/steps
    - Consider user confirmation checkpoints when necessary.
    
@@ -349,10 +345,8 @@ Full index: see `references/evolution.md`.
    If checklist gaps were fixed, re-check only those items.
 
    #### 3.3 Approval Gate
-   When 3.1 has zero FAILs and 3.2 Evidence is all filled:
-   → Ask user whether fine with this phase. Show and save a summary to `<skill-name>/.wip/validation-N-summary.md` .
-   → If new gotchas were discovered during validation, propose them for the Critical Gotchas table.
-   → On user approval: exit Phase 3.
+   When 3.1 has zero FAILs and 3.2 Evidence filled:
+   → Ask user approval → save summary to `.wip/validation-N-summary.md` → propose new gotchas → exit Phase 3.
 
 
 ### Phase 4 (Optional): Package a Skill when asked
