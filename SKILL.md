@@ -194,101 +194,12 @@ version: 1.0.0
 
 The frontmatter contract above is required. The section layout below is a recommended pattern, not a rigid template: equivalent headings are acceptable when they serve the same purpose clearly.
 
-Suggested template guidance **for the target skill**:
-```md
-# Skill Name
+Suggested template guidance **for the target skill**: use the standalone template at `assets/target-skill-template.md`. It is the canonical starting point — copy it to create a new skill.
 
-## Overview 
-[Purpose + Scope/Exclusion (+ Minimal working example)]
+**Required bundled files** (create alongside SKILL.md):
+- `references/evolution.md` — copy from this skill's `references/skill-evolution.md` as a starting blank
+- `references/verification-gate.md` — verification checklist for exit verification (see `references/verification-gate.md` in this skill)
 
-[Must have:] The Overarching Process: 
-   → Read Overview and Critical Directives 
-   → Follow Workflows with Pre-Step Rationalization Bias Check 
-   → After run and before exit:
-      1. Evolution 
-      2. Exit Verification
-
-## Critical Directives
-- [Core Principles/Critical Rules/Entry Behaviour and Constraints, serving as mandatory quality gates at entrance]
-- [Last point:] Files Are Truth — Read, Don't Recall
-   The file on disk is the canonical source for rules and procedures; Context and memory are stale shadows — they are frozen at load time. 
- 
-
-## Workflows and Output Formats (see Workflows Detail Guide below)
-
-### Pre-Step Rationalization Bias Check (before every step operation) [Must have:]
-
-1. **Re-read.** Files may be revised without your notice — every operation guided by a file requires a fresh read of that file.
-2. **Follow references.** If the step says "see references/...", no spot-check, no cognitive laziness. Read every detail.
-3. **Check completion.** Review the completed work and re-engage the missing steps —  don't assume done after one sub-task, no closure seeking.
-
-[The heart of the skill, step-by-step processes]
-[Output Template / Bullets / Example]
-
-
-## Evolution
-
-### Knowledge Classification
-When new knowledge needs to be recorded, determine its type:
-
-📚 **Reference knowledge** (diagnostics, architecture deep-dives, benchmarks, config comparisons, **examples**)
-  → Create `references/<topic>.md`following conciseness and progressive disclosure rules
-  → Always add a one-line link reference in the relevant SKILL.md section
-  → **No approval needed** — no procedure change to SKILL.md
-
-⚠️ **Gotcha / 😊 Success Pattern**
-  → Record directly in the tables below (default).
-  → When a table exceeds **5 rows**, archive older or less important entries to `references/evolution.md`.
-  → **No approval needed** for any of these — they document experience, not procedure.
-
-  Archive flow:
-  ```
-  evolution.md (full archive)  ←→  SKILL.md summary table (up to 5 key rows)
-  ```
-
-📝 **Procedure change** (modifying workflow steps, critical directives, commands that change behavior)
-  → Propose to user → on approval: edit SKILL.md
-
-
-### Trigger
-Depends on the agent platform:
-
-- **Platform supports editing skills mid-conversation** (e.g., Hermes has `skill_manage(action='patch')`)
-  → Record immediately upon discovery
-
-- **Platform does NOT support mid-conversation editing**
-  → Check for new knowledge at the end of each run (Exit Verification stage) and record then
-
-Procedure changes always need user approval regardless of platform.
-
-### Critical Gotchas (Mandatory — seed at creation)
-
-| ID | Issue / Symptom | Fix |
-|----|----------------|-----|
-| TBD | (Replace with the first gotcha discovered in actual use) | |
-
-### Success Patterns (Mandatory — seed at creation)
-
-| Date | Change | Context | Result |
-|------|--------|---------|--------|
-| TBD | (Replace with the first success pattern discovered in actual use) | | |
-
-
-### Reference Index
-Full index of reference files is maintained in `references/evolution.md`. Check there to find a specific reference file.
-
-## Exit Verification 
-[Before Exit, do the overall verification: follow `references/verification-gate.md` to devise the checks.]
-| Check | Evidence |
-|-------|----------|
-| [ ] Exit criteria | [e.g., reviewed trigger list] |
-
-
-## Advanced features
-
-[Link to separate resources files: See [...]]
-
-```
 **Workflows Detail Guide**
    - Start with a process overview – Use TL;DR, decision tree, or concise ASCII flowchart at decision points
    - Break operations into numbered, actionable phases or steps, include working examples where they help
