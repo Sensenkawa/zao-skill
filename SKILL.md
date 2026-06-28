@@ -241,54 +241,35 @@ The Overarching Process:
 
 ### Knowledge Classification
 
-When new knowledge needs to be recorded, determine its type:
-
-📚 **Reference knowledge** (diagnostics, architecture deep-dives, benchmarks, config comparisons, examples)
-  → Create `references/<topic>.md` following conciseness and progressive disclosure rules
-  → Always add a one-line link reference in the relevant SKILL.md section
-  → **No approval needed** — no procedure change to SKILL.md
-
-⚠️ **Gotcha / 😊 Success Pattern**
-  → Record directly in the tables below (default).
-  → When a table exceeds **5 rows**, archive older or less important entries to `references/evolution.md`.
-  → **No approval needed** for any of these — they document experience, not procedure.
-
-  Archive flow:
-  ```
-  evolution.md (full archive)  ←→  SKILL.md summary table (up to 5 key rows)
-  ```
-
-📝 **Procedure change** (modifying workflow steps, critical directives, commands that change behavior)
-  → Propose to user → on approval: edit SKILL.md
+| Type | Where to record | Approval needed? |
+|------|----------------|:----------------:|
+| 📚 Reference knowledge | `references/<topic>.md` + link in SKILL.md | No |
+| ⚠️ Gotcha / 😊 Success Pattern | SKILL.md table (default); archive to `references/evolution.md` when >5 rows | No |
+| 📝 Procedure change | Edit SKILL.md directly | **Yes** — propose to user |
 
 ### Trigger
 
-Depends on the agent platform:
+- **Platform supports mid-conversation editing** (e.g., Hermes `skill_manage`) → Record immediately
+- **Otherwise** → Check at end of each run (Exit Verification)
 
-- **Platform supports editing skills mid-conversation** (e.g., Hermes has `skill_manage(action='patch')`)
-  → Record immediately upon discovery
-- **Platform does NOT support mid-conversation editing**
-  → Check at end of each run (Exit Verification stage) and record then
-
-Procedure changes always need user approval regardless of platform.
-
-### Critical Gotchas (Mandatory — seed at creation)
+### Critical Gotchas (Mandatory)
 
 | ID | Issue / Symptom | Fix |
 |----|----------------|-----|
-| TBD | (Replace with the first gotcha discovered in actual use) | |
+| TBD | (Replace with first gotcha discovered) | |
 
-### Success Patterns (Mandatory — seed at creation)
+### Success Patterns (Mandatory)
 
 | Date | Change | Context | Result |
 |------|--------|---------|--------|
-| TBD | (Replace with the first success pattern discovered in actual use) | | |
+| TBD | (Replace with first success pattern discovered) | | |
 
 ### Reference Index
 
-Full index of reference files is maintained in `references/evolution.md`. Check there to find a specific reference file.
+Full index: see `references/evolution.md`.
 
-## Exit Verification
+
+## Exit Verification [Must have]
 
 [Before exit, follow `references/verification-gate.md` to devise checks.]
 
