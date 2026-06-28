@@ -1,6 +1,6 @@
 ---
 name: zao-skill
-version: 1.0.2
+version: 1.1.0
 description: >
   Create, design, review, and self-improve agent skills following best practices.
   Use when the user asks to create, write, edit, improve, review, or package a skill;
@@ -151,11 +151,21 @@ Jump to the phase that matches your current need.
 ---
 name: skill-name-in-kebab-case
 description: Brief description of capability. Use when [specific triggers].
+version: 1.0.0
 ---
 ```
    **Frontmatter Rules**:
-   - name: skill identifier.
-   - description: Start with what the skill does, then include one or more clear "Use when" trigger conditions. Maximum 1024 characters. All "when to use" info goes here, not in the markdown instructions.
+   - `name`: skill identifier (lowercase, hyphens, ≤64 chars).
+   - `description`: Start with what the skill does, then include one or more clear "Use when" trigger conditions. Maximum 1024 characters. All "when to use" info goes here, not in the markdown instructions.
+   - `version`: Required. Use three-segment versioning (`major.minor.patch`). Start at `1.0.0` for new skills.
+
+   **Optional Hermes-specific fields** (for better discoverability on the Hermes platform):
+   ```yaml
+   metadata:
+     hermes:
+       tags: [keyword, tags]
+       related_skills: [other-skill-name]
+   ```
 
    **Purpose**:
    - Under progressive disclosure, the description is **the only thing the agent sees** when deciding which skill to load. 
@@ -219,61 +229,53 @@ Suggested template guidance **for the target skill**:
 ## Evolution
 
 ### Knowledge Classification
-When new knowledge needs to be recorded, determine its type and the required approval level:
+When new knowledge needs to be recorded, determine its type:
 
-📚 **Reference knowledge** (diagnostics, architecture deep-dives, benchmarks, config comparisons)
-  → Propose to user → on approval: create `references/<topic>.md`
-  → Optionally add a one-line link reference in the relevant SKILL.md section (also needs approval)
+📚 **Reference knowledge** (diagnostics, architecture deep-dives, benchmarks, config comparisons, **examples**)
+  → Create `references/<topic>.md`following conciseness and progressive disclosure rules
+  → Always add a one-line link reference in the relevant SKILL.md section
+  → **No approval needed** — no procedure change to SKILL.md
 
 ⚠️ **Gotcha / 😊 Success Pattern**
-
-  | Action | Approval needed? |
-  |--------|:----------------:|
-  | Record to `references/evolution.md` (full archive) | **No** — safe recording, do immediately |
-  | Update SKILL.md summary table (Critical Gotchas / Success Patterns) | **Yes** — propose to user first |
-  | Archive older entries from SKILL.md table to evolution.md (when over 5 rows) | **Yes** — propose to user first |
+  → Record directly in the tables below (default).
+  → When a table exceeds **5 rows**, archive older or less important entries to `references/evolution.md`.
+  → **No approval needed** for any of these — they document experience, not procedure.
 
   Archive flow:
   ```
-  evolution.md (free recording, no approval)
-       ↕ (when table exceeds 5 rows, propose archive → user approves)
-  SKILL.md summary table (curated, up to 5 rows, changes need approval)
+  evolution.md (full archive)  ←→  SKILL.md summary table (up to 5 key rows)
   ```
 
-📝 **Content expansion** (new examples, new commands, additional explanations)
-  → Propose to user → on approval: edit SKILL.md directly
-  → No recording needed
+📝 **Procedure change** (modifying workflow steps, critical directives, commands that change behavior)
+  → Propose to user → on approval: edit SKILL.md
+
 
 ### Trigger
 Depends on the agent platform:
 
 - **Platform supports editing skills mid-conversation** (e.g., Hermes has `skill_manage(action='patch')`)
-  → Record safe items (evolution.md) immediately; propose SKILL.md changes to user
+  → Record immediately upon discovery
 
 - **Platform does NOT support mid-conversation editing**
-  → Check for new knowledge at the end of each run (Exit Verification stage); propose changes to user then
+  → Check for new knowledge at the end of each run (Exit Verification stage) and record then
+
+Procedure changes always need user approval regardless of platform.
 
 ### Critical Gotchas (Mandatory — seed at creation)
-Record issues that caused failures, with their reusable fix. Changes to this table require user approval.
 
 | ID | Issue / Symptom | Fix |
 |----|----------------|-----|
 | TBD | (Replace with the first gotcha discovered in actual use) | |
 
 ### Success Patterns (Mandatory — seed at creation)
-Record what worked well, why, and the context. Changes to this table require user approval.
 
 | Date | Change | Context | Result |
 |------|--------|---------|--------|
 | TBD | (Replace with the first success pattern discovered in actual use) | | |
 
-### Version Conventions
-Use three-segment versioning (`major.minor.patch`):
-- **Major restructure** (reorganization, merge, split) → bump major (1.x.x → 2.0.0)
-- **New content added** (new section, new reference, new table entry) → bump minor (1.1.x → 1.2.0)
-- **Minor fix** (typo, wording) → bump patch (1.1.1 → 1.1.2)
-- **If the directory is a git repo** → commit normally
 
+### Reference Index
+Full index of reference files is maintained in `references/evolution.md`. Check there to find a specific reference file.
 
 ## Exit Verification 
 [Before Exit, do the overall verification: follow `references/verification-gate.md` to devise the checks.]
@@ -394,8 +396,7 @@ not necessarily the skill that was used to create it. Before recording, determin
 ### Trigger
 Agent self-checks after each run: did it produce a repeatable fix or meaningful improvement?
 - If uneventful → skip.
-- If yes → record to `references/skill-evolution.md` immediately;
-  propose SKILL.md table updates to user for approval.
+- If yes → record immediately; procedure changes need user approval.
 
 ### Critical Gotchas (Mandatory)
 | ID | Issue / Symptom | Fix |
@@ -408,12 +409,6 @@ Agent self-checks after each run: did it produce a repeatable fix or meaningful 
 | Date | Change | Context | Result |
 |------|--------|---------|--------|
 | TBD | (Replace with the first success pattern discovered in actual use) | | |
-
-### Version Conventions
-Same as template: three-segment versioning (`major.minor.patch`):
-- Major restructure → bump major (1.x.x → 2.0.0)
-- New content (new entry, new reference) → bump minor (1.1.x → 1.2.0)
-- Minor fix → bump patch (1.1.1 → 1.1.2)
 
 
 ## Exit Verification

@@ -17,7 +17,7 @@ The most critical current entries are summarized in SKILL.md's tables — this f
 ```
 New insight discovered
   → Add to SKILL.md's Critical Gotchas or Success Patterns table (default location)
-  → When the table exceeds N rows (recommended: 5), move older entries here as narrative records
+  → When the table exceeds 5 rows, move older entries here as narrative records
   → If the insight is a reference document (diagnosis, comparison, architecture analysis),
     create references/<topic>.md instead
 ```
@@ -28,12 +28,13 @@ New insight discovered
 - **Success Pattern** — a workflow or approach that proved reliably better. Record the change, the context, and the result.
 - **Neither** — trivial changes (typos, one-line updates). No recording needed.
 
-### Version Conventions
+---
 
-When updating this skill, update the `version` field in SKILL.md frontmatter:
-- Major restructure → bump major (1.x → 2.x)
-- New content (new section, new reference) → bump minor (1.2 → 1.3)
-- Minor fix → version unchanged
+## Reference Index
+
+| File | Topic |
+|------|-------|
+| _(Add a row for each reference file created)_ | |
 
 ---
 
